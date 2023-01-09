@@ -1,0 +1,77 @@
+<style>
+    #school_password {
+        -webkit-text-security: disc;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">O'quv markazlar yo'nalishlari</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Yo'nalishlar</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-1">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%">
+                    <thead>
+                        <tr>
+                            <th>O'quv markaz yo'nalishlari</th>
+                            <th>Yaratilgan sana</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="setTables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("#school_phone").inputmask("+999-99-999-99-99"); // static mask
+    });
+    // @description: Managerga tegishli filiallarni table ga qo'yish
+    // @api: /api/user/:id
+    // @mentod: GET
+    const userToken = window.localStorage.getItem('user');
+    axios.get('/api/user/decode', { headers: { authorization: userToken } }).then((res) => {
+        const id = res.data.id; // user id
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const school = res.data.data.category;
+            get_all_data(school, '.setTables')
+        })
+    })
+    const get_all_data = async (response, appending) => {
+        const appends = $(appending)
+        await appends.html("");
+        response.forEach((item, index) => {
+            appends.append(`
+                <tr>    
+                    <td>${item.name}</td>
+                    <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                </tr>
+            `)
+        })
+    }
+</script>

@@ -1,0 +1,607 @@
+<!--  -----------------------  OCHIQ DARS -------------------------- -->
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Ochiq darslar bo'limi</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Ochiq darslar</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row col md-12 d-flex justify-content-between align-items-center">
+            <div class="col md-3">
+                <button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#CREATE_CANVAS"
+                    aria-controls="CREATE_CANVAS">
+                    Yangi qo'shish
+                </button>
+            </div>
+            <div class="col-md-3">
+                <select class="select2 form-control" onchange="filterBySchool(this.value)" id="filterBySchool"></select>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive
+                    wrap text-center" style="border-collapse: collapse; border-spacing: 0; width:  100%">
+                    <thead>
+                        <tr>
+                            <th>Video</th>
+                            <th>Rolik nomi</th>
+                            <th>Kategoriya</th>
+                            <th>Yo'nalish</th>
+                            <th>Ochiq dars sanasi</th>
+                            <th>Ochiq dars turi</th>
+                            <th>Yaratilgan sana</th>
+                            <th>Sozlama</th>
+                        </tr>
+                    </thead>
+                    <tbody class="put_tables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Yangi ochiq dars yaratish -->
+<div class="offcanvas offcanvas-end" style="width: 60%" tabindex="-1" id="CREATE_CANVAS"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 id="CREATE_CANVAS_LABEL" class="font-size-22 mt-3">Malumot yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label class="form-label">O'quv markazi nomi</label>
+                <select class="form-control select2 mt-0" onchange="FILTER_SCHOOL(this.value)" id="SCHOOL"></select>
+            </div>
+            <div class="col-md-6 mt-2">
+                <label class="form-label ">Ochiq dars nomi</label>
+                <input type="text" class="form-control  mt-0" id="TTILES" />
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label">Ochiq dars o'qituvchisi kim ? </label>
+                <input type="text" class="form-control  mt-0" id="MENTOR" />
+            </div>
+            <div class="col-md-6 mt-2">
+                <label class="form-label">Ochiq dars boshlanadigan sana</label>
+                <input type="datetime-local" class="form-control" id="OPEN_COUSE_START_DATE"
+                    placeholder="Ochiq dars sanasi" />
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label">Kategoriya nomi</label>
+                <select class="form-control select2 mt-0" onchange="FILTER_CATEGORY(this.value)" id="CATEGORY"></select>
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label ">Yo'nalish nomi</label>
+                <select class="form-control select2 mt-0" id="SPECIALITY"></select>
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label ">Ochiq dars turi qanday ? </label>
+                <select class="form-control select2 mt-0" id="LESSON_TYPE">
+                    <option value="">Tanlash</option>
+                    <option value="online">Online holatda</option>
+                    <option value="offline">Offline holatda</option>
+                </select>
+            </div>
+            <div class="col-md-12 mt-2">
+                <label class="form-label ">Manzilni kiriting</label>
+                <input type="text" class="form-control  mt-0" id="ADDRESS" />
+            </div>
+            <div class="col-md-12 mt-2">
+                <label class="form-label ">Lid uchun link manzili</label>
+                <input type="text" class="form-control  mt-0" id="LINKS"
+                    placeholder="tik tok, instagram, telegram ..." />
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label class="form-label ">Ochiq dars videosi</label>
+                <input type="text" class="form-control  mt-0" id="VIDEO_LINK" />
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <button type="button" class="col-12 btn btn-primary waves-effect waves-light mt-2"
+                    data-bs-toggle="modal" data-bs-target="#DESCRIPTION">
+                    Kurs haqida to'liqroq ma'lumot kiriting
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="col-12 btn btn-primary waves-effect waves-light mt-2"
+                    data-bs-toggle="modal" data-bs-target="#REQUIREMENT">
+                    Ushbu kursda o'qish uchun nimalarni bilish zarur
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="col-12 btn btn-primary waves-effect waves-light mt-2"
+                    data-bs-toggle="modal" data-bs-target="#WHOM">
+                    Kurs aynan kimlar uchun mo'ljallangan
+                </button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <button type="button" onclick="create()" class="col-12 btn btn-success waves-effect waves-light mt-3">
+                    Yaratish
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Rolikni tahrirlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_ROLIK">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3">Malumot yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body update_rolik">
+
+    </div>
+</div>
+<!-- Kurs haqida ma'lumot qo'shish -->
+<div class="modal fade " id="DESCRIPTION" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">Kurs haqida ma'lumot qo'shish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body description">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Kurs haqida talablar qo'shish -->
+<div class="modal fade " id="REQUIREMENT" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel">Kurs haqida talablar qo'shish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body requirement">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--  Kurs aynan kimlar uchun -->
+<div class="modal fade " id="WHOM" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myExtraLargeModalLabel"> Kurs aynan kimlar uchun</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body whom">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiple = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    /* 
+        @description: Tokendagi user boyicha filiallarni olish 
+        @api: /api/user/decode
+        @method: GET
+    */
+    const UserToken = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: UserToken } }).then((res) => {
+        const id = res.data.id;
+        axios.get(`/api/school/manager/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingle(school, "#SCHOOL", "O'quv markazi mavjud emas.")
+            setSelectionSingle(school, "#filterBySchool", "O'quv markazi mavjud emas.")
+        })
+    })
+    const FILTER_SCHOOL = (id) => {
+        axios.get(`/api/school/${id}`).then(async (res) => {
+            const data = res.data.data.category
+            setSelectionSingle(data, "#CATEGORY", "O'quv markazi uchun kategoriyalar biriktirilmagan. Iltimos kategoriya biriktiring")
+        });
+    }
+    /*  @description: Default holatda restart berish table uchun  */
+    const restart = () => {
+        const school_top = document.getElementById("filterBySchool")
+        const school_on_create = document.getElementById("SCHOOL")
+        if (school_top.value != "") {
+            for (let item of school_top) {
+                if (item.selected) {
+                    filterBySchool(item.value)
+                }
+            }
+        } else {
+            for (let item of school_on_create) {
+                if (item.selected) {
+                    filterBySchool(item.value)
+                }
+            }
+        }
+    }
+    /* 
+        @description: hamma kategoriyalarni olish
+        @api: "/api/category/all 
+        @method: GET
+    */
+    axios.get("/api/category/all", { params: { actions: "active" } }).then(async (res) => {
+        const DATA = res.data.data;
+        const CATEGORY = $("#CATEGORY");
+        await CATEGORY.html("");
+        CATEGORY.append(`<option value="" selected>Tanlash</option> `);
+        DATA.forEach((item) => {
+            CATEGORY.append(` <option value="${item._id}">${item.name}</option> `);
+        });
+    });
+    /* 
+        @description: kategoriya boyicha yonalishlarni olish
+        @api:/api/speciality/filter/:id
+        @method: GET
+    */
+    const FILTER_CATEGORY = (id) => {
+        axios.get(`/api/speciality/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionSingle(data, "#SPECIALITY", "Yo'nalishlar mavjud emas")
+        });
+    };
+    /* 
+        @description: Yangi rolik qo'shish
+        @api:/api/rolik/create
+        @method: POST
+    */
+    async function setMultipleElement(appending, placeholdar, class_element) {
+        const element = $(appending)
+        await element.html("")
+        let count = 0
+        for (let i = 0; i < 15; i++) {
+            element.append(`
+                <div class="row mb-3">
+                    <label for="example-text-input" class="col-sm-12 col-md-12 col-form-label">${count += 1} - ma'lumot </label>
+                    <div class="col-sm-12 col-md-12">
+                        <input type="text"  class="form-control ${class_element}"  />
+                    </div>
+                </div>
+            `)
+        }
+    }
+    setMultipleElement(".description", "Kurs haqida malumot kiriting", "Description")
+    setMultipleElement(".requirement", "Kursga qatnashish uchun talablar kiriting", "Requirement")
+    setMultipleElement(".whom", "Kurs aynan kimlar uchun mo'ljallangan", "Whom")
+    const create = () => {
+        const A = [];
+        const B = [];
+        const C = []
+        function putArray(Element) {
+            const Array = []
+            const ELEMENT = document.querySelectorAll(`.${Element}`)
+            ELEMENT.forEach((elem) => {
+                if (elem.value !== "") {
+                    return Array.push(elem.value)
+                }
+            })
+            return Array
+        }
+
+        const bar = document.getElementById('progress_bar')
+        const bar_label = document.getElementById('progress_bar_label')
+
+        const SCHOOL = document.getElementById('SCHOOL').value
+        const CATEGORY = document.getElementById('CATEGORY').value
+        const SPECIALITY = document.getElementById('SPECIALITY').value
+        const MENTOR = document.getElementById('MENTOR').value
+        const VIDEO_LINK = document.getElementById('VIDEO_LINK').value
+        const TITLE = document.getElementById('TTILES').value
+        const OPEN_COUSE_START_DATE = document.getElementById('OPEN_COUSE_START_DATE').value
+        const LESSON_TYPE = document.getElementById('LESSON_TYPE').value
+        const LINKS = document.getElementById('LINKS').value
+        const ADDRESS = document.getElementById('ADDRESS').value
+
+        const startDate = new Date(OPEN_COUSE_START_DATE)
+        const endDate = new Date(new Date(startDate).getTime() + 1000 * 60 * 4) // 4 minutlik farq
+
+
+
+        if (
+            LINKS == "" ||
+            LESSON_TYPE == "" ||
+            OPEN_COUSE_START_DATE == "" ||
+            SCHOOL == "" ||
+            CATEGORY == "" ||
+            SPECIALITY == "" ||
+            MENTOR == "" ||
+            ADDRESS == "" ||
+            VIDEO_LINK == "" ||
+            TITLE == ""
+        ) {
+            warning("Ma'lumotlarni kiriting")
+        }
+        else {
+            const datas = {
+                school: SCHOOL,
+                category: CATEGORY,
+                speciality: SPECIALITY,
+                mentor: MENTOR,
+                rolik: VIDEO_LINK,
+                title: TITLE,
+                about: putArray("Description"),
+                requirement: putArray("Requirement"),
+                forWhom: putArray("Whom"),
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString(),
+                lessonType: LESSON_TYPE,
+                link: LINKS,
+                address: ADDRESS,
+            }
+            axios.post("/api/rolik/create", datas)
+                .then((res) => {
+                    restart()
+                })
+        }
+    }
+    /* 
+        @description: Filiallar boyicha roloklarni filtrlash
+        @api:/api/rolik/filter/:id
+        @method: GET
+    */
+    const filterBySchool = (id) => {
+        axios.get(`/api/rolik/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const response = res.data.data;
+            const put_tables = $('.put_tables')
+            await put_tables.html("");
+            response.forEach((item, index) => {
+                put_tables.append(`
+                <tr>    
+                    <td style="vertical-align: middle;">
+                        <a style="padding: 5px 20px; font-size: 16px;"  class="btn btn-danger" target="_blank" href="${item.rolik}">
+                            <i class=" fas fa-video"></i>
+                        </a>
+                    </td>
+                    <td style="vertical-align: middle;">${item.title}</td>
+                    <td style="vertical-align: middle;">${item.category.name}</td>
+                    <td style="vertical-align: middle;">${item.speciality.name}</td>
+                    <td style="vertical-align: middle;">${new Date(item.startDate).toLocaleString()}</td>
+                    <td style="vertical-align: middle;">${item.lessonType}</td>
+                    <td style="vertical-align: middle;">${new Date(item.createdAt).toLocaleDateString()}</td>
+                    <td style="vertical-align: middle;" >
+
+                        <div class="btn-group">
+                            <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        <div class="dropdown-menu">
+                            <a  onclick="send_sms('${item._id}')"  style="font-weight: 700;" class="dropdown-item  text-dark" data-bs-toggle="offcanvas" class="dropdown-item  text-success"  href="#">SMS jo'natish</a>
+                            <a  onclick="update_text('${item._id}')"  style="font-weight: 700;" class="dropdown-item  text-success" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_ROLIK" aria-controls="UPDATE_ROLIK"  class="dropdown-item  text-success"  href="#">Tahrirlash</a>
+                            <a  onclick="delete_one('${item._id}')"   style="font-weight: 700;" class="dropdown-item  text-warning" href="#">O'chirish</a>
+                        </div> 
+                    </td>
+                </tr>
+            `)
+            })
+        })
+    }
+    /* 
+        @description: Ochiq dars boyicha sms jo'natish
+        @api:/api/rolik/sms/send/:id
+        @method: PUT
+    */
+    const send_sms = (id) => {
+        axios.post(`/api/rolik/sms/${id}`).then((res) => {
+            const data = res.data;
+            if (data.message == "Deadline fineshed") {
+                danger("Ochiq dars muddati o'tib ketti")
+            }
+            if (data.message == "Sms system is not connected") {
+                danger("O'quv markazingizga SMS tizimi ulanmagan. Qaytadan tekshiring")
+            }
+            if (data.message == "Sms is sent") {
+                success("Ochiq dars uchun SMS jo'natildi")
+            }
+        })
+    }
+    /* 
+        @description: Roliklarni tahrirlash
+        @api:/api/rolik/:id
+        @method: PUT
+    */
+    const update_text = async (id) => {
+        axios.get(`/api/rolik/${id}`).then(async (res) => {
+            const data = res.data.data;
+            const update_rolik = $(".update_rolik");
+            await update_rolik.html("");
+            update_rolik.append(`
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <label class="form-label mt-3">Rolik nomi</label>
+                        <input type="text" class="form-control  mt-0" value="${data.title}" id="TTILES_update" />
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <label class="form-label mt-3">O'qituvchi ismi</label>
+                        <input type="text" class="form-control  mt-0" value="${data.mentor}" id="MENTOR_update" />
+                    </div>
+                </div>
+                
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <button type="button" class="col-12 btn btn-outline-danger waves-effect waves-light mt-2"
+                            data-bs-toggle="modal" data-bs-target="#DESCRIPTION">
+                            Kurs haqida malumot qo'shish
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="col-12 btn btn-outline-danger waves-effect waves-light mt-2"
+                            data-bs-toggle="modal" data-bs-target="#REQUIREMENT">
+                            Kurs haqida talablar qo'shish
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="col-12 btn btn-outline-danger waves-effect waves-light mt-2"
+                            data-bs-toggle="modal" data-bs-target="#WHOM">
+                            Kurs aynan kimlar uchun mo'ljallangan
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <button type="button" onclick="UPDATE('${data._id}')" class=" col-12 btn btn-success waves-effect waves-light mt-3">
+                            Yaratish
+                        </button>
+                    </div>
+                </div>
+            `);
+        })
+        async function SET_ELEMENT(id, appending, key, className) {
+            let count = 0
+            const element = $(appending);
+            await element.html("");
+            for (let i = 0; i < 15; i++) {
+                element.append(`
+                    <div class="row mb-3">
+                        <label for="example-text-input" class="col-sm-12 col-md-12 col-form-label">${count += 1} - ma'lumot </label>
+                        <div class="col-sm-12 col-md-12">
+                            <input type="text"  class="form-control ${className}"/>
+                        </div>
+                    </div>
+                `)
+            }
+            axios.get(`/api/rolik/${id}`).then(async (res) => {
+                const data = res.data.data[key]
+                const ELEMENT = document.querySelectorAll(`.${className}`)
+                data.forEach(async (value, index) => {
+                    ELEMENT.forEach((elem, elem_index) => {
+                        if (index == elem_index) {
+                            elem.value = value;
+                        }
+                    })
+                })
+            })
+        }
+        SET_ELEMENT(id, ".description", "about", "description_update")
+        SET_ELEMENT(id, ".requirement", "requirement", "requirement_update")
+        SET_ELEMENT(id, ".whom", "forWhom", "whom_update")
+    }
+    const UPDATE = (id) => {
+        const A = [];
+        const B = [];
+        const C = []
+        function putArray(Element, Array) {
+            const ELEMENT = document.querySelectorAll(Element)
+            ELEMENT.forEach((elem) => {
+                if (elem.value !== "") {
+                    return Array.push(elem.value)
+                }
+            })
+        }
+        putArray(".description_update", A)
+        putArray(".requirement_update", B)
+        putArray(".whom_update", C)
+        const title = document.getElementById('TTILES_update').value;
+        const mentor = document.getElementById('MENTOR_update').value;
+
+        if (title == "" || mentor == "") {
+            warning("Ma'lumotlarni kiriting")
+        }
+        else {
+            if (A == "") {
+                warning("Kurs haqida malumot kiriting")
+            }
+            else {
+                if (B == "") {
+                    warning("Kursga qatnashish uchun talablarni kiriting")
+                }
+                else {
+                    if (C == "") {
+                        warning("Kurs aynan kimlar uchun mo'ljallanganligini kiriting")
+                    }
+                    else {
+                        axios.put(`/api/rolik/${id}`, {
+                            title: title,
+                            mentor: mentor,
+                            about: A,
+                            requirement: B,
+                            forWhom: C,
+                        }).then((res) => {
+                            success("Ma'lumot muvaffaqiyatli tahrirlandi")
+                            restart()
+                        })
+                    }
+                }
+            }
+        }
+    }
+    /* 
+       @description: Roliklarni o'chirish
+       @api:/api/rolik/:id
+       @method: DELETE
+     */
+    const delete_one = (id) => {
+        axios.put(`/api/rolik/${id}`, { actions: "archive" }).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            restart()
+        });
+    };
+
+
+
+
+
+
+
+
+</script>

@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <title>
+        <%- title %>
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="O'quv markazlarni tizimlashtiruvchi LMS va CRM platformasi" name="description" />
+    <meta content="Themesdesign" name="author" />
+    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+
+    <link href="/assets/libs/magnific-popup/magnific-popup.css" rel="stylesheet" type="text/css">
+    <link href="/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+    <!-- DataTables -->
+    <link href="/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css" rel="stylesheet"
+        type="text/css">
+    <link href="/assets/libs/datatables.net-select-bs4/css/select.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/libs/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" rel="stylesheet"
+        type="text/css">
+    <link href="/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="/assets/libs/spectrum-colorpicker2/spectrum.min.css" rel="stylesheet" type="text/css">
+    <link href="/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/libs/toastr/build/toastr.min.css">
+    <link href="/assets/libs/dragula/dragula.min.css" rel="stylesheet" type="text/css" />
+    <!-- Lid -->
+    <link rel="stylesheet" href="/assets/libs/twitter-bootstrap-wizard/prettify.css">
+    <link href="/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-weight: 600;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 5px rgb(255, 255, 255);
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: rgb(177, 177, 177);
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dd9e16;
+        }
+    </style>
+
+</head>
+<!-- data-sidebar="dark" data-keep-enlarged="true" class="vertical-collpsed" -->
+
+<body data-sidebar="dark">
+
+
+    <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+                <i class="ri-loader-line spin-icon"></i>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id=" layout-wrapper">
+
+        <!-- header -->
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <div class="navbar-brand-box">
+                        <a href="#" class="logo logo-dark">
+                            <span class="logo-sm">
+                                <img src="/assets/images/logo-sm-dark.png" alt="logo-sm-dark" height="22">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="/assets/images/logo-dark.png" alt="logo-dark" height="20">
+                            </span>
+                        </a>
+
+                        <a href="#" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="/assets/images/logo-sm-light.png" alt="logo-sm-light" height="22">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="/assets/images/logo-light.png" alt="logo-light" height="50">
+                            </span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        id="vertical-menu-btn">
+                        <i class="ri-menu-2-line align-middle"></i>
+                    </button>
+
+                    <form class="app-search d-none d-lg-block">
+                        <div class="position-relative">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="ri-search-line"></span>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="d-flex">
+
+                    <div class="dropdown d-inline-block d-lg-none ms-2">
+                        <button type="button" class="btn header-item noti-icon waves-effect"
+                            id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ri-search-line"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                            aria-labelledby="page-header-search-dropdown">
+
+                            <form class="p-3">
+                                <div class="mb-3 m-0">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search ...">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary" type="submit"><i
+                                                    class="ri-search-line"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line"></i>
+                        </button>
+                    </div>
+
+                    <div class="dropdown d-inline-block">
+                        <button type="button" class="btn header-item noti-icon waves-effect"
+                            id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ri-notification-3-line position-relative"></i>
+                            <span id="countNotification" class="badge bg-danger position-absolute"
+                                style="top: 15px; right: 0; border-radius: 100%;">2</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                            aria-labelledby="page-header-notifications-dropdown">
+                            <div class="p-3">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h6 class="m-0"> Eslatmalar </h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div data-simplebar style="max-height: 230px;">
+                                <div class="setNotification"></div>
+
+
+
+
+                            </div>
+                            <div class="p-2 border-top">
+                                <div class="d-grid">
+                                    <a class="btn btn-sm btn-link font-size-14 text-center" href="javascript:void(0)">
+                                        <i class="mdi mdi-arrow-right-circle me-1"></i> Batafsil..
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="dropdown d-inline-block user-dropdown">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img class="rounded-circle header-profile-user" src="/assets/logo/profile.jpg"
+                                alt="Header Avatar">
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- <a class="dropdown-item" href="/seller/profile"><i class="ri-user-line align-middle me-1"></i> Mening profilim</a> -->
+                            <a class="dropdown-item text-danger" onclick="logout()" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Chiqish</a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </header>
+
+        <div class="vertical-menu ">
+            <div data-simplebar class="h-100">
+                <div id="sidebar-menu">
+                    <ul class="metismenu list-unstyled" id="side-menu">
+
+
+                        <li>
+                            <a style="font-size: 14px;" href="/seller/dashboard/general">
+                                <i style="font-size: 20px;" class="ri-dashboard-line"></i>
+                                <span style="font-size: 14px;">Statistika</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/seller/management/task">
+                                <i style="font-size: 20px;" class="ri-equalizer-fill"></i>
+                                <span style="font-size: 14px;">Topshiriqlar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/seller/marketing/lid">
+                                <i style="font-size: 20px;" class="ri-focus-3-line"></i>
+                                <span style="font-size: 14px;">Lidlar bo'limi</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <%- body %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="SEE_NOTIFICATION"
+        aria-labelledby="SEE_NOTIFICATION">
+        <div class="offcanvas-header">
+            <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Eslatma haqida ma'lumot</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body seeReasons">
+            <textarea id="seeNote" disabled class="form-control" cols="30" rows="2 0"></textarea>
+        </div>
+    </div>
+
+
+    <script src="/assets/axios.min.js"></script>
+    <!-- common -->
+    <script src="/assets/libs/jquery/jquery.min.js"></script>
+    <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/libs/metismenu/metisMenu.min.js"></script>
+    <script src="/assets/libs/simplebar/simplebar.min.js"></script>
+    <script src="/assets/libs/node-waves/waves.min.js"></script>
+    <!-- datatables -->
+    <script src="/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js"></script>
+    <script src="/assets/libs/jszip/jszip.min.js"></script>
+    <script src="/assets/libs/pdfmake/build/pdfmake.min.js"></script>
+    <script src="/assets/libs/pdfmake/build/vfs_fonts.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="/assets/libs/datatables.net-buttons/js/buttons.colVis.min.js"></script>
+    <script src="/assets/libs/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="/assets/libs/datatables.net-select/js/dataTables.select.min.js"></script>
+    <script src="/assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="/assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js"></script>
+    <script src="/assets/js/pages/datatables.init.js"></script>
+    <!-- form-advanced -->
+    <script src="/assets/libs/select2/js/select2.min.js"></script>
+    <script src="/assets/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="/assets/libs/spectrum-colorpicker2/spectrum.min.js"></script>
+    <script src="/assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="/assets/libs/admin-resources/bootstrap-filestyle/bootstrap-filestyle.min.js"></script>
+    <script src="/assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="/assets/js/pages/form-advanced.init.js"></script>
+    <!-- Notification -->
+    <script src="/assets/libs/toastr/build/toastr.min.js"></script>
+    <script src="/assets/js/pages/toastr.init.js"></script>
+    <!-- calendar -->
+    <script src="/assets/libs/moment/min/moment.min.js"></script>
+    <script src="/assets/libs/jquery-ui-dist/jquery-ui.min.js"></script>
+    <!-- video - vimeo  -->
+    <script src="/assets/libs/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/js/pages/lightbox.init.js"></script>
+    <!--tinymce js-->
+    <script src="/assets/libs/tinymce/tinymce.min.js"></script>
+    <script src="/assets/js/pages/form-editor.init.js"></script>
+    <script src="/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="/assets/libs/twitter-bootstrap-wizard/prettify.js"></script>
+    <script src="/assets/js/pages/ecommerce-add-product.init.js"></script>
+    <script src="/assets/libs/inputmask/jquery.inputmask.min.js"></script>
+    <script src="/assets/js/pages/form-mask.init.js"></script>
+    <script src="/assets/js/app.js"></script>
+    <script>
+        function logout() {
+            axios.get('/api/user/logout').then((res) => {
+                window.localStorage.removeItem("filial")
+                window.localStorage.removeItem("user")
+                window.localStorage.removeItem("school")
+                window.localStorage.removeItem("room")
+                window.location.replace('/')
+            })
+        }
+
+
+
+        const countNotification = document.getElementById("countNotification")
+        countNotification.style.display = "none"
+        const allData = () => {
+            axios.get('/api/user/decode', { headers: { authorization: window.localStorage.getItem('user') } }).then((res) => {
+                const userID = res.data.id;
+                axios.get(`/api/notification/filter`, {
+                    params: {
+                        userID: userID,
+                        status: "0"
+                    }
+                }).then(async (res) => {
+                    const data = res.data.data;
+                    if (data == "" || data == []) {
+                        countNotification.style.display = "none"
+                        const setNotification = $(".setNotification")
+                        await setNotification.html()
+                        setNotification.append("")
+                    }
+                    else {
+                        countNotification.style.display = "block"
+                        countNotification.innerHTML = data.length
+                        const setNotification = $(".setNotification")
+                        await setNotification.html()
+                        data.forEach((item) => {
+                            setNotification.append(`
+                            <a style="cursor: pointer;" onclick="seeNotification('${item._id}', '${userID}')"  data-bs-toggle="offcanvas" data-bs-target="#SEE_NOTIFICATION" aria-controls="SEE_NOTIFICATION" class=" notification-item">
+                                    <div class="d-flex">
+                                        <div class="avatar-xs me-3">
+                                            <span class="avatar-title bg-success rounded-circle font-size-16">
+                                                <i class="ri-checkbox-circle-line"></i>
+                                            </span>
+                                        </div>
+                                        <div class="flex-1">
+                                            <div class="font-size-12 text-muted">
+                                                <p class="mb-1">${item.message.split(" ").slice(0, 5)} ...</p>
+                                                <p class="mb-0"><i class="mdi mdi-clock-outline"></i>${new Date(item.createdAt).toLocaleString()}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                    `)
+                        });
+
+
+                    }
+                })
+            })
+
+        }
+        allData()
+
+        const seeNotification = (id, userID) => {
+            axios.get(`/api/notification/${id}`).then(async (res) => {
+                const data = res.data.data;
+                const seeNote = document.getElementById("seeNote")
+                seeNote.innerHTML = data.message
+                axios.put(`/api/notification/${id}`, { status: "1" })
+            })
+        }
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

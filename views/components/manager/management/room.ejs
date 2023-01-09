@@ -1,0 +1,262 @@
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Xonalar bo'limi</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Xonalar</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col md-12 d-flex justify-content-between align-items-center">
+            <div class="col ">
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#CREATE_CANVAS"
+                    aria-controls="CREATE_CANVAS">
+                    <i class="far fa-plus-square"></i>
+                    Qo'shish
+                </button>
+            </div>
+            <div class="col-md-3">
+                <select class="select2 form-control" onchange="filterRoom(this.value)" id="filterBySchool"></select>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive
+                    nowrap text-center" style="border-collapse: collapse; border-spacing: 0; width:
+                    100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 60%;">Xona nomi</th>
+                            <th style="width: 30%;">Yaratilgan sana</th>
+                            <th style="width: 10%;">Sozlama</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="put_tables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end " style="width: 50%" tabindex="-1" id="CREATE_CANVAS"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yangi xona yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <label class="form-label">Filiallar nomi</label>
+        <select class="form-control select2" id="school_all"></select>
+
+        <label class="mb-1 mt-3">Xona nomi</label>
+        <input type="text" class="form-control" maxlength="40" id="name" />
+        <button type="button" onclick="create()" class="btn btn-success waves-effect waves-light mt-2">
+            Yaratish
+        </button>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_CANVAS"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Xonalarni tahrirlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body get_canvas"></div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+    /* 
+        @description: Tokendagi user boyicha filiallarni olish 
+        @api: /api/user/decode
+        @method: GET
+    */
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiples = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+
+    const Token = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: Token } }).then((res) => {
+        const id = res.data.id;
+        axios.get(`/api/school/manager/${id}`, {
+            params: {
+                actions: "active"
+            }
+        }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingle(school, "#filterBySchool", "Ma'lumot mavjud emas")
+            setSelectionSingle(school, "#school_all", "Ma'lumot mavjud emas")
+        })
+    })
+
+    /*  @description: Default xolatda restart berish  */
+    const restart = () => {
+        const school_top = document.getElementById("filterBySchool")
+        const school_on_create = document.getElementById("school_all")
+        if (school_top.value != "") {
+            for (let item of school_top) {
+                if (item.selected) {
+                    filterRoom(item.value)
+                }
+            }
+        } else {
+            for (let item of school_on_create) {
+                if (item.selected) {
+                    filterRoom(item.value)
+                }
+            }
+        }
+    }
+
+    /* 
+        @description: Xonalarni tablega joylashtitish
+        @api: /api/room/filter/:id
+        @method: GET
+    */
+    const filterRoom = (id) => {
+        axios.get(`/api/room/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const DATA = res.data.data;
+            const put_table = $(".put_tables");
+            await put_table.html("");
+            DATA.forEach((item) => {
+                put_table.append(`
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <a  onclick="get_one('${item._id}')"   style="padding: 5px 9px; font-size: 16px;" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS"class="btn btn-warning" href="#">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a onclick="make_archive('${item._id}')" class="btn btn-danger" style="padding: 5px 10px; font-size: 16px;" href="#">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `);
+            });
+        });
+    }
+
+
+
+    /* 
+        @description: Xonalarni yaratish
+        @api: /api/room/create
+        @method: POST
+    */
+    const create = () => {
+        const school = document.getElementById("school_all").value
+        const name = document.getElementById("name").value;
+        if (name == "" || school == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: "/api/room/create",
+                method: "POST",
+                data: {
+                    name: name,
+                    school: school
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli yaratildi");
+                restart()
+            });
+        }
+    };
+
+
+    /* 
+        @description: Xonalarni tahrirlash
+        @api: /api/room/:id
+        @method: PUT
+    */
+    const get_one = (id) => {
+        axios.get(`/api/room/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const get_canvas = $(".get_canvas");
+            await get_canvas.html("");
+            get_canvas.append(`
+                <label class="mb-1">Yangi viloyat nomi</label>
+                <input type="text" class="form-control" value="${DATA.name}" maxlength="40" id="name_edit">
+                
+                <button type="button" onclick="update_one('${DATA._id}')" class="btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+            `);
+        });
+    };
+    const update_one = (id) => {
+        const name = document.getElementById("name_edit").value;
+        if (name == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: `/api/room/${id}`,
+                method: "PUT",
+                data: {
+                    name: name,
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli tahrirlandi");
+                restart()
+            });
+        }
+    };
+
+
+    /* 
+       @description: Xonalarni arxivga solish
+       @api: /api/room/:id
+       @method: PUT
+   */
+    const make_archive = (id) => {
+        axios.put(`/api/room/${id}`, { actions: "archive" }).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            restart()
+        });
+    };
+
+
+</script>

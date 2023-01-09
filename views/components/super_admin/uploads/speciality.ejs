@@ -1,0 +1,213 @@
+<div class="row">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Kurslar bo'limi</h3>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/super_admin/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Kurslar</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col md-12 d-flex justify-content-between align-items-center">
+            <div class="col-md-9">
+                <button class="btn btn-primary " type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#CREATE_CANVAS" aria-controls="CREATE_CANVAS">
+                    <i class="far fa-plus-square"></i>
+                    Qo'shish
+                </button>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive
+                    nowrap text-center" style="border-collapse: collapse; border-spacing: 0; width:
+                    100%">
+                    <thead>
+                        <tr>
+                            <th>Kurs nomi</th>
+                            <th>Yo'nalish nomi</th>
+                            <th>Yaratilgan sana</th>
+                            <th>Sozlama</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="put_tables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="CREATE_CANVAS"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yangi kurs yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <label class="form-label">Yo'nalish nomi</label>
+        <select class="form-control select2" id="category_all"></select>
+
+        <label class="mb-1 mt-3">Kurs nomi</label>
+        <input type="text" class="form-control" maxlength="40" id="name" />
+        <button type="button" onclick="create()" class="btn btn-success waves-effect waves-light mt-2">
+            Yaratish
+        </button>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="UPDATE_CANVAS"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Kursni tahrirlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body get_canvas"></div>
+</div>
+
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="ADD_LEVEL"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yangi bosqich biriktirish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body add_levels"></div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+    /* 
+        @description: Hamma kurslarni olish
+        @api: /api/speciality/all
+        @method: GET
+    */
+
+    axios.get("/api/category/all", { params: { actions: "active" } }).then(async (res) => {
+        const DATA = res.data.data;
+        const category_all = $("#category_all");
+        await category_all.html("");
+        category_all.append(`<option value="" selected>Tanlash</option> `);
+        DATA.forEach((item) => {
+            category_all.append(` <option value="${item._id}">${item.name}</option> `);
+        });
+    });
+
+    const get_all_data = () => {
+        axios.get("/api/speciality/all", { params: { actions: "active" } }).then(async (res) => {
+            const DATA = res.data.data;
+            const put_table = $(".put_tables");
+            await put_table.html("");
+            DATA.forEach((item) => {
+                put_table.append(`
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.category.name}</td>
+                        <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <a style="padding: 5px 11px; font-size: 16px;" data-bs-toggle="offcanvas" data-bs-target="#ADD_LEVEL" aria-controls="ADD_LEVEL"class="btn btn-dark" href="#">
+                                <i class="fas fa-th"></i>
+                            </a>
+                            <a  onclick="get_one('${item._id}')"   style="padding: 5px 9px; font-size: 16px;" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS"class="btn btn-warning" href="#">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a onclick="make_archive('${item._id}')" class="btn btn-danger" style="padding: 5px 10px; font-size: 16px;" href="#">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `);
+            });
+        });
+    }
+    get_all_data()
+
+
+
+
+    /* 
+        @description: Kurslarni yaratish
+        @api: /api/speciality/create
+        @method: POST
+    */
+    const create = () => {
+        const name = document.getElementById("name").value;
+        const category_all = document.getElementById("category_all").value;
+        if (name == "" || category_all == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: "/api/speciality/create",
+                method: "POST",
+                data: {
+                    name: name,
+                    category: category_all
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli yaratildi");
+                get_all_data()
+            });
+        }
+    };
+
+
+    /* 
+        @description: Kurslarni tahrirlash
+        @api: /api/speciality/:id
+        @method: PUT
+    */
+    const get_one = (id) => {
+        axios.get(`/api/speciality/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const get_canvas = $(".get_canvas");
+            await get_canvas.html("");
+            get_canvas.append(`
+                <label class="mb-1">Yangi viloyat nomi</label>
+                <input type="text" class="form-control" value="${DATA.name}" maxlength="40" id="name_edit">
+                
+                <button type="button" onclick="update_one('${DATA._id}')" class="btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+            `);
+        });
+    };
+    const update_one = (id) => {
+        const name = document.getElementById("name_edit").value;
+        if (name == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: `/api/speciality/${id}`,
+                method: "PUT",
+                data: {
+                    name: name,
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli tahrirlandi");
+                get_all_data()
+            });
+        }
+    };
+
+
+
+    /* 
+        @description: Kurslarni arxivlash
+        @api: /api/speciality/:id
+        @method: POST
+    */
+    const make_archive = (id) => {
+        axios.put(`/api/speciality/${id}`, { actions: "archive" }).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            get_all_data()
+        });
+    };
+</script>

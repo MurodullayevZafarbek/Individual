@@ -1,0 +1,149 @@
+<div class="row mt-1">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Arxivlar bo'limi</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/super_admin/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Arxiv</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row col md-12 d-flex justify-content-between align-items-center">
+            <div class="col-md-4 col-lg-4 col-xl-4 col-sm-12">
+                <select class="form-control select2" style="width: 100%" onchange="types_all(this.value)"
+                    id="types_all">
+                    <option value="">Tanlash</option>
+                    <option value="region">Viloyatlar arxivi</option>
+                    <option value="district">Tumanlar arxivi</option>
+                    <option value="category">Yo'nalishlar arxivi</option>
+                    <option value="speciality">Kurslar arxivi</option>
+
+                </select>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 60%;">Nomi</th>
+                            <th style="width: 30%;">Sana</th>
+                            <th style="width: 10%;">Sozlama</th>
+                        </tr>
+                    </thead>
+                    <tbody class="setTables"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+
+    let key;
+
+    const types_all = (values) => {
+        if (values === "region") {
+            key = "region"
+            axios.get('/api/region/all', { params: { actions: "archive" } }).then((res) => {
+                const data = res.data.data;
+                setTables(data, ".setTables", "region")
+            })
+        }
+        if (values === "district") {
+            key = "district"
+            axios.get('/api/district/all', { params: { actions: "archive" } }).then((res) => {
+                const data = res.data.data;
+                setTables(data, ".setTables", "district")
+            })
+        }
+        if (values === "category") {
+            key = "category"
+            axios.get('/api/category/all', { params: { actions: "archive" } }).then((res) => {
+                const data = res.data.data;
+                setTables(data, ".setTables", "category")
+            })
+        }
+        if (values === "speciality") {
+            key = "speciality"
+            axios.get('/api/speciality/all', { params: { actions: "archive" } }).then((res) => {
+                const data = res.data.data;
+                setTables(data, ".setTables", "speciality")
+            })
+        }
+    }
+
+
+    const setTables = async (data, appending, keys) => {
+        const elements = $(appending)
+        await elements.html("")
+        data.forEach((item, index) => {
+            elements.append(`
+                <tr>
+                    <td>${item.name}</td>
+                    <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <div class="btn-group">
+                        <button onclick="makeActive('${item._id}' , '${keys}')" style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fas fa-redo"></i>
+                        </button>
+                      </div
+                    </td>
+                </tr>
+            `)
+        });
+    }
+
+    const makeActive = (id, keys) => {
+        if (keys == "region") {
+            axios.put(`/api/region/${id}`, { actions: "active" }).then((response) => {
+                axios.get('/api/region/all', { params: { actions: "archive" } }).then((res) => {
+                    const data = res.data.data;
+                    setTables(data, ".setTables", "region")
+                })
+            })
+        }
+        if (keys == "district") {
+            axios.put(`/api/district/${id}`, { actions: "active" }).then((response) => {
+                axios.get('/api/district/all', { params: { actions: "archive" } }).then((res) => {
+                    const data = res.data.data;
+                    setTables(data, ".setTables", "district")
+                })
+            })
+        }
+        if (keys == "category") {
+            axios.put(`/api/category/${id}`, { actions: "active" }).then((response) => {
+                axios.get('/api/category/all', { params: { actions: "archive" } }).then((res) => {
+                    const data = res.data.data;
+                    setTables(data, ".setTables", "category")
+                })
+            })
+        }
+        if (keys == "speciality") {
+            axios.put(`/api/speciality/${id}`, { actions: "active" }).then((response) => {
+                axios.get('/api/speciality/all', { params: { actions: "archive" } }).then((res) => {
+                    const data = res.data.data;
+                    setTables(data, ".setTables", "speciality")
+                })
+            })
+        }
+
+    }
+
+</script>

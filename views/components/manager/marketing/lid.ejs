@@ -1,0 +1,1227 @@
+<style>
+    #defaultDemo,
+    #typeLid_open_course,
+    #typeLid_offline_online,
+    #typeLid_category,
+    #typeLid_speciality {
+        display: none;
+    }
+
+    .designSelection {
+        /* background-color: #6d21b4; */
+        background: #dc2424;
+        background: -webkit-linear-gradient(to right, #dc2424, #4a569d);
+        background: linear-gradient(to right, #dc2424, #4a569d);
+        padding: 20px 15px;
+        border-radius: 10px;
+        color: white;
+    }
+</style>
+
+<div class="row ">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Barcha lidlar bo'limi</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Lidlar ro'yhati</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row col md-12 col-sm-12 d-flex justify-content-between align-items-center ">
+
+
+            <div class="btn-group col-md-8 col-sm-12">
+                <button type="button" class="col-md-3 col-sm-12 btn btn-success dropdown-toggle"
+                    style="margin-right: 5px; border-radius: 0; " data-bs-toggle="offcanvas"
+                    data-bs-target="#CREATE_LID" aria-controls="CREATE_LID"> Lid yaratish </button>
+                <button type="button" class="col-md-3 col-sm-12 btn btn-outline-primary dropdown-toggle"
+                    style="margin-right: 5px; border-radius: 0; " data-bs-toggle="offcanvas"
+                    data-bs-target="#FILTER_GENERAL" aria-controls="FILTER_GENERAL"> Filial bo'yicha filtrlash </button>
+                <button type="button" class="col-md-3 col-sm-12 btn btn-outline-primary dropdown-toggle"
+                    style="margin-right: 5px; border-radius: 0; " data-bs-toggle="offcanvas"
+                    data-bs-target="#FILTER_SPECIAL" aria-controls="FILTER_SPECIAL">Kurs bo'yicha filtrlash </button>
+                <button type="button" class="col-md-3 col-sm-12 btn btn-outline-primary dropdown-toggle"
+                    style="margin-right: 5px; border-radius: 0; " data-bs-toggle="offcanvas"
+                    data-bs-target="#FILTER_DATE" aria-controls="FILTER_DATE"> Oy bo'yicha filtrlash </button>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap text-center" style="border-collapse:
+                    collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Mijoz </th>
+                            <th>Online / Offline</th>
+                            <th>Lid holati </th>
+                            <th>Telefon raqam </th>
+                            <th>Status </th>
+                            <th>Yaratilgan sana</th>
+                            <th>Sozlama</th>
+                        </tr>
+                    </thead>
+                    <tbody class="getTables">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="CREATE_LID"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yangi lid yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+
+        <div class="col-md-12 designSelection">
+            <label class="form-label">Qanday lid yaratmoqchisiz</label>
+            <select class="form-control select2" onchange="select_LID(this.value)">
+                <option value="">Tanlash</option>
+                <option value="1">Ochiq dars uchun lid qo'shish</option>
+                <option value="2">Oddiy lid qo'shish</option>
+            </select>
+        </div>
+
+        <div id="defaultDemo" class="mt-3">
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label">Qaysi viloyatda yashaydi ?</label>
+                    <select class="form-control select2" onchange="filterRegion(this.value)" id="regions_all"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label mt-3">Qaysi tumanda yashaydi ?</label>
+                    <select class="form-control select2" id="districts_all"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="form-label mt-3">Qaysi o'quv markazi uchun ?</label>
+                    <select class="form-control select2" onchange="filterSchool(this.value)" id="filials_all"></select>
+                </div>
+            </div>
+
+
+            <div class="row" id="typeLid_category">
+                <div class="com-md-12">
+                    <label class="form-label mt-3">Qaysi yo'nalish uchun ?</label>
+                    <select class="form-control select2" onchange="filterCategory(this.value)"
+                        id="category_all"></select>
+                </div>
+            </div>
+            <div class="row" id="typeLid_speciality">
+                <div class="com-md-12">
+                    <label class="form-label mt-3">Qaysi kurs uchun ?</label>
+                    <select class="form-control select2" id="speciality_all"></select>
+                </div>
+            </div>
+            <div class="row" id="typeLid_open_course">
+                <div class="com-md-12">
+                    <label class="form-label mt-3">Qaysi ochiq dars uchun ?</label>
+                    <select class="form-control select2" id="open_course_all"></select>
+                </div>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2" id="typeLid_offline_online">
+                <label class="form-label ">Dars holati qanday ? </label>
+                <select class="form-control select2 mt-0" id="LESSON_TYPE">
+                    <option value="">Tanlash</option>
+                    <option value="online">Online dars</option>
+                    <option value="offline">Offline dars</option>
+                </select>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <label class="form-label mb-1 mt-3">O`quvchining ismi, sharfi, familiyasi qanday ?</label>
+                    <input class="form-control" type="text" id="user_name" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <label class="form-label mb-1 mt-3">Asosiy telefon raqam</label>
+                    <input class="form-control" type="text" id="user_phone" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <label class="form-label mb-1 mt-3">Qo'shimcha telefon raqam</label>
+                    <input class="form-control" type="text" id="user_another_phone" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <label class="form-label mb-1 mt-3">Tug'ilgan sana</label>
+                    <input class="form-control" type="date" id="user_birthday" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <div class="mt-3">
+                        <label class="form-label">Qaysi hafta kunlari uchun bo'sh vaqtlari mavjud</label>
+                        <select class="select2 form-control select2-multiple" multiple="multiple" id="week">
+                            <option value="8">Du/Ch/Ju</option>
+                            <option value="9">Se/Pa/Sha</option>
+                            <option value="1">Dushanba</option>
+                            <option value="2">Seshanba</option>
+                            <option value="3">Chorshanba</option>
+                            <option value="4">Payshanba</option>
+                            <option value="5">Juma</option>
+                            <option value="6">Shanba</option>
+                            <option value="7">Yakshanba</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <div class="mt-3">
+                        <label class="form-label">Soat nechidan boshlab bo'sh vaqti bor ?</label>
+                        <select class="form-control select2" id="free_start_time">
+                            <option value="" selected>Tanlash</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="13:00">13:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                            <option value="19:00">19:00</option>
+                            <option value="20:00">20:00</option>
+                            <option value="21:00">21:00</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <div class="mt-3">
+                        <label class="form-label">Soat nechigacha bosh vaqti bor ?</label>
+                        <select class="form-control select2" id="free_end_time">
+                            <option value="" selected>Tanlash</option>
+                            <option value="09:00">09:00</option>
+                            <option value="10:00">10:00</option>
+                            <option value="11:00">11:00</option>
+                            <option value="12:00">12:00</option>
+                            <option value="13:00">13:00</option>
+                            <option value="14:00">14:00</option>
+                            <option value="15:00">15:00</option>
+                            <option value="16:00">16:00</option>
+                            <option value="17:00">17:00</option>
+                            <option value="18:00">18:00</option>
+                            <option value="19:00">19:00</option>
+                            <option value="20:00">20:00</option>
+                            <option value="21:00">21:00</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="com-md-12">
+                    <div class="mt-3">
+                        <label class="form-label">Qaysi jins vakili ?</label>
+                        <select class="form-control select2" id="genders">
+                            <option value="" selected>Tanlash</option>
+                            <option value="man">Erkak</option>
+                            <option value="woman">Ayol</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mt-3">
+                        <label class="form-label">Qaysi reklama turi orqali bizni izlab topgan ? </label>
+                        <select class="select2 form-control select2-multiple" multiple="multiple" id="howKnown_all">
+                            <option value="1">Banner orqali</option>
+                            <option value="2">Flayer orqali</option>
+                            <option value="3">Telegram orqali</option>
+                            <option value="4">Instagram orqali</option>
+                            <option value="5">Facebook orqali</option>
+                            <option value="6">Youtube orqali</option>
+                            <option value="7">Menga tavsiya qilishdi</option>
+                            <option value="8">O'zim topib keldim</option>
+                            <option value="9">Yoshlar daftari</option>
+                            <option value="10">IT HOUSE</option>
+                            <option value="11">LED ekran</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" onclick="create()" class="btn btn-success waves-effect waves-light mt-3"> Lid
+                        yaratish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="GET_INFORMATION"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Lid haqida ma'lumot</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body get_canvas">
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="FILTER_GENERAL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Filial bo'yicha filtrlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">O'quv markazni tanlang</label>
+                <select class="form-control select2 col-md-12 col-sm-12" id="school_filter"></select>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <label class="form-label mt-2">Lid turini tanlang</label>
+            <select class="form-control select2 col-md-12 col-sm-12" id="lid_filter">
+                <option value="">Tanlang</option>
+                <option value="0">✔ Hammasi</option>
+                <option value="1">✔ Yangi lidlar</option>
+                <option value="2">✔ Suhbatdan o'tganlar</option>
+                <option value="3">✔ Sinov darsidagilar</option>
+                <option value="4">✔ Kursga qabul qilinganlar</option>
+                <option value="5">✔ Dars maqul kelmaganlar</option>
+            </select>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <button type="button" onclick="GENERAL_FILTERING()"
+                    class="col-md-12 btn btn-primary waves-effect waves-light">
+                    Izlash
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="DISLIKE_LID"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Darsni bekor qilish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body cancel_lid">
+
+
+
+
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="FILTER_SPECIAL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Kurs bo'yicha filtrlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">O'quv markazni tanlang</label>
+                <select class="form-control select2 col-md-12 col-sm-12" onchange="filterSchool(this.value)"
+                    id="school_special_filter"></select>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <label class="form-label mt-2">Yo'nalishni tanlang</label>
+            <select class="form-control select2 col-md-12 col-sm-12" onchange="filterCategory(this.value)"
+                id="category_special_filter">
+            </select>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <label class="form-label mt-2">Kursni tanlang</label>
+            <select class="form-control select2 col-md-12 col-sm-12" id="speciality_special_filter">
+            </select>
+        </div>
+        <div class="col-md-12 col-sm-12">
+            <label class="form-label mt-2">Lid turini tanlang</label>
+            <select class="form-control select2 col-md-12 col-sm-12" id="lid_special_filter">
+                <option value="">Tanlang</option>
+                <option value="1">✔ Yangi lidlar</option>
+                <option value="2">✔ Suhbatdan o'tganlar</option>
+                <option value="3">✔ Sinov darsidagilar</option>
+                <option value="4">✔ Kursga qabul qilinganlar</option>
+                <option value="5">✔ Dars maqul kelmaganlar</option>
+            </select>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <button type="button" onclick="GENERAL_SPECIAL()"
+                    class="col-md-12 btn btn-primary waves-effect waves-light">
+                    Izlash
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="NOT_ACCEPT" aria-labelledby="NOT_ACCEPT">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Darsni bekor qilinish sababini ko'rish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body seeReasons">
+    </div>
+</div>
+
+
+
+
+
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="FILTER_DATE">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Oy bo'yicha filtrlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label">O'quv markazni tanlang</label>
+                <select class="form-control select2 col-md-12 col-sm-12" id="filterDate_school"></select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label mt-2">Lid turini tanlang</label>
+                <select class="form-control select2 col-md-12 col-sm-12" id="filterDate_status">
+                    <option value="">Tanlang</option>
+                    <option value="1">✔ Yangi lidlar</option>
+                    <option value="2">✔ Suhbatdan o'tganlar</option>
+                    <option value="3">✔ Sinov darsidagilar</option>
+                    <option value="4">✔ Kursga qabul qilinganlar</option>
+                    <option value="5">✔ Dars maqul kelmaganlar</option>
+                </select>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-md-12 col-sm-12">
+            <label class="form-label mt-2">Oyni tanlang</label>
+            <select class="form-control select2 col-md-12 col-sm-12" id="filterDate_dates">
+                <option value="">Tanlang</option>
+                <option value="01">Yanvar</option>
+                <option value="02">Fevral</option>
+                <option value="03">Mart</option>
+                <option value="04">Aprel</option>
+                <option value="05">May</option>
+                <option value="06">Iyun</option>
+                <option value="07">Iyul</option>
+                <option value="08">Avgust</option>
+                <option value="09">Sentyabr</option>
+                <option value="10">Oktyabr</option>
+                <option value="11">Noyabr</option>
+                <option value="12">Dekabr</option>
+            </select>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <button type="button" onclick="filterByDate()"
+                    class="col-md-12 btn btn-primary waves-effect waves-light">
+                    Izlash
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+    let defaultKey = ""
+    const select_LID = (key) => {
+        defaultKey = key
+        if (key == "") {
+            document.getElementById("defaultDemo").style.display = "none"
+        }
+        else {
+            document.getElementById("defaultDemo").style.display = "block"
+
+            if (key == "1") {
+                document.getElementById("typeLid_category").style.display = "none"
+                document.getElementById("typeLid_speciality").style.display = "none"
+                document.getElementById("typeLid_open_course").style.display = "block"
+                document.getElementById("typeLid_offline_online").style.display = "none"
+            }
+            if (key == "2") {
+                document.getElementById("typeLid_category").style.display = "block"
+                document.getElementById("typeLid_speciality").style.display = "block"
+                document.getElementById("typeLid_open_course").style.display = "none"
+                document.getElementById("typeLid_offline_online").style.display = "block"
+            }
+        }
+
+    }
+    $(document).ready(function () {
+        $("#user_phone").inputmask("999-99-999-99-99");  // static mask
+        $("#user_another_phone").inputmask("999-99-999-99-99");  // static mask
+        $("#user_passport").inputmask("AA9999999");  // static mask
+    });
+    function elements(item) {
+        return document.getElementById(item)
+    }
+    function restart(data) {
+        const school = document.getElementById("school_filter").value;
+        const lid = document.getElementById("lid_filter").value;
+        if (lid !== "" && school !== "") {
+            axios.get(`/api/lid/filter`, {
+                params: {
+                    status: lid,
+                    school: school,
+                    actions: "active"
+                }
+            }).then((res) => {
+                const datas = res.data.data
+                setHTML_multiple(datas, ".getTables", "Ma'lumot topilmadi")
+            })
+        }
+    }
+    const arrays = []
+    const TOKEN = window.localStorage.getItem('user')
+    const setSelectionSingles = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiple = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setHTML_multiple = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item, index) => {
+                appends.append(
+                    `
+                        <tr>
+                            <td>${item.username}</td>
+                            <td><span class="badge bg-primary font-size-14 p-2">${item.lessonType}</span></td>
+                            <td class="lidType"></td>
+                            <td>${item.phone}</td>
+                            <td class="status_table"></td>
+                            <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class=" fas fa-cog"></i></button>
+                                    <div class="dropdown-menu setStatus"> </div>
+                                </div>
+                            </td>
+                        </tr>
+                    `
+                );
+
+                const lidType = document.getElementsByClassName("lidType");
+                lidType.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+                        if (item.lid_type == "1") {
+                            inputs.innerHTML = ` <span class="badge bg-danger font-size-14 p-2">Ochiq dars lidi</span> `
+                        }
+                        if (item.lid_type == "2") {
+                            inputs.innerHTML = `<span class="badge bg-warning font-size-14 p-2">Oddiy lid</span>`
+                        }
+                    }
+                })
+
+
+                const statusME = item.status;
+                const setStatus = document.getElementsByClassName("setStatus");
+                setStatus.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+                        if (statusME == "1") {
+                            inputs.innerHTML = `
+                                <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                                <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                                <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                                <a onclick="accepted('${item._id}')" class="dropdown-item text-success" href="#">Qabul qilingan</a>
+                                <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item text-danger" href="#">Dars bekor qilingan</a>
+                            `
+                        }
+                        if (statusME == "2") {
+                            inputs.innerHTML = `
+                                <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                                <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                                <a onclick="accepted('${item._id}')" class="dropdown-item text-success" href="#">Qabul qilingan</a>
+                                <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item text-danger" href="#">Dars bekor qilingan</a>
+                            `                        }
+                        if (statusME == "3") {
+                            inputs.innerHTML = `
+                                <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                                <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                                <a onclick="accepted('${item._id}')" class="dropdown-item text-success" href="#">Qabul qilingan</a>
+                                <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item text-danger" href="#">Dars bekor qilingan</a>
+                            `                        }
+                        if (statusME == "4") {
+                            inputs.innerHTML = `
+                                <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                                <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                                <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                                <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item text-danger" href="#">Dars bekor qilingan</a>
+                            `                        }
+                        if (statusME == "5") {
+                            inputs.innerHTML = `
+                                <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                                <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                                <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                                <a onclick="accepted('${item._id}')" class="dropdown-item text-success" href="#">Qabul qilingan</a>
+                            `
+                        }
+
+                    }
+                })
+                // Status boyicha elementlarni joylash
+                const status = document.getElementsByClassName("status_table");
+                status.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+                        if (item.status == "1") {
+                            inputs.innerHTML = `<span class="badge bg-success font-size-14 p-2">Yangi mijoz</span>`
+                        }
+                        if (item.status == "2") {
+                            inputs.innerHTML = `<span class="badge bg-warning font-size-14 p-2">Mijoz suhbatdan o'tgan</span>`
+                        }
+                        if (item.status == "3") {
+                            inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Sinov darsida qantashmoqda</span>`
+                        }
+                        if (item.status == "4") {
+                            inputs.innerHTML = `<span class="badge bg-dark font-size-14 p-2">O'quv markazga qabul qilindi</span>`
+                        }
+                        if (item.status == "5") {
+                            inputs.innerHTML = `<span style="cursor: pointer;" onclick="seeWhyNot('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#NOT_ACCEPT" aria-controls="NOT_ACCEPT" class="badge bg-danger font-size-14 p-2">Dars ma'qul kelmadi</span>`
+                        }
+                        if (item.status == "6") {
+                            inputs.innerHTML = `<span class="badge bg-secondary font-size-14 p-2">Arxiv</span>`
+                        }
+                    }
+                })
+            });
+        }
+    }
+    const seeWhyNot = (id) => {
+        axios.get(`/api/lid/${id}`).then(async (res) => {
+            const data = res.data.data;
+            const appends = $(".seeReasons");
+            await appends.html("");
+            appends.append(`
+                <span class="badge bg-light" style="font-size: 16px;"> 
+                    ${data.reason}
+                <span>
+            
+            `)
+
+        })
+    }
+    const setHTML_single = async (DATA, APPENDING, MESSAGE, key) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            if (key == "single") {
+                const appends = $(APPENDING);
+                await appends.html("");
+                appends.append(
+                    `
+                        <tr>
+                            <td>${DATA.username}</td>
+                            <td> - </td>
+                            <td>${DATA.username}</td>
+                            <td>${DATA.phone}</td>
+                            <td id="status_table"></td>
+                            <td>${new Date(DATA.createdAt).toLocaleDateString()}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class=" fas fa-cog"></i></button>
+                                    <div class="dropdown-menu " id="setStatus"> </div>
+                                </div>
+                            </td>
+                        </tr>
+                    `
+                );
+
+                const statusME = DATA.status;
+                const setStatus = document.getElementById("setStatus");
+                if (statusME == "1") {
+                    setStatus.innerHTML = `
+                        <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                        <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                        <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                        <a onclick="accepted('${item._id}')" class="dropdown-item" href="#">Qabul qilingan</a>
+                        <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item" href="#">Dars bekor qilingan</a>
+                    `
+                }
+                if (statusME == "2") {
+                    setStatus.innerHTML = `
+                        <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                        <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                        <a onclick="accepted('${item._id}')" class="dropdown-item" href="#">Qabul qilingan</a>
+                        <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item" href="#">Dars bekor qilingan</a>
+                    `
+                }
+                if (statusME == "3") {
+                    setStatus.innerHTML = `
+                        <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                        <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                        <a onclick="accepted('${item._id}')" class="dropdown-item" href="#">Qabul qilingan</a>
+                        <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item" href="#">Dars bekor qilingan</a>
+                    `
+                }
+                if (statusME == "4") {
+                    setStatus.innerHTML = `
+                        <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                        <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                        <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                        <a data-bs-toggle="offcanvas" data-bs-target="#DISLIKE_LID" aria-controls="DISLIKE_LID" onclick="dislike('${item._id}')" class="dropdown-item" href="#">Dars bekor qilingan</a>
+                    `
+                }
+                if (statusME == "5") {
+                    setStatus.innerHTML = `
+                        <a onclick="getLid('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#GET_INFORMATION" aria-controls="GET_INFORMATION" class="dropdown-item" href="#">Ma'lumot olish</a>
+                        <a onclick="talked('${item._id}')" class="dropdown-item" href="#">Suhbatdan o'tilgan</a>
+                        <a onclick="trial('${item._id}')" class="dropdown-item" href="#">Sinov darsida</a>
+                        <a onclick="accepted('${item._id}')" class="dropdown-item" href="#">Qabul qilingan</a>
+                    `
+                }
+                const status = document.getElementById("status_table");
+                if (statusME == "1") status.innerHTML = `<span class="badge bg-success font-size-14 p-2">Yangi mijoz</span>`
+                if (statusME == "2") status.innerHTML = `<span class="badge bg-warning font-size-14 p-2">Mijoz suhbatdan o'tgan</span>`
+                if (statusME == "3") status.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Sinov darsida qantashmoqda</span>`
+                if (statusME == "4") status.innerHTML = `<span class="badge bg-dark font-size-14 p-2">O'quv markazga qabul qilindi</span>`
+                if (statusME == "5") status.innerHTML = `<span class="badge bg-danger font-size-14 p-2">Dars ma'qul kelmadi</span>`
+                if (statusME == "6") status.innerHTML = `<span class="badge bg-secondary font-size-14 p-2">Arxiv</span>`
+            }
+            if (key == "array") {
+                arrays.push(DATA)
+                setHTML_multiple(arrays, ".getTables", "Ma'lumot topilmadi",)
+            }
+        }
+    }
+    /* 
+        @description: Foydalanuvchiga tegishli malumotlatni olish
+        @api: /api/user/decode
+        @method: GET
+    */
+    const Token = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: Token } }).then((res) => {
+        const id = res.data.id;
+        axios.get(`/api/school/manager/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingles(school, "#filials_all", "O'quv markazi mavjud emas.")
+            setSelectionSingles(school, "#filterTopSchool", "O'quv markazi mavjud emas.")
+            setSelectionSingles(school, "#school_filter", "O'quv markazi mavjud emas.")
+            setSelectionSingles(school, "#school_special_filter", "O'quv markazi mavjud emas.")
+            setSelectionSingles(school, "#filterDate_school", "O'quv markazi mavjud emas.")
+        })
+    })
+    /* 
+        @description: Viloyatlarni olish
+        @api: /api/region/all
+        @method: GET
+    */
+    axios.get('/api/region/all', { params: { actions: "active" } }).then((res) => {
+        const data = res.data.data;
+        setSelectionSingles(data, "#regions_all", "O'quv markazi mavjud emas.")
+    })
+    /* 
+        @description: Tumanlarni olish
+        @api: /api/district/filter/:id
+        @method: GET
+    */
+    const filterRegion = (id) => {
+        axios.get(`/api/district/filter/${id}`, { params: { actions: "active" } }).then((res) => {
+            const data = res.data.data;
+            setSelectionSingles(data, "#districts_all", "Tumanlar mavjud emas.")
+        })
+    }
+    /* 
+        @description: O'quv markazning kategoriyasini olish
+        @api: /api/school/:id  
+        @method: GET
+    */
+    const filterSchool = (id) => {
+        axios.get(`/api/school/${id}`, { params: { actions: "active" } }).then((res) => {
+            const data = res.data.data.category;
+            setSelectionSingles(data, "#category_all", "Yo'nalaishlar mavjud emas.")
+            setSelectionSingles(data, "#category_special_filter", "Yo'nalaishlar mavjud emas.")
+        })
+
+        if (defaultKey == "1") {
+            axios.get(`/api/rolik/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+                const data = res.data.data;
+                if (data == "") {
+                    const appends = $("#open_course_all");
+                    await appends.html("");
+                    appends.append(`<option value="" selected>Mavjud emas</option> `);
+                    danger("Ochiq darslar mavjud emas");
+                } else {
+                    const appends = $("#open_course_all");
+                    await appends.html("");
+                    appends.append(`<option value="" selected>Tanlash</option> `);
+                    data.forEach((item) => {
+                        appends.append(
+                            `<option value="${item._id}">${item.title}</option>`
+                        );
+                    });
+                }
+            })
+        }
+    }
+    /* 
+        @description:Kategoriya boyicha kurslarni olish
+        @api: /api/speciality/filter/:id  
+        @method: GET
+    */
+    const filterCategory = (id) => {
+        axios.get(`/api/speciality/filter/${id}`, { params: { actions: "active" } }).then((res) => {
+            const data = res.data.data;
+            setSelectionSingles(data, "#speciality_all", "Kurslar mavjud emas.")
+            setSelectionSingles(data, "#speciality_special_filter", "Kurslar mavjud emas.")
+        })
+    }
+    /* 
+        @description: Lid yaratish
+        @api: /api/lid/create  
+        @method: POST
+    */
+    const create = () => {
+        const regions_all = elements("regions_all").value
+        const districts_all = elements("districts_all").value
+        const filials_all = elements("filials_all").value
+        const category_all = elements("category_all").value
+        const speciality_all = elements("speciality_all").value
+        const week = elements("week")
+        const free_start_time = elements("free_start_time").value
+        const free_end_time = elements("free_end_time").value
+        const username = elements("user_name").value
+        const phone = elements("user_phone").value
+        const user_another_phone = elements("user_another_phone").value
+        const gender = elements("genders").value
+        const birthday = elements("user_birthday").value
+        const open_course_all = elements("open_course_all").value
+        const lessonType = elements("LESSON_TYPE").value
+        const howKnown_all = elements("howKnown_all")
+        function sertArrays(element_inputs) {
+            const arrays = new Set()
+            for (let item of element_inputs) {
+                if (item.selected) {
+                    const value = item.value;
+                    if (value == 8) {
+                        arrays.add("1").add("3").add("5")
+                    } else if (value == 9) {
+                        arrays.add("2").add("4").add("6")
+                    } else {
+                        arrays.add(value)
+                    }
+                }
+            }
+            return Array.from(arrays)
+        }
+
+
+        // Ochiq dars uchun lid qoshish
+        if (defaultKey == "1") {
+            if (open_course_all == "" || regions_all == "" || districts_all == "" || filials_all == "" || sertArrays(week) == "" || free_start_time == "" || free_end_time == "" || username == "" || gender == "" || sertArrays(howKnown_all) == "" || phone == "" || user_another_phone == "" || birthday == "") {
+                warning("Malumotlarni to'liq kiriting")
+            }
+            else {
+
+                axios.get(`/api/rolik/${open_course_all}`).then((resp) => {
+                    const roliks = resp.data.data
+                    axios.post("/api/lid/create", {
+                        region: regions_all,
+                        district: districts_all,
+                        school: filials_all,
+                        category: roliks.category._id,
+                        speciality: roliks.speciality._id,
+                        week: sertArrays(week),
+                        free_start_time: free_start_time,
+                        free_end_time: free_end_time,
+                        username: username,
+                        gender: gender,
+                        status: "1",
+                        howKnown: sertArrays(howKnown_all),
+                        lid_type: "1",
+                        phone: phone,
+                        another_phone: user_another_phone,
+                        birthday: birthday,
+                        open_couse: roliks._id,
+                        lessonType: roliks.lessonType
+                    }).then((res) => {
+                        const data = res.data.data;
+                        setHTML_single(data, ".getTables", "Ma'lumot topilmadi", "array")
+                        success("Malumot muvaffaqiyatli yaratildi")
+                    })
+                })
+            }
+        }
+
+
+        // Ochiq dars bolmagan holatda lid qo'shish
+        if (defaultKey == "2") {
+            if (lessonType == "" || regions_all == "" || districts_all == "" || filials_all == "" || category_all == "" || speciality_all == "" || sertArrays(week) == "" || free_start_time == "" || free_end_time == "" || username == "" || gender == "" || sertArrays(howKnown_all) == "" || phone == "" || user_another_phone == "" || birthday == "") {
+                warning("Malumotlarni to'liq kiriting")
+            }
+            else {
+                axios.post("/api/lid/create", {
+                    region: regions_all,
+                    district: districts_all,
+                    school: filials_all,
+                    category: category_all,
+                    speciality: speciality_all,
+                    week: sertArrays(week),
+                    free_start_time: free_start_time,
+                    free_end_time: free_end_time,
+                    username: username,
+                    gender: gender,
+                    status: "1",
+                    howKnown: sertArrays(howKnown_all),
+                    lid_type: "2",
+                    phone: phone,
+                    another_phone: user_another_phone,
+                    birthday: birthday,
+                    lessonType: lessonType,
+                }).then((res) => {
+                    const data = res.data.data;
+                    setHTML_single(data, ".getTables", "Ma'lumot topilmadi", "array")
+                    success("Malumot muvaffaqiyatli yaratildi")
+                })
+            }
+        }
+
+
+    }
+    /* 
+        @description: Lidlarni filial boyicha filtrlash
+        @api: /api/lid/filter
+        @method: POST
+    */
+    const GENERAL_FILTERING = () => {
+        const school = document.getElementById("school_filter").value
+        const lid = document.getElementById("lid_filter").value
+        if (school == "" || lid == "") {
+            warning("Malumotni to'liq kiriting")
+        } else {
+            axios.get(`/api/lid/filter`, {
+                params: {
+                    status: lid,
+                    school: school,
+                    actions: "active"
+                }
+            }).then((res) => {
+                const data = res.data.data
+                setHTML_multiple(data, ".getTables", "Malumotlar mavjud emas",)
+            })
+        }
+    }
+    const GENERAL_SPECIAL = () => {
+        const school = document.getElementById("school_special_filter").value
+        const category = document.getElementById("category_special_filter").value
+        const speciality = document.getElementById("speciality_special_filter").value
+        const lid = document.getElementById("lid_special_filter").value
+        if (school == "" || category == "" || speciality == "" || lid == "") {
+            warning("Malumotni to'liq kiriting")
+        } else {
+            axios.get(`/api/lid/special`, {
+                params: {
+                    status: lid,
+                    school: school,
+                    category: category,
+                    speciality: speciality,
+                    actions: "active"
+                }
+            }).then((res) => {
+                const data = res.data.data
+                setHTML_multiple(data, ".getTables", "Malumotlar mavjud emas",)
+            })
+        }
+    }
+    /* 
+        @description: Lid haqida malumot olish
+        @api: /api/lid/:id  
+        @method: GET
+    */
+    const getLid = (id) => {
+
+        axios.get(`/api/lid/${id}`).then(async (res) => {
+            const DATA = res.data.data
+            const get_canvas = $('.get_canvas')
+            await get_canvas.html("")
+            get_canvas.append(`
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Mijoz ismi: </h6>
+                            <h6>${DATA.username}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Qaysi viloyatda yashaydi?  </h6>
+                            <h6>${DATA.region.name}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Qaysi tumanda yashaydi? </h6>
+                            <h6>${DATA.district.name}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">O'quv markazi nomi: </h6>
+                            <h6>${DATA.school.name}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Yo'nalish nomi: </h6>
+                            <h6>${DATA.category.name}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Kurs nomi: </h6>
+                            <h6>${DATA.speciality.name}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Mijoz telefon raqami: </h6>
+                            <h6>${DATA.phone}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Qo'shimcha telefon raqam: </h6>
+                            <h6>${DATA.another_phone}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Tug'ilgan sana: </h6>
+                            <h6>${new Date(DATA.birthday).toLocaleDateString()}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Dars holati qanday ? </h6>
+                            <h6>${DATA.lessonType}</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Hafta kunlari: </h6>
+                            <h6 id="get_group_week"></h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Lid holati qanday </h6>
+                            <h6 id="get_lid"></h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Boshlangich vaqt: </h6>
+                            <h6 id="free_start_time"> ${DATA.free_start_time} </h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Yakuniy vaqt </h6>
+                            <h6 id="free_end_time"> ${DATA.free_end_time} </h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Reklama: </h6>
+                            <h6 id="get_group_advertisement"></h6>
+                        </div>
+                    </a>
+                </div>
+            `);
+            const get_lid = document.getElementById("get_lid")
+            if (DATA.lid_type == "1") {
+                axios.get(`/api/rolik/${DATA.open_couse}`).then((resp) => {
+                    get_lid.innerHTML = `
+                        <span class=" p-2 mb-1 badge bg-primary font-size-13">Ochiq dars nomi: </span> 
+                        <span class=" p-2 mb-1 badge bg-secondary font-size-13">${resp.data.data.title}</span> 
+                    `
+                })
+            }
+            else {
+                get_lid.innerHTML = `
+                        <span class=" p-2 mb-1 badge bg-primary font-size-13">Oddiy lid</span> 
+                    `
+            }
+
+
+            const get_group_week = document.getElementById("get_group_week")
+            const WEEK = DATA.week
+            for (let item of WEEK) {
+                if (item == "1") get_group_week.innerHTML += ` <span class=" p-2 mb-1 badge bg-danger font-size-13">Dushanba</span> `
+                if (item == "2") get_group_week.innerHTML += ` <span class=" p-2 mb-1 badge bg-danger font-size-13">Seshanba</span> `
+                if (item == "3") get_group_week.innerHTML += ` <span class=" p-2 mb-1 badge bg-danger font-size-13">Chorshanba</span> `
+                if (item == "4") get_group_week.innerHTML += ` <span class=" p-2 mb-1 badge bg-danger font-size-13">Payshanba</span> `
+                if (item == "5") get_group_week.innerHTML += ` <span class=" p-2 mb-1 badge bg-danger font-size-13">Juma</span> `
+                if (item == "6") get_group_week.innerHTML += ` <span class=" p-2 mb-1 badge bg-danger font-size-13">Shahnba</span> `
+                if (item == "7") get_group_week.innerHTML += ` <span class=" p-2 mb-1 badge bg-danger font-size-13">Yakshanba</span> `
+            }
+            const get_group_advertisement = document.getElementById("get_group_advertisement")
+            const HOW_KNOWN = DATA.howKnown
+            for (let item of HOW_KNOWN) {
+                if (item == "1") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Banner </span> `
+                if (item == "2") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Flayer </span> `
+                if (item == "3") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Telegram </span> `
+                if (item == "4") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Instagram </span> `
+                if (item == "5") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Facebook </span> `
+                if (item == "6") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Youtube </span> `
+                if (item == "7") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Tavsiya qilishdi </span> `
+                if (item == "8") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> O'zim izlab topdim </span> `
+                if (item == "9") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> Yoshlar daftari </span> `
+                if (item == "10") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> IT HOUSE </span> `
+                if (item == "11") get_group_advertisement.innerHTML += ` <span class="mb-1 p-2 badge bg-success font-size-13"> LED ekran </span> `
+            }
+
+
+
+
+        })
+    }
+    /*
+        @description: Lidlarni tahrirlash
+        @api: /api/lid/:id  
+        @method: GET
+    */
+    const talked = (id) => {
+        axios.put(`/api/lid/${id}`, {
+            status: "2"
+        }).then((res) => {
+            success("Suhbatdan o'tilganlar qatoriga qo'shildi")
+            restart(res.data.data)
+        })
+    }
+    const trial = (id) => {
+        axios.put(`/api/lid/${id}`, {
+            status: "3"
+        }).then((res) => {
+            success("Sinov darslariga qo'shildi")
+            restart(res.data.data)
+        })
+    }
+    const accepted = (id) => {
+        axios.put(`/api/lid/${id}`, {
+            status: "4"
+        }).then((res) => {
+            success("O'quv markazga qabul qilindi")
+            restart(res.data.data)
+        })
+    }
+    const dislike = async (id) => {
+        const cancel_lid = $(".cancel_lid");
+        await cancel_lid.html("")
+        cancel_lid.append(`
+            <div class="row">
+                <div class="com-md-12">
+                    <label class="form-label mb-1 mt-3">Darsni bekor qilishning asosiy sababi qanday ? </label>
+                    <textarea id="reason" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="button" onclick="updateLidCanceling('${id}')" class="btn btn-success waves-effect waves-light mt-3">Saqlash</button>
+                </div>
+            </div>
+        `)
+    }
+    const updateLidCanceling = (id) => {
+        axios.put(`/api/lid/${id}`,
+            {
+                status: "5",
+                reason: document.getElementById("reason").value
+            }
+        ).then((res) => {
+            success("Darslar ma'qul kelmaganlar ro'yxatiga qo'shildi")
+            restart(res.data.data)
+        })
+    }
+
+    const filterByDate = () => {
+        const school = document.getElementById("filterDate_school").value
+        const month = document.getElementById("filterDate_dates").value
+        const status = document.getElementById("filterDate_status").value
+
+        if (school == "" || month == "" || status == "") {
+            warning("Malumotlarni kiriting")
+        } else {
+            axios.get('/api/lid/date', {
+                params: {
+                    school: school,
+                    status: status,
+                    month: month,
+                }
+            }).then((res) => {
+                const data = res.data.data
+                setHTML_multiple(data, ".getTables", "Malumotlar mavjud emas",)
+            })
+        }
+    }
+
+
+
+
+</script>

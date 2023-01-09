@@ -1,0 +1,823 @@
+<style>
+    .calendar tr {
+        height: 70px;
+    }
+
+    .calendar tr td {
+        color: rgb(255, 255, 255);
+    }
+
+    .calendar tr td:nth-child(1),
+    .catlendarHead tr th {
+        color: #222222;
+    }
+
+    .calendar tr td:nth-child(1) {
+        position: relative;
+    }
+
+    .calendar tr td:nth-child(1)>span {
+        position: absolute;
+        width: 70%;
+        top: -13px;
+        left: 15%;
+        right: 15%;
+        z-index: 1000;
+        padding: 2px 10px;
+        background-color: #ff7b00;
+        border-radius: 3px;
+        color: #ffffff;
+        font-size: 11px;
+    }
+</style>
+
+<div class="row col md-12 d-flex justify-content-between align-items-center">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h3 class="mb-sm-0">Dars jadvali</h3>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                        <li class="breadcrumb-item active">Jadval</li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col md-3">
+        <button class="btn btn-primary mt-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#FILTER_CALENDAR"
+            aria-controls="FILTER_CALENDAR">
+            <i class="fas fa-filter"></i>
+            Jadvalni filtrlash
+        </button>
+    </div>
+    <div class="card mt-3" id="CALENDAR">
+        <div class="card-body" style="overflow-x: auto">
+            <table class="table  table-bordered dt-responsive nowrap text-center"
+                style="width:100%; font-size: 12px; border: 1px solid #e2e2e2;">
+                <thead class="catlendarHead">
+                    <tr>
+                        <th style="width: 10%;"></th>
+                        <th style="width: 15%;">Dushanba</th>
+                        <th style="width: 15%;">Seshanba</th>
+                        <th style="width: 15%;">Chorshanba</th>
+                        <th style="width: 15%;">Payshanba</th>
+                        <th style="width: 15%;">Juma</th>
+                        <th style="width: 15%;">Shanba</th>
+                        <!-- <th style="width: 14%;">Yakshanba</th> -->
+                    </tr>
+                </thead>
+
+                <tbody class="calendar">
+                    <tr>
+                        <td> <span> 07:00 </span></td>
+                        <td id="dushanba_07_00"></td>
+                        <td id="seshanba_07_00"></td>
+                        <td id="chorshanba_07_00"></td>
+                        <td id="payshanba_07_00"></td>
+                        <td id="juma_07_00"></td>
+                        <td id="shanba_07_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 07:30 </span></td>
+                        <td id="dushanba_07_30"></td>
+                        <td id="seshanba_07_30"></td>
+                        <td id="chorshanba_07_30"></td>
+                        <td id="payshanba_07_30"></td>
+                        <td id="juma_07_30"></td>
+                        <td id="shanba_07_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 08:00 </span></td>
+                        <td id="dushanba_08_00"></td>
+                        <td id="seshanba_08_00"></td>
+                        <td id="chorshanba_08_00"></td>
+                        <td id="payshanba_08_00"></td>
+                        <td id="juma_08_00"></td>
+                        <td id="shanba_08_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 08:30 </span></td>
+                        <td id="dushanba_08_30"></td>
+                        <td id="seshanba_08_30"></td>
+                        <td id="chorshanba_08_30"></td>
+                        <td id="payshanba_08_30"></td>
+                        <td id="juma_08_30"></td>
+                        <td id="shanba_08_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 09:00 </span></td>
+                        <td id="dushanba_09_00"></td>
+                        <td id="seshanba_09_00"></td>
+                        <td id="chorshanba_09_00"></td>
+                        <td id="payshanba_09_00"></td>
+                        <td id="juma_09_00"></td>
+                        <td id="shanba_09_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 09:30 </span></td>
+                        <td id="dushanba_09_30"></td>
+                        <td id="seshanba_09_30"></td>
+                        <td id="chorshanba_09_30"></td>
+                        <td id="payshanba_09_30"></td>
+                        <td id="juma_09_30"></td>
+                        <td id="shanba_09_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 10:00 </span></td>
+                        <td id="dushanba_10_00"></td>
+                        <td id="seshanba_10_00"></td>
+                        <td id="chorshanba_10_00"></td>
+                        <td id="payshanba_10_00"></td>
+                        <td id="juma_10_00"></td>
+                        <td id="shanba_10_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 10:30 </span></td>
+                        <td id="dushanba_10_30"></td>
+                        <td id="seshanba_10_30"></td>
+                        <td id="chorshanba_10_30"></td>
+                        <td id="payshanba_10_30"></td>
+                        <td id="juma_10_30"></td>
+                        <td id="shanba_10_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 11:00 </span></td>
+                        <td id="dushanba_11_00"></td>
+                        <td id="seshanba_11_00"></td>
+                        <td id="chorshanba_11_00"></td>
+                        <td id="payshanba_11_00"></td>
+                        <td id="juma_11_00"></td>
+                        <td id="shanba_11_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 11:30 </span></td>
+                        <td id="dushanba_11_30"></td>
+                        <td id="seshanba_11_30"></td>
+                        <td id="chorshanba_11_30"></td>
+                        <td id="payshanba_11_30"></td>
+                        <td id="juma_11_30"></td>
+                        <td id="shanba_11_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 12:00 </span></td>
+                        <td id="dushanba_12_00"></td>
+                        <td id="seshanba_12_00"></td>
+                        <td id="chorshanba_12_00"></td>
+                        <td id="payshanba_12_00"></td>
+                        <td id="juma_12_00"></td>
+                        <td id="shanba_12_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 12:30 </span></td>
+                        <td id="dushanba_12_30"></td>
+                        <td id="seshanba_12_30"></td>
+                        <td id="chorshanba_12_30"></td>
+                        <td id="payshanba_12_30"></td>
+                        <td id="juma_12_30"></td>
+                        <td id="shanba_12_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 13:00 </span></td>
+                        <td id="dushanba_13_00"></td>
+                        <td id="seshanba_13_00"></td>
+                        <td id="chorshanba_13_00"></td>
+                        <td id="payshanba_13_00"></td>
+                        <td id="juma_13_00"></td>
+                        <td id="shanba_13_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 13:30 </span></td>
+                        <td id="dushanba_13_30"></td>
+                        <td id="seshanba_13_30"></td>
+                        <td id="chorshanba_13_30"></td>
+                        <td id="payshanba_13_30"></td>
+                        <td id="juma_13_30"></td>
+                        <td id="shanba_13_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 14:00 </span></td>
+                        <td id="dushanba_14_00"></td>
+                        <td id="seshanba_14_00"></td>
+                        <td id="chorshanba_14_00"></td>
+                        <td id="payshanba_14_00"></td>
+                        <td id="juma_14_00"></td>
+                        <td id="shanba_14_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 14:30 </span></td>
+                        <td id="dushanba_14_30"></td>
+                        <td id="seshanba_14_30"></td>
+                        <td id="chorshanba_14_30"></td>
+                        <td id="payshanba_14_30"></td>
+                        <td id="juma_14_30"></td>
+                        <td id="shanba_14_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 15:00 </span></td>
+                        <td id="dushanba_15_00"></td>
+                        <td id="seshanba_15_00"></td>
+                        <td id="chorshanba_15_00"></td>
+                        <td id="payshanba_15_00"></td>
+                        <td id="juma_15_00"></td>
+                        <td id="shanba_15_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 15:30 </span></td>
+                        <td id="dushanba_15_30"></td>
+                        <td id="seshanba_15_30"></td>
+                        <td id="chorshanba_15_30"></td>
+                        <td id="payshanba_15_30"></td>
+                        <td id="juma_15_30"></td>
+                        <td id="shanba_15_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 16:00 </span></td>
+                        <td id="dushanba_16_00"></td>
+                        <td id="seshanba_16_00"></td>
+                        <td id="chorshanba_16_00"></td>
+                        <td id="payshanba_16_00"></td>
+                        <td id="juma_16_00"></td>
+                        <td id="shanba_16_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 16:30 </span></td>
+                        <td id="dushanba_16_30"></td>
+                        <td id="seshanba_16_30"></td>
+                        <td id="chorshanba_16_30"></td>
+                        <td id="payshanba_16_30"></td>
+                        <td id="juma_16_30"></td>
+                        <td id="shanba_16_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 17:00 </span></td>
+                        <td id="dushanba_17_00"></td>
+                        <td id="seshanba_17_00"></td>
+                        <td id="chorshanba_17_00"></td>
+                        <td id="payshanba_17_00"></td>
+                        <td id="juma_17_00"></td>
+                        <td id="shanba_17_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 17:30 </span></td>
+                        <td id="dushanba_17_30"></td>
+                        <td id="seshanba_17_30"></td>
+                        <td id="chorshanba_17_30"></td>
+                        <td id="payshanba_17_30"></td>
+                        <td id="juma_17_30"></td>
+                        <td id="shanba_17_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 18:00 </span></td>
+                        <td id="dushanba_18_00"></td>
+                        <td id="seshanba_18_00"></td>
+                        <td id="chorshanba_18_00"></td>
+                        <td id="payshanba_18_00"></td>
+                        <td id="juma_18_00"></td>
+                        <td id="shanba_18_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 18:30 </span></td>
+                        <td id="dushanba_18_30"></td>
+                        <td id="seshanba_18_30"></td>
+                        <td id="chorshanba_18_30"></td>
+                        <td id="payshanba_18_30"></td>
+                        <td id="juma_18_30"></td>
+                        <td id="shanba_18_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 19:00 </span></td>
+                        <td id="dushanba_19_00"></td>
+                        <td id="seshanba_19_00"></td>
+                        <td id="chorshanba_19_00"></td>
+                        <td id="payshanba_19_00"></td>
+                        <td id="juma_19_00"></td>
+                        <td id="shanba_19_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 19:30 </span></td>
+                        <td id="dushanba_19_30"></td>
+                        <td id="seshanba_19_30"></td>
+                        <td id="chorshanba_19_30"></td>
+                        <td id="payshanba_19_30"></td>
+                        <td id="juma_19_30"></td>
+                        <td id="shanba_19_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 20:00 </span></td>
+                        <td id="dushanba_20_00"></td>
+                        <td id="seshanba_20_00"></td>
+                        <td id="chorshanba_20_00"></td>
+                        <td id="payshanba_20_00"></td>
+                        <td id="juma_20_00"></td>
+                        <td id="shanba_20_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 20:30 </span></td>
+                        <td id="dushanba_20_30"></td>
+                        <td id="seshanba_20_30"></td>
+                        <td id="chorshanba_20_30"></td>
+                        <td id="payshanba_20_30"></td>
+                        <td id="juma_20_30"></td>
+                        <td id="shanba_20_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 21:00 </span></td>
+                        <td id="dushanba_21_00"></td>
+                        <td id="seshanba_21_00"></td>
+                        <td id="chorshanba_21_00"></td>
+                        <td id="payshanba_21_00"></td>
+                        <td id="juma_21_00"></td>
+                        <td id="shanba_21_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 21:30 </span></td>
+                        <td id="dushanba_21_30"></td>
+                        <td id="seshanba_21_30"></td>
+                        <td id="chorshanba_21_30"></td>
+                        <td id="payshanba_21_30"></td>
+                        <td id="juma_21_30"></td>
+                        <td id="shanba_21_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 22:00 </span></td>
+                        <td id="dushanba_22_00"></td>
+                        <td id="seshanba_22_00"></td>
+                        <td id="chorshanba_22_00"></td>
+                        <td id="payshanba_22_00"></td>
+                        <td id="juma_22_00"></td>
+                        <td id="shanba_22_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 22:30 </span></td>
+                        <td id="dushanba_22_30"></td>
+                        <td id="seshanba_22_30"></td>
+                        <td id="chorshanba_22_30"></td>
+                        <td id="payshanba_22_30"></td>
+                        <td id="juma_22_30"></td>
+                        <td id="shanba_22_30"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 23:00 </span></td>
+                        <td id="dushanba_23_00"></td>
+                        <td id="seshanba_23_00"></td>
+                        <td id="chorshanba_23_00"></td>
+                        <td id="payshanba_23_00"></td>
+                        <td id="juma_23_00"></td>
+                        <td id="shanba_23_00"></td>
+                    </tr>
+                    <tr>
+                        <td> <span> 23:30 </span></td>
+                        <td id="dushanba_23_30"></td>
+                        <td id="seshanba_23_30"></td>
+                        <td id="chorshanba_23_30"></td>
+                        <td id="payshanba_23_30"></td>
+                        <td id="juma_23_30"></td>
+                        <td id="shanba_23_30"></td>
+                    </tr>
+                    <tr>
+                        <td > <span> 00:00 </span></td>
+                        <td id="dushanba_00_00"></td>
+                        <td id="seshanba_00_00"></td>
+                        <td id="chorshanba_00_00"></td>
+                        <td id="payshanba_00_00"></td>
+                        <td id="juma_00_00"></td>
+                        <td id="shanba_00_00"></td>
+                    </tr>
+                </tbody>
+
+                <tbody class="put_tables"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="FILTER_CALENDAR">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3">
+            Javalni filtrlash
+        </h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="col-md-12">
+            <label class="form-label">O'quv markazni tanlang</label>
+            <select class="select2 form-control" onchange="filterSchool(this.value)" id="filterBySchool"></select>
+        </div>
+        <div class="col-md-12 mt-3">
+            <label class="form-label">Xonani tanlang</label>
+            <select class="select2 form-control" id="filterByRoom"></select>
+        </div>
+        <div class="col-md-12 mt-3">
+            <button type="button" onclick="FilterCalendar()" class="btn btn-success waves-effect waves-light"> Filtrlash
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+
+    const element = (item) => {
+        return document.getElementById(item)
+    }
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiples = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    /* 
+        @description: Tokendagi user boyicha filiallarni olish 
+        @api: /api/user/decode
+        @method: GET
+    */
+    const Token = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: Token } }).then((res) => {
+        const id = res.data.id;
+        axios.get(`/api/school/manager/${id}`, {
+            params: {
+                actions: "active"
+            }
+        }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingle(school, "#filterBySchool", "Ma'lumot mavjud emas")
+        })
+    })
+    /* 
+        @description: O'quv markazi boyicha xonalarni filtrlash 
+        @api: /api/room/filter/:id
+        @method: GET
+    */
+    const filterSchool = (id) => {
+        axios.get(`/api/room/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionSingle(data, "#filterByRoom", "Ma'lumot mavjud emas")
+        })
+    }
+
+    // Kalendarga joylashtirish
+    let prev;
+    let current
+    function setCalendaring(data) {
+        const GROUPS = data.map((item) => {
+            return {
+                name: item.name,
+                start: item.group_start_hour,
+                end: item.group_end_hour,
+                week: item.group_week,
+                color: item.color,
+                speciality: item.speciality.name
+            }
+        })
+
+        GROUPS.forEach((group) => {
+            const WEEKS = group.week;
+            const name = group.name;
+            const start = group.start;
+            const end = group.end;
+            const color = group.color;
+            const speciality = group.speciality;
+
+
+            WEEKS.forEach((week) => {
+                function set_calendar(week_day, week_name) {
+
+
+                    function SetCurrentTimeCalendar(
+                        one, two, three, four, five, six, seven, eight, nine, ten, elevel,
+                        a, b, c, d, e, f, g, h, i, j, k,
+                    ) {
+
+
+                        function setCaledarss(element_1, element_2) {
+                            if (start === element_1 && end === element_2) {
+                                element(`${one}`).innerHTML = `
+                                <div >
+                                    <span class="badge bg-light text-dark mt-1" style="font-size: 11px; font-weight: 700;">${speciality}</span> 
+                                    <span class="badge bg-light text-dark mt-1" style="font-size: 11px; font-weight: 700;">${name}</span> 
+                                    <span class="badge bg-light text-dark mt-1" style="font-size: 11px; font-weight: 700;">${start}-${end}</span> 
+                                </div>`
+                            }
+                        }
+                        setCaledarss(a, b);
+                        setCaledarss(a, c);
+                        setCaledarss(a, d);
+                        setCaledarss(a, e);
+                        setCaledarss(a, f);
+                        setCaledarss(a, g);
+                        setCaledarss(a, h);
+                        setCaledarss(a, i);
+                        setCaledarss(a, j);
+                        setCaledarss(a, k);
+
+
+
+
+                        if (start === a && end === b) {
+                            element(one).style.backgroundColor = color;
+                            element(one).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === c) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === d) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === e) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                            element(four).style.backgroundColor = color; element(four).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === f) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                            element(four).style.backgroundColor = color; element(four).style.border = `1px solid ${color}`;
+                            element(five).style.backgroundColor = color; element(five).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === g) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                            element(four).style.backgroundColor = color; element(four).style.border = `1px solid ${color}`;
+                            element(five).style.backgroundColor = color; element(five).style.border = `1px solid ${color}`;
+                            element(six).style.backgroundColor = color; element(six).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === h) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                            element(four).style.backgroundColor = color; element(four).style.border = `1px solid ${color}`;
+                            element(five).style.backgroundColor = color; element(five).style.border = `1px solid ${color}`;
+                            element(six).style.backgroundColor = color; element(six).style.border = `1px solid ${color}`;
+                            element(seven).style.backgroundColor = color; element(seven).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === i) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                            element(four).style.backgroundColor = color; element(four).style.border = `1px solid ${color}`;
+                            element(five).style.backgroundColor = color; element(five).style.border = `1px solid ${color}`;
+                            element(six).style.backgroundColor = color; element(six).style.border = `1px solid ${color}`;
+                            element(seven).style.backgroundColor = color; element(seven).style.border = `1px solid ${color}`;
+                            element(eight).style.backgroundColor = color; element(eight).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === j) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                            element(four).style.backgroundColor = color; element(four).style.border = `1px solid ${color}`;
+                            element(five).style.backgroundColor = color; element(five).style.border = `1px solid ${color}`;
+                            element(six).style.backgroundColor = color; element(six).style.border = `1px solid ${color}`;
+                            element(seven).style.backgroundColor = color; element(seven).style.border = `1px solid ${color}`;
+                            element(eight).style.backgroundColor = color; element(eight).style.border = `1px solid ${color}`;
+                            element(nine).style.backgroundColor = color; element(nine).style.border = `1px solid ${color}`;
+                        }
+                        if (start === a && end === k) {
+                            element(one).style.backgroundColor = color; element(one).style.border = `1px solid ${color}`;
+                            element(two).style.backgroundColor = color; element(two).style.border = `1px solid ${color}`;
+                            element(three).style.backgroundColor = color; element(three).style.border = `1px solid ${color}`;
+                            element(four).style.backgroundColor = color; element(four).style.border = `1px solid ${color}`;
+                            element(five).style.backgroundColor = color; element(five).style.border = `1px solid ${color}`;
+                            element(six).style.backgroundColor = color; element(six).style.border = `1px solid ${color}`;
+                            element(seven).style.backgroundColor = color; element(seven).style.border = `1px solid ${color}`;
+                            element(eight).style.backgroundColor = color; element(eight).style.border = `1px solid ${color}`;
+                            element(nine).style.backgroundColor = color; element(nine).style.border = `1px solid ${color}`;
+                            element(ten).style.backgroundColor = color; element(ten).style.border = `1px solid ${color}`;
+                        }
+
+
+
+                    }
+
+                    // Agar hafta kunlari bir biriga to'g'
+                    if (week === week_day) {
+
+                        SetCurrentTimeCalendar(
+                            `${week_name}_07_00`, `${week_name}_07_30`, `${week_name}_08_00`, `${week_name}_08_30`, `${week_name}_09_00`, `${week_name}_09_30`, `${week_name}_10_00`, `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`,
+                            `07:00`, `07:30`, `08:00`, `08:30`, `09:00`, `09:30`, `10:00`, `10:30`, `11:00`, `11:30`, `12:00`
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_07_30`, `${week_name}_08_00`, `${week_name}_08_30`, `${week_name}_09_00`, `${week_name}_09_30`, `${week_name}_10_00`, `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`,
+                            `07:30`, `08:00`, `08:30`, `09:00`, `09:30`, `10:00`, `10:30`, `11:00`, `11:30`, `12:00`, `12:30`
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_08_00`, `${week_name}_08_30`, `${week_name}_09_00`, `${week_name}_09_30`, `${week_name}_10_00`, `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`,
+                            `08:00`, `08:30`, `09:00`, `09:30`, `10:00`, `10:30`, `11:00`, `11:30`, `12:00`, `12:30`, `13:00`
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_08_30`, `${week_name}_09_00`, `${week_name}_09_30`, `${week_name}_10_00`, `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`,
+                            `08:30`, `09:00`, `09:30`, `10:00`, `10:30`, `11:00`, `11:30`, `12:00`, `12:30`, `13:00`, `13:30`
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_09_00`, `${week_name}_09_30`, `${week_name}_10_00`, `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`,
+                            `09:00`, `09:30`, `10:00`, `10:30`, `11:00`, `11:30`, `12:00`, `12:30`, `13:00`, `13:30`, `14:00`
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_09_30`, `${week_name}_10_00`, `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`,
+                            `09:30`, `10:00`, `10:30`, `11:00`, `11:30`, `12:00`, `12:30`, `13:00`, `13:30`, `14:00`, `14:30`
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_10_00`, `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`,
+                            `10:00`, `10:30`, `11:00`, `11:30`, `12:00`, `12:30`, `13:00`, `13:30`, `14:00`, `14:30`, `15:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_10_30`, `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`,
+                            `10:30`, `11:00`, `11:30`, `12:00`, `12:30`, `13:00`, `13:30`, `14:00`, `14:30`, `15:00`, `15:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_11_00`, `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`,
+                            `11:00`, `11:30`, `12:00`, `12:30`, `13:00`, `13:30`, `14:00`, `14:30`, `15:00`, `15:30`, `16:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_11_30`, `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`,
+                            `11:30`, `12:00`, `12:30`, `13:00`, `13:30`, `14:00`, `14:30`, `15:00`, `15:30`, `16:00`, `16:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_12_00`, `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`,
+                            `12:00`, `12:30`, `13:00`, `13:30`, `14:00`, `14:30`, `15:00`, `15:30`, `16:00`, `16:30`, `17:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_12_30`, `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`,
+                            `12:30`, `13:00`, `13:30`, `14:00`, `14:30`, `15:00`, `15:30`, `16:00`, `16:30`, `17:00`, `17:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_13_00`, `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`,
+                            `13:00`, `13:30`, `14:00`, `14:30`, `15:00`, `15:30`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_13_30`, `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`,
+                            `13:30`, `14:00`, `14:30`, `15:00`, `15:30`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`, `18:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_14_00`, `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`,
+                            `14:00`, `14:30`, `15:00`, `15:30`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`, `18:30`, `19:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_14_30`, `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`,
+                            `14:30`, `15:00`, `15:30`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`, `18:30`, `19:00`, `19:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_15_00`, `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`,
+                            `15:00`, `15:30`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`, `18:30`, `19:00`, `19:30`, `20:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_15_30`, `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`,
+                            `15:30`, `16:00`, `16:30`, `17:00`, `17:30`, `18:00`, `18:30`, `19:00`, `19:30`, `20:00`, `20:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_16_00`, `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`,
+                            `16:00`, `16:30`, `17:00`, `17:30`, `18:00`, `18:30`, `19:00`, `19:30`, `20:00`, `20:30`, `21:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_16_30`, `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`,
+                            `16:30`, `17:00`, `17:30`, `18:00`, `18:30`, `19:00`, `19:30`, `20:00`, `20:30`, `21:00`, `21:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_17_00`, `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`,
+                            `17:00`, `17:30`, `18:00`, `18:30`, `19:00`, `19:30`, `20:00`, `20:30`, `21:00`, `21:30`, `22:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_17_30`, `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`,
+                            `17:30`, `18:00`, `18:30`, `19:00`, `19:30`, `20:00`, `20:30`, `21:00`, `21:30`, `22:00`, `22:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_18_00`, `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`,
+                            `18:00`, `18:30`, `19:00`, `19:30`, `20:00`, `20:30`, `21:00`, `21:30`, `22:00`, `22:30`, `23:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_18_30`, `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`,
+                            `18:30`, `19:00`, `19:30`, `20:00`, `20:30`, `21:00`, `21:30`, `22:00`, `22:30`, `23:00`, `23:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_19_00`, `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`,
+                            `19:00`, `19:30`, `20:00`, `20:30`, `21:00`, `21:30`, `22:00`, `22:30`, `23:00`, `23:30`, `00:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_19_30`, `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`,
+                            `19:30`, `20:00`, `20:30`, `21:00`, `21:30`, `22:00`, `22:30`, `23:00`, `23:30`, `00:00`, `00:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_20_00`, `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`,
+                            `20:00`, `20:30`, `21:00`, `21:30`, `22:00`, `22:30`, `23:00`, `23:30`, `00:00`, `00:30`, `01:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_20_30`, `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`,
+                            `20:30`, `21:00`, `21:30`, `22:00`, `22:30`, `23:00`, `23:30`, `00:00`, `00:30`, `01:00`, `01:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`,
+                            `21:00`, `21:30`, `22:00`, `22:30`, `23:00`, `23:30`, `00:00`, `00:30`, `01:00`, `01:30`, `01:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_21_00`, `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`,
+                            `21:00`, `21:30`, `22:00`, `22:30`, `23:00`, `23:30`, `00:00`, `00:30`, `01:00`, `01:30`, `02:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_21_30`, `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`, `${week_name}_02_30`,
+                            `21:30`, `22:00`, `22:30`, `23:00`, `23:30`, `00:00`, `00:30`, `01:00`, `01:30`, `02:00`, `02:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_22_00`, `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`, `${week_name}_02_30`, `${week_name}_03_00`,
+                            `22:00`, `22:30`, `23:00`, `23:30`, `00:00`, `00:30`, `01:00`, `01:30`, `02:00`, `02:30`, `03:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_22_30`, `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`, `${week_name}_02_30`, `${week_name}_03_00`, `${week_name}_03_30`,
+                            `22:30`, `23:00`, `23:30`, `00:00`, `00:30`, `01:00`, `01:30`, `02:00`, `02:30`, `03:00`, `03:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_23_00`, `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`, `${week_name}_02_30`, `${week_name}_03_00`, `${week_name}_03_30`, `${week_name}_04_00`,
+                            `23:00`, `23:30`, `00:00`, `00:30`, `01:00`, `01:30`, `02:00`, `02:30`, `03:00`, `03:30`, `04:00`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_23_30`, `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`, `${week_name}_02_30`, `${week_name}_03_00`, `${week_name}_03_30`, `${week_name}_04_00`, `${week_name}_04_30`,
+                            `23:30`, `00:00`, `00:30`, `01:00`, `01:30`, `02:00`, `02:30`, `03:00`, `03:30`, `04:00`, `04:30`,
+                        )
+                        SetCurrentTimeCalendar(
+                            `${week_name}_00_00`, `${week_name}_00_30`, `${week_name}_01_00`, `${week_name}_01_30`, `${week_name}_02_00`, `${week_name}_02_30`, `${week_name}_03_00`, `${week_name}_03_30`, `${week_name}_04_00`, `${week_name}_04_30`, `${week_name}_05_00`,
+                            `00:00`, `00:30`, `01:00`, `01:30`, `02:00`, `02:30`, `03:00`, `03:30`, `04:00`, `04:30`, `05:00`,
+                        )
+                    }
+                }
+                set_calendar("1", "dushanba")
+                set_calendar("2", "seshanba")
+                set_calendar("3", "chorshanba")
+                set_calendar("4", "payshanba")
+                set_calendar("5", "juma")
+                set_calendar("6", "shanba")
+                set_calendar("7", "yakshanba")
+            })
+        })
+    }
+    const FilterCalendar = () => {
+        const school = element("filterBySchool").value;
+        const room = element("filterByRoom").value;
+        if (school == "" || room == "") { warning("Malumotlarni barchasi mavjud emas") }
+        else {
+            window.localStorage.setItem("room", room)
+            window.localStorage.setItem("school", school)
+            success("Iltimos ozroq kuting ... ")
+            setTimeout(() => {
+                window.location.reload()
+            }, 1000)
+        }
+    }
+    const roomID = window.localStorage.getItem("room");
+    const schoolID = window.localStorage.getItem("school");
+    const ShowCalendar = (schoolID, roomID) => {
+        axios.get('/api/group/filter/room', {
+            params: {
+                school: schoolID,
+                room: roomID,
+                actions: "active"
+            }
+        })
+            .then((res) => {
+                const data = res.data.data;
+                console.log(data)
+                prev = current;
+                current = data;
+                setCalendaring(current)
+            })
+    }
+    ShowCalendar(schoolID, roomID)
+
+</script>

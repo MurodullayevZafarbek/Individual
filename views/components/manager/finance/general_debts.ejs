@@ -1,0 +1,311 @@
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Qarzdor o'quvchilar</h3>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item text-danger">Bu bo'limda qaysi sanadan qaysi sanagacha bo'lgan
+                                muddatda <br> o'quvchilar qarzdorigini ko'rish mumkin </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row col md-12 col-sm-12 ">
+            <div class="btn-group col-md-6 col-sm-12">
+                <button type="button" class="col-md-3 col-sm-12 btn btn-outline-primary dropdown-toggle"
+                    style="border-radius: 0; " data-bs-toggle="offcanvas" data-bs-target="#SCHOOL_FILTER"
+                    aria-controls="SCHOOL_FILTER"> Filial bo'yicha filtrlash </button>
+                <button type="button" class="col-md-3 col-sm-12 btn btn-outline-primary dropdown-toggle"
+                    style="border-radius: 0; " data-bs-toggle="offcanvas" data-bs-target="#GROUP_FILTER"
+                    aria-controls="GROUP_FILTER">Guruh bo'yicha filtrlash </button>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive wrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width:  100%">
+                    <thead>
+                        <tr>
+                            <th>O'quvchi</th>
+                            <th>Guruh</th>
+                            <th>Sana</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="put_tables">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- O'quv markazi bo'yicha -->
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="SCHOOL_FILTER">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Filial bo'yicha izlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="col-md-12">
+            <label class="mt-4">O'quv markazni tanlang</label>
+            <select class="select2 form-control" id="default_school"></select>
+        </div>
+        <div class="col-md-12">
+            <label class="form-label mt-3">Oyni tanlang </label>
+            <select class="select2 form-control col-md-12 col-sm-12" id="needPayment_month">
+                <option value="">Tanlash</option>
+                <option value="01">Yanvar</option>
+                <option value="02">Fevral</option>
+                <option value="03">Mart</option>
+                <option value="04">Aprel</option>
+                <option value="05">May</option>
+                <option value="06">Iyun</option>
+                <option value="07">Iyul</option>
+                <option value="08">Avgust</option>
+                <option value="09">Sentyabr</option>
+                <option value="10">Oktyabr</option>
+                <option value="11">Noyabr</option>
+                <option value="12">Dekabr</option>
+            </select>
+        </div>
+        <div class="col-md-12 ">
+            <label class="form-label mt-3">Yilni tanlang</label>
+            <select class="select2 form-control col-md-12 col-sm-12" id="needPayment_year">
+                <option value="">Tanlash</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+        </div>
+        <div class="col-md-12 ">
+            <label class="form-label mt-3">Statusni tekshirish</label>
+            <select class="select2 form-control col-md-12 col-sm-12" id="needPayment_status">
+                <option value="">Tanlash</option>
+                <option value="debtor">Qarzdor</option>
+                <option value="payed">Qarzdor emas</option>
+            </select>
+        </div>
+        <button type="button" onclick="filterBySchools()"
+            class="col-md-12  mt-3 btn btn-outline-success ">Qidirish</button>
+    </div>
+</div>
+<!-- Guruhlar bo'yicha -->
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="GROUP_FILTER">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Guruhlar bo'yicha izlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="col-md-12">
+            <label class="mt-1">O'quv markazni tanlang</label>
+            <select class="select2 form-control" onchange="filterByGroup(this.value)" id="group_filter_school"></select>
+        </div>
+        <div class="col-md-12">
+            <label class="mt-1">Guruhni tanlang</label>
+            <select class="select2 form-control" id="GROUP_FILTER_group"></select>
+        </div>
+        <div class="col-md-12">
+            <label class="form-label mt-1">Oyni tanlang </label>
+            <select class="select2 form-control col-md-12 col-sm-12" id="GROUP_FILTER_month">
+                <option value="">Tanlash</option>
+                <option value="01">Yanvar</option>
+                <option value="02">Fevral</option>
+                <option value="03">Mart</option>
+                <option value="04">Aprel</option>
+                <option value="05">May</option>
+                <option value="06">Iyun</option>
+                <option value="07">Iyul</option>
+                <option value="08">Avgust</option>
+                <option value="09">Sentyabr</option>
+                <option value="10">Oktyabr</option>
+                <option value="11">Noyabr</option>
+                <option value="12">Dekabr</option>
+            </select>
+        </div>
+        <div class="col-md-12 ">
+            <label class="form-label mt-1">Yilni tanlang</label>
+            <select class="select2 form-control col-md-12 col-sm-12" id="GROUP_FILTER_year">
+                <option value="">Tanlash</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+            </select>
+        </div>
+        <div class="col-md-12 ">
+            <label class="form-label mt-1">Statusni tekshirish</label>
+            <select class="select2 form-control col-md-12 col-sm-12" id="GROUP_FILTER_status">
+                <option value="">Tanlash</option>
+                <option value="debtor">Qarzdor</option>
+                <option value="payed">Qarzdor emas</option>
+            </select>
+        </div>
+        <button type="button" onclick="filterByGroups()"
+            class="col-md-12  mt-1 btn btn-outline-success ">Qidirish</button>
+    </div>
+</div>
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+    /* 
+      @description: Managerga tegishli filiallarni olish
+      @api: /api/user/decode
+      @method: GET
+    */
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const user_token = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: user_token } }).then((res) => {
+        const id = res.data.id; // user id
+        axios.get(`/api/school/manager/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const school = res.data.data
+            setSelectionSingle(school, "#default_school", "O'quv markazlari mavjud emas")
+            setSelectionSingle(school, "#group_filter_school", "O'quv markazlari mavjud emas")
+        })
+    })
+
+    const filterByGroup = (id) => {
+        axios.get(`/api/group/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionSingle(data, "#GROUP_FILTER_group", "Guruhlar mavjud emas")
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+    const setTableClone = async (data) => {
+        if (data == "") {
+            const put_tables = $(".put_tables")
+            await put_tables.html("")
+            danger("Ma'lumot topilmadi")
+        }
+        else {
+            const put_tables = $(".put_tables")
+            await put_tables.html("")
+            data.forEach((item, index) => {
+                put_tables.append(`
+                        <tr>
+                            <td>${item.username}</td>
+                            <td>${item.group}</td>
+                            <td>
+                                <span class="badge bg-dark text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                            </td>
+                            <td class="types_check">
+
+                            </td>
+                        </tr>
+                    `)
+                const types_check = document.getElementsByClassName("types_check");
+                types_check.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+                        if (item.status == "debtor") {
+                            inputs.innerHTML = `<span class="badge bg-danger text-light font-size-14 p-2">Qarzdorlik bor</span>`
+                        } else {
+                            inputs.innerHTML = `<span class="badge bg-success text-light font-size-14 p-2">Qarzdorlik yo'q</span>`
+                        }
+                    }
+                })
+            })
+        }
+
+    }
+    // O'quv markazi boyicha qarzdorlarni olish
+    const filterBySchools = () => {
+        const school = document.getElementById("default_school").value;
+        const year = document.getElementById("needPayment_year").value;
+        const month = document.getElementById("needPayment_month").value;
+        const types = document.getElementById("needPayment_status").value;
+        if (
+            school == "" ||
+            month == "" ||
+            year == "" ||
+            types == ""
+        ) {
+            warning("Ma'lumotni to'liq kiriting")
+        }
+        else {
+            axios.get("/api/need_payment/school", {
+                params: {
+                    MONTH: month,
+                    STATUS: types,
+                    YEAR: year,
+                }
+            }).then(async (res) => {
+                const data = res.data.data;
+                setTableClone(data)
+            })
+        }
+    }
+
+
+    // Guruh bo'yicha boyicha qarzdorlarni olish
+    const filterByGroups = () => {
+        const school = document.getElementById("group_filter_school").value;
+        const group = document.getElementById("GROUP_FILTER_group").value;
+        const month = document.getElementById("GROUP_FILTER_month").value;
+        const year = document.getElementById("GROUP_FILTER_year").value;
+        const status = document.getElementById("GROUP_FILTER_status").value;
+        if (
+            school == "" ||
+            group == "" ||
+            month == "" ||
+            year == "" ||
+            status == ""
+        ) {
+            warning("Ma'lumotni to'liq kiriting")
+        } else {
+            axios.get("/api/need_payment/group", {
+                params: {
+                    MONTH: month,
+                    STATUS: status,
+                    YEAR: year,
+                    GROUP: group,
+                }
+            }).then(async (res) => {
+                const data = res.data.data;
+                console.log(data)
+                setTableClone(data)
+            })
+        }
+    }
+
+
+
+
+
+
+
+
+
+</script>

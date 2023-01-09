@@ -1,0 +1,94 @@
+<div class="card col-lg-10 col-md-10 col-sm-10  offset-1 mt-4">
+    <div class="card-body ">
+        <h1 style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Anketa to'ldirish</h1>
+        <div class="mt-4 ">
+
+            <div class="row ">
+                <div class="col-md-12 col-sm-12">
+                    <div class="mb-2 col-md-12 col-sm-12">
+                        <label>Ismingizni kiriting</label>
+                        <input type="text" class="form-control" id="firstname">
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 mt-2">
+                    <div class="mb-2 col-md-12 col-sm-12">
+                        <label>Familiyangizni kiriting</label>
+                        <input type="text" class="form-control" id="lastname">
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-12 col-sm-12">
+                    <div class="mb-2 col-md-12 col-sm-12">
+                        <label>Asosiy telefon raqam</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="Telefon">
+                    </div>
+                </div>
+                <div class="col-md-12 col-sm-12 mt-2">
+                    <div class="mb-2 col-md-12 col-sm-12">
+                        <label>Qo'shimcha telefon raqam</label>
+                        <input type="tel" class="form-control" id="another_phone" placeholder="Qo'shimcha telefon">
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" onclick="create()" class="btn btn-primary waves-effect waves-light mt-3">
+                Anketani yuborish
+            </button>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $("#phone").inputmask("999-99-999-99-99");  // static mask
+        $("#another_phone").inputmask("999-99-999-99-99");  // static mask
+    });
+
+
+    const demoUrl = window.location.pathname
+    const school = demoUrl.split("/")[3]
+    const form = demoUrl.split("/")[4]
+
+
+
+    const create = () => {
+        const firstname = document.getElementById("firstname").value;
+        const lastname = document.getElementById("lastname").value;
+        const phone = document.getElementById("phone").value;
+        const another_phone = document.getElementById("another_phone").value;
+
+        if (firstname == "" || lastname == "" || phone == "") {
+            danger("Ma'lumotlarni to'liq kiriting")
+        } else {
+            axios.post("/api/form_element/create", {
+                school: school,
+                form: form,
+                firsname: firstname,
+                lastname: lastname,
+                phone_number_1: phone,
+                phone_number_2: another_phone,
+            }).then((res) => {
+                success("Muvaffaqiyatli amalga oshirildi")
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000)
+            })
+        }
+    }
+
+
+
+
+
+
+
+
+</script>

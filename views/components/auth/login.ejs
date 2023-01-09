@@ -1,0 +1,153 @@
+<div>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <div class="col-lg-6">
+                <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
+                    <div class="w-100">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-9">
+                                <div>
+
+
+                                  
+
+
+                                    <div class="text-center">
+                                        <div>
+                                            <a href="/" class="">
+                                                <img src="/assets/logo.png" alt="" height="50"
+                                                    class="auth-logo logo-dark mx-auto">
+                                                <img src="/assets/logo.png" alt="" height="50"
+                                                    class="auth-logo logo-light mx-auto">
+                                            </a>
+                                        </div>
+
+                                        <h4 class="font-size-18 mt-4" style="font-weight: 700;">CRM/LMS tizimi</h4>
+                                        <p class="text-muted">O'quv markazlar tizimlashtirish va avtomatlashtirish uchun platforma</p>
+                                    </div>
+
+
+
+
+
+                                    <div class="p-2 mt-5">
+                                        <form class="" action="/">
+                                            <div class="mb-3 auth-form-group-custom mb-4">
+                                                <i class="far fa-id-badge auti-custom-input-icon"></i>
+                                                <label for="passport">Passportni kiriting</label>
+                                                <input type="text" class="form-control" id="passport">
+                                            </div>
+                                            <div class="mb-3 auth-form-group-custom mb-4">
+                                                <i style="cursor: pointer;" onclick="showPassword();"
+                                                    class="fa fa-fw fa-eye field-icon  auti-custom-input-icon"></i>
+                                                <label for="password">Parolni kiriting</label>
+                                                <input type="password" class="form-control" id="password">
+                                            </div>
+                                            <div class="mt-4 text-center">
+                                                <button id="sendButton"
+                                                    class="btn btn-primary w-md waves-effect waves-light"
+                                                    type="button">Kirish</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="authentication-bg">
+                    <div class="bg-overlay"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+    const changePassword = document.getElementById('password');
+    function showPassword(obj) {
+        changePassword.type = "text";
+        setTimeout(() => {
+            changePassword.type = "password";
+        }, 10000)
+    }
+
+    $(document).ready(function () {
+        $("#passport").inputmask("AA9999999");  // static mask
+    });
+
+
+    const sendButton = document.getElementById('sendButton')
+    sendButton.addEventListener("click", () => {
+        const passport = document.getElementById('passport').value;
+        const password = document.getElementById('password').value;
+        if (passport == "" || password == "") {
+            warning("Iltimos ma'lumotlaringizni to'liq kiriting !!! ")
+        } else {
+            axios({
+                url: "/api/user/login",
+                method: "POST",
+                data: {
+                    passport: passport,
+                    password: password
+                }
+            })
+                .then((res) => {
+                    const token = res.data.token
+                    const status = res.data.status;
+                    const user = res.data.user;
+
+                    if (status == false) {
+                        danger("Passport yoki parolda xatolik mavjud")
+                    }
+                    else {
+                        const replaceWindows = (user, href) => {
+                            if (user.status_default == "none") {
+                                success("Jarayon muvaffaqiyatli amalga oshirildi")
+                                window.localStorage.setItem("user", token)
+                                setTimeout(() => {
+                                    window.location.replace(href)
+                                }, 1000)
+
+                            }
+
+                        }
+                        // Asosiy super admin sahifasiga yo'naltiriladi
+                        if (user.role === "super_admin") {
+                            replaceWindows(user, '/super_admin/dashboard/general')
+                        }
+                        // O'quv markaz direktori sahifasiga yo'naltiriladi
+                        if (user.role === "manager") {
+                            replaceWindows(user, '/manager/dashboard/general')
+                        }
+                        // O'quv markaz adminstratori sahifasiga yo'naltiriladi
+                        if (user.role === "admin") {
+                            replaceWindows(user, '/admin/dashboard/general')
+                        }
+                        // O'quv markaz o'qituvchisi sahifasiga yo'naltiriladi
+                        if (user.role === "mentor") {
+                            replaceWindows(user, '/mentor/dashboard/general')
+                        }
+                        // O'quv markaz sotuvchisi sahifasiga yo'naltiriladi
+                        if (user.role === "seller") {
+                            replaceWindows(user, '/seller/dashboard/general')
+                        }
+                    }
+
+
+
+
+                })
+        }
+    })
+
+
+
+</script>

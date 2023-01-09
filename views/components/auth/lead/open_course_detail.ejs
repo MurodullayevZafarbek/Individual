@@ -1,0 +1,665 @@
+<style>
+    .headerName {
+        font-size: 25px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        font-weight: 700;
+        width: 50%;
+    }
+
+    @media all and (min-width: 240px) and (max-width: 600px) {
+        .headerName {
+            font-size: 15px;
+            width: 50%;
+        }
+    }
+
+    @media all and (min-width:601px) and (max-width: 1400px) {
+        .headerName {
+            font-size: 25px;
+            width: 50%;
+        }
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 350px;
+        height: 350px;
+        border-radius: 10%;
+        background-color: #d1d1d1;
+    }
+
+    .button {
+        display: inline-block;
+        position: relative;
+    }
+
+    .button.is-play {
+        background-color: #e9e9e99f;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+    }
+
+    .button.is-play .button-outer-circle {
+        background: #fa2b2b8c;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .button.is-play .button-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        transform: translate(-50%, -50%);
+    }
+
+    .button.is-play .button-icon .triangle {
+        -webkit-animation: fadeIn 7s ease;
+        animation: fadeIn 7s ease;
+    }
+
+    .button.is-play .button-icon .path {
+        stroke-dasharray: 90;
+        stroke-dashoffset: 0;
+        -webkit-animation: triangleStroke 3s;
+        animation: triangleStroke 3s;
+        -webkit-animation-timing-function: ease;
+        animation-timing-function: ease;
+    }
+
+    .has-scale-animation {
+        -webkit-animation: smallScale 3s infinite;
+        animation: smallScale 3s infinite;
+    }
+
+    .has-delay-short {
+        -webkit-animation-delay: 0.5s;
+        animation-delay: 0.5s;
+    }
+
+    #OP_course_time {
+        font-weight: 600;
+        font-size: 18px;
+        color: #525252;
+        animation-name: wordShadow;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+    }
+
+    #OP_title {
+        font-weight: 600;
+        font-size: 18px;
+        color: #525252;
+        animation-name: wordShadow;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        animation-timing-function: ease-in-out;
+    }
+
+    @keyframes wordShadow {
+        from {
+            font-weight: 600;
+            color: #525252;
+        }
+
+        to {
+            font-weight: 900;
+            color: #462ae6;
+        }
+    }
+
+
+
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @-webkit-keyframes triangleStroke {
+        from {
+            stroke-dashoffset: 90;
+        }
+
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @keyframes triangleStroke {
+        from {
+            stroke-dashoffset: 90;
+        }
+
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @-webkit-keyframes smallScale {
+        from {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        to {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+
+    @keyframes smallScale {
+        from {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        to {
+            transform: scale(1.5);
+            opacity: 0;
+        }
+    }
+
+
+    @media all and (min-width: 240px) and (max-width: 600px) {
+
+        .headerText,
+        #OP_title,
+        #OP_course_time {
+            font-size: 15px;
+        }
+
+        .font-size-16 {
+            font-size: 12px;
+        }
+
+        .button.is-play {
+            width: 50px;
+            height: 50px;
+        }
+
+        .container {
+            margin-top: 25px;
+            width: 200px;
+            height: 200px;
+        }
+
+        .media_font_size {
+            font-size: 12px;
+        }
+    }
+
+    @media all and (min-width:601px) and (max-width: 2500px) {
+
+        .headerText,
+        #OP_title,
+        #OP_course_time {
+            font-size: 15px;
+        }
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card mt-3">
+                <div class="card-body ">
+                    <div class="row ">
+                        <div class="col-xl-4">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12  col-12 roliks">
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-8">
+                            <div class="mt-4 mt-xl-3">
+                                <h5 class="mt-1 mb-3" id="OP_title"></h5>
+                                <h5 class="mt-2" id="OP_course_time"> </h5>
+                                <hr class="my-4">
+
+                                <div class="row">
+                                    <p class="bg-dark badge headerName">Kursga yozilish</p>
+                                    <div class="p-2">
+                                        <div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="mb-2 col-md-12 col-sm-12">
+                                                        <label>Viloyatni tanlang</label>
+                                                        <select onchange="filterRegion(this.value)"
+                                                            class="select2 form-control col-md-12 col-sm-12"
+                                                            id="region">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="mb-2 col-md-12 col-sm-12">
+                                                        <label>Tumanni tanlang</label>
+                                                        <select class="select2 form-control col-md-12 col-sm-12"
+                                                            id="district"> </select>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="mb-2 col-md-12 col-sm-12">
+                                                        <label>Ismingizni kiriting</label>
+                                                        <input type="text" class="form-control" id="username"
+                                                            placeholder="F.I.O">
+                                                    </div>
+                                                </div>
+                                                <div class="row col-md-6 col-sm-12">
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <label>Qaysi jins vakili ? </label>
+                                                        <select class="select2 form-control" id="genders">
+                                                            <option value="">Tanlash</option>
+                                                            <option value="man">Erkak</option>
+                                                            <option value="woman">Ayol</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-12">
+                                                        <label>Tug'ilgan sanani kiriting ? </label>
+                                                        <input type="date" class="form-control" id="birthday" />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="row mt-2">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class=" col-md-12 col-sm-12">
+                                                        <label>Dars uchun qaysi kunlar qulay ? </label>
+                                                        <select
+                                                            class="select2 form-control select2-multiple col-md-12 col-sm-12"
+                                                            multiple="multiple" id="week">
+                                                            <option value="1">Dushanba</option>
+                                                            <option value="2">Seshanba</option>
+                                                            <option value="3">Chorshanba</option>
+                                                            <option value="4">Payshanba</option>
+                                                            <option value="5">Juma</option>
+                                                            <option value="6">Shanba</option>
+                                                            <option value="7">Yakshanba</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class=" col-md-12 col-sm-12">
+                                                        <label class="form-label">Reklama turini tanlang ?
+                                                        </label>
+                                                        <select class="select2 form-control select2-multiple"
+                                                            multiple="multiple" id="howKnown_all">
+                                                            <option value="1">Banner orqali</option>
+                                                            <option value="2">Flayer orqali</option>
+                                                            <option value="3">Telegram orqali</option>
+                                                            <option value="4">Instagram orqali</option>
+                                                            <option value="5">Facebook orqali</option>
+                                                            <option value="6">Youtube orqali</option>
+                                                            <option value="7">Menga tavsiya qilishdi</option>
+                                                            <option value="8">O'zim topib keldim</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-2">
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="mb-2 col-md-12 col-sm-12">
+                                                        <label>Asosiy telefon raqam</label>
+                                                        <input type="tel" class="form-control" id="phone"
+                                                            placeholder="Telefon">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-sm-12">
+                                                    <div class="mb-2 col-md-12 col-sm-12">
+                                                        <label>Qo'shimcha telefon raqam</label>
+                                                        <input type="tel" class="form-control" id="another_phone"
+                                                            placeholder="Qo'shimcha telefon">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2 mb-2">
+                                                <p class="form-label" style="text-align: center;">Qaysi vaqt oralig'ida
+                                                    siz bilan bog'lanishimisiz mumkin.</p>
+                                                <div class="row">
+                                                    <div class="col-md-6 col-sm-6 mt-1">
+                                                        <select class="form-control select2 col-md-12 col-sm-12"
+                                                            id="free_start_time">
+                                                            <option value="" selected>Soat ... dan boshlab</option>
+                                                            <option value="09:00">09:00</option>
+                                                            <option value="10:00">10:00</option>
+                                                            <option value="11:00">11:00</option>
+                                                            <option value="12:00">12:00</option>
+                                                            <option value="13:00">13:00</option>
+                                                            <option value="14:00">14:00</option>
+                                                            <option value="15:00">15:00</option>
+                                                            <option value="16:00">16:00</option>
+                                                            <option value="17:00">17:00</option>
+                                                            <option value="18:00">18:00</option>
+                                                            <option value="19:00">20:00</option>
+                                                            <option value="19:00">21:00</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6 mt-1">
+                                                        <select class="form-control select2 col-md-12 col-sm-12"
+                                                            id="free_end_time">
+                                                            <option value="" selected>Soat ... gacha </option>
+                                                            <option value="09:00">09:00</option>
+                                                            <option value="10:00">10:00</option>
+                                                            <option value="11:00">11:00</option>
+                                                            <option value="12:00">12:00</option>
+                                                            <option value="13:00">13:00</option>
+                                                            <option value="14:00">14:00</option>
+                                                            <option value="15:00">15:00</option>
+                                                            <option value="16:00">16:00</option>
+                                                            <option value="17:00">17:00</option>
+                                                            <option value="18:00">18:00</option>
+                                                            <option value="19:00">20:00</option>
+                                                            <option value="19:00">21:00</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="mt-3 text-center">
+                                                <button id="sendButton" onclick="sendMessage()"
+                                                    class="btn btn-success w-md waves-effect waves-light"
+                                                    type="button">Ochiq darsga yozilish</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="product-desc">
+                            <ul class="nav nav-tabs nav-tabs-custom" role="tablist">
+                                <li class="nav-item">
+                                    <a style="font-weight: 700;" class="nav-link active" id="specifi-tab"
+                                        data-bs-toggle="tab" href="#specifi" role="tab">Ochiq dars haqida</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a style="font-weight: 700;" class="nav-link" id="desc-tab" data-bs-toggle="tab"
+                                        href="#desc" role="tab">Qo'shimcha ma'lumotlar</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content border border-top-0 p-4">
+                                <div class="tab-pane fade show active" id="specifi" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-nowrap mb-0">
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row" style="width: 400px;">Qaysi o'quv markazda
+                                                        o'tkazilinadi ? </th>
+                                                    <td id="OP_school"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Yo'nalish nomi qanday ?</th>
+                                                    <td id="OP_category"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Kurs nomi qanday ?</th>
+                                                    <td id="OP_speciality"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Ochiq darsni kim o'tkazadi ? </th>
+                                                    <td id="OP_mentor"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Ijtimoiy tarmoq manzili ? </th>
+                                                    <td id="OP_link"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Bizning manzil ? </th>
+                                                    <td id="OP_address"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="desc" role="tabpanel">
+                                    <div>
+                                        <h5 class="mt-3 badge bg-primary font-size-14 p-1"> Kurs haqida to'liq ma'lumot
+                                            qanday ?</h5>
+                                        <div class="OP_about">
+                                        </div>
+                                        <h5 class="mt-3 badge bg-primary font-size-14 p-1">Kurs uchun qanday bilimlar
+                                            talab qilinadi ? </h5>
+                                        <div class="OP_requirement">
+                                        </div>
+                                        <h5 class="mt-3 badge bg-primary font-size-14 p-1">Ushbu kurs aynan kimlar uchun
+                                            mo'ljallangan</h5>
+                                        <div class="OP_forWhom">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+    const demoUrl = window.location.pathname
+    const open_course_id = demoUrl.split("/")[3]
+    const school = demoUrl.split("/")[2]
+    const element = (item) => { return document.getElementById(item) }
+
+    $(document).ready(function () {
+        $("#phone").inputmask("999-99-999-99-99");
+        $("#another_phone").inputmask("999-99-999-99-99");
+        $("#passport").inputmask("AA9999999");
+    });
+    const setSelectionSingles = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiples = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    axios.get('/api/region/all', { params: { actions: "active" } }).then((res) => {
+        const data = res.data.data;
+        setSelectionSingles(data, "#region", "O'quv markazi mavjud emas.")
+    })
+    const filterRegion = (id) => {
+        axios.get(`/api/district/filter/${id}`, { params: { actions: "active" } }).then((res) => {
+            const data = res.data.data;
+
+            console.log(data)
+            setSelectionSingles(data, "#district", "Kurslar mavjud emas.")
+        })
+    }
+    const sendMessage = () => {
+        const region = document.getElementById("region").value
+        const district = document.getElementById("district").value
+        const username = document.getElementById("username").value
+        const phone = document.getElementById("phone").value
+        const week = document.getElementById("week")
+        const free_start_time = document.getElementById("free_start_time").value
+        const free_end_time = document.getElementById("free_end_time").value
+        const howKnown_all = document.getElementById("howKnown_all")
+        const gender = document.getElementById("genders").value
+        const another_phone = document.getElementById("another_phone").value
+        const birthday = document.getElementById("birthday").value
+        function sertArrays(element_inputs) {
+            const arrays = []
+            for (let item of element_inputs) {
+                if (item.selected) {
+                    const value = item.value;
+                    arrays.push(value)
+                }
+            }
+            return arrays
+        }
+
+
+        if (
+            birthday == "" || another_phone == "" || region == "" || district == "" || sertArrays(week) == "" || free_start_time == "" || free_end_time == "" || username == "" || phone == "" || gender == "" || sertArrays(howKnown_all) == ""
+        ) {
+            danger("Malumotlarni to'liq kiriting ")
+        } else {
+
+            axios.get(`/api/rolik/${open_course_id}`).then((resp) => {
+                const data = resp.data.data
+
+                axios.post("/api/lid/create", {
+                    region: region,
+                    district: district,
+                    school: data.school._id,
+                    category: data.category._id,
+                    speciality: data.speciality._id,
+                    open_couse: open_course_id,
+                    week: sertArrays(week),
+                    free_start_time: free_start_time,
+                    free_end_time: free_end_time,
+                    username: username,
+                    gender: gender,
+                    status: "1",
+                    howKnown: sertArrays(howKnown_all),
+                    phone: phone,
+                    another_phone: another_phone,
+                    birthday: birthday,
+                    lid_type: "1",
+                    lessonType: data.lessonType
+                }).then((res) => {
+                    console.log(res.data)
+                    success("Habaringiz muvaffaqiyatli jo'natildi. Tez orada siz bilan aloqaga chiqamiz !")
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 2500)
+                })
+            })
+
+        }
+
+
+    }
+
+    axios.get(`/api/rolik/${open_course_id}`).then(async (res) => {
+        const data = res.data.data;
+
+        element("OP_title").innerHTML = `<span class="badge bg-warning p-1 headerText">Ochiq dars nomi: </span> ${data.title}`
+        element("OP_course_time").innerHTML = `<span class="badge bg-warning p-1 headerText" > Ochiq dars o'tkazilinadigan sana: </span>  ${new Date(data.startDate).toLocaleDateString()} - ${new Date(data.startDate).toLocaleTimeString()}   `
+        element("OP_school").innerHTML = data.school.name
+        element("OP_category").innerHTML = data.category.name
+        element("OP_speciality").innerHTML = data.speciality.name
+        element("OP_mentor").innerHTML = data.mentor
+        element("OP_address").innerHTML = data.address
+        element("OP_link").innerHTML = `<a href="${data.link}" target="_blank" > Ijtimoiy tarmoq manzilimiz </a>`
+        async function allSet(data, element) {
+            const setHRML = $(element)
+            await setHRML.html("")
+            data.forEach((item, index) => {
+                setHRML.append(` <p class="mb-2"><i class="mdi mdi-circle-medium me-1 align-middle"></i> ${item}</p>`)
+            });
+
+        }
+        allSet(data.about, '.OP_about')
+        allSet(data.requirement, '.OP_requirement')
+        allSet(data.forWhom, '.OP_forWhom')
+
+
+        const roliks = $(".roliks")
+        await roliks.html("")
+        roliks.append(`
+            <div class="container">
+                <a class="button is-play" href="${data.rolik}" target="_blank">
+                    <div class="button-outer-circle has-scale-animation">
+                    </div>
+                    <div class="button-outer-circle has-scale-animation has-delay-short">
+                    </div>
+                    <div class="button-icon is-play">
+                        <svg height="100%" width="100%" fill="red">
+                            <polygon class="triangle" points="5,0 30,15 5,30"
+                                viewBox="0 0 30 15"></polygon>
+                            <path class="path" d="M5,0 L30,15 L5,30z" fill="none" stroke="red"
+                                stroke-width="1"></path>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        
+        `)
+
+
+    })
+
+
+
+
+
+
+
+</script>

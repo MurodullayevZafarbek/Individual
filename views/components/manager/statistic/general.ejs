@@ -1,0 +1,603 @@
+<style>
+    .color_1 {
+        background: rgb(0, 104, 255);
+        background: linear-gradient(84deg, rgba(0, 104, 255, 0.8995973389355743) 0%, rgba(255, 0, 0, 0.9108018207282913) 100%);
+    }
+
+    #showTotolStudentCount {
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="row">
+
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="col-md-8"
+                        style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 24px;">
+                        Umumiy foydalanuvchilar</h4>
+
+                    <div class="col-md-3 ">
+                        <select class="select2 form-control" onchange="filterBySchoolNames(this.value)"
+                            id="filterBySchool"></select>
+                    </div>
+                    <button data-bs-toggle="offcanvas" data-bs-target="#CATEGORY_USER" aria-controls="CATEGORY_USER"
+                        class="btn btn-dark"><i class="fas fa-arrow-left"></i></button>
+
+                </div>
+            </div>
+
+            <!-- O'quvchilar -->
+            <div class="col-md-12">
+                <div class="card" style="background-color: #ff6633;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Umumiy o'quvchilar
+                                    soni</p>
+                                <h4 class="mb-0" id="TOTAL_STUDENT" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-user-tie" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- O'qituchilar -->
+            <div class="col-md-4">
+                <div class="card" style="background-color: #531aff;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Umumiy o'qituvchilar
+                                    soni</p>
+                                <h4 class="mb-0" id="TOTAL_MENTOR" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class=" fas fa-user-graduate" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #531aff;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Faol o'qituvchilar
+                                    soni</p>
+                                <h4 class="mb-0" id="ACTIVE_MENTOR" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class=" fas fa-user-graduate" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #531aff;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Arxiv o'qituvchilar
+                                    soni</p>
+                                <h4 class="mb-0" id="ARCHIVE_MENTOR" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class=" fas fa-user-graduate" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sotuvchilar -->
+            <div class="col-md-4">
+                <div class="card" style="background-color: #19e64d;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Umumiy sotuvchilar
+                                    soni</p>
+                                <h4 class="mb-0" id="TOTAL_SELLER" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-user-shield" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #19e64d;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Faol sotuvchilar soni
+                                </p>
+                                <h4 class="mb-0" id="ACTIVE_SELLER" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-user-shield" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #19e64d;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Arxiv sotuvchilar soni
+                                </p>
+                                <h4 class="mb-0" id="ARCHIVE_SELLER" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-user-shield" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ADMINLAR -->
+            <div class="col-md-4">
+                <div class="card" style="background-color: #f9bc06;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Umumiy adminstratorlar
+                                    soni</p>
+                                <h4 class="mb-0" id="TOTAL_ADMIN" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-headset" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #f9bc06;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Faol adminstratorlar
+                                    soni</p>
+                                <h4 class="mb-0" id="ACTIVE_ADMIN" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-headset" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #f9bc06;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Arxiv adminstratorlar
+                                    soni</p>
+                                <h4 class="mb-0" id="ARCHIVE_ADMIN" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-headset" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4
+                        style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 24px;">
+                        Umumiy o'quv markaz va guruhlar</h4>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #4663b9;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Umumiy guruhlar</p>
+                                <h4 class="mb-0" id="TOTAL_GROUP" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #4663b9;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Aktiv guruhlar</p>
+                                <h4 class="mb-0" id="ACTIVE_GROUP" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card" style="background-color: #4663b9;">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Arxiv guruhlar
+                                </p>
+                                <h4 class="mb-0" id="ARCHIVE_GROUP" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4
+                        style="font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 24px;">
+                        Umumiy lidlar analitikasi</h4>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card"
+                    style="background: rgb(212,19,133);
+                    background: linear-gradient(84deg, rgba(212,19,133,0.6615021008403361) 0%, rgba(255,0,0,0.7595413165266106) 100%);">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Yangi lidlar
+                                </p>
+                                <h4 class="mb-0" id="NEW_LID" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card"
+                    style="background: rgb(212,19,133);
+                background: linear-gradient(84deg, rgba(212,19,133,0.6615021008403361) 0%, rgba(255,0,0,0.7595413165266106) 100%);">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Suhbatdan o'tilganlar
+                                </p>
+                                <h4 class="mb-0" id="SPOKEN_LID" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card"
+                    style="background: rgb(212,19,133);
+                background: linear-gradient(84deg, rgba(212,19,133,0.6615021008403361) 0%, rgba(255,0,0,0.7595413165266106) 100%);">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Sinov darsidagilar
+                                </p>
+                                <h4 class="mb-0" id="TRIAL_LID" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card"
+                    style="background: rgb(212,19,133);
+                background: linear-gradient(84deg, rgba(212,19,133,0.6615021008403361) 0%, rgba(255,0,0,0.7595413165266106) 100%);">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Qabul qilinganlar
+                                </p>
+                                <h4 class="mb-0" id="ACCEPTED_LID" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card"
+                    style="background: rgb(212,19,133);
+                background: linear-gradient(84deg, rgba(212,19,133,0.6615021008403361) 0%, rgba(255,0,0,0.7595413165266106) 100%);">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="flex-1 overflow-hidden">
+                                <p class="text-truncate font-size-14 mb-2" style="color: #ffffff">Qabul qilmaganlar
+                                </p>
+                                <h4 class="mb-0" id="NOACCCEPTED_LID" style="color: #ffffff">0</h4>
+                            </div>
+                            <div class="text-primary ms-auto">
+                                <i class="fas fa-layer-group" style="font-size:35px; color: #ffffff;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 100%; background-color: #ffffffe0;" tabindex="-1" id="CATEGORY_USER">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yo'nalish va kurslar bo'yicha o'quvchilar statistikasi</h5>
+        <h5 id="showTotolStudentCount" class="font-size-20 mt-3 p-2 badge bg-warning"></h5>
+        <button type="button" class="btn btn-danger " style="color: white; font-weight: 700;"
+            data-bs-dismiss="offcanvas" aria-label="Close">
+            Yopish
+        </button>
+    </div>
+    <div class="offcanvas-body row col-md-12 " style="width: 100%; height: 100%;">
+        <div class="col-md-3">
+            <div class="col-md-12 col-sm-12 ">
+                <select class="col-sm-12 col-md-12 select2 form-control" onchange="getSpeciality(this.value)"
+                    id="CATEGORY_LIST"> </select>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <select class="col-sm-12 col-md-12 select2 form-control" id="SPECIALITY_LIST"> </select>
+            </div>
+
+            <div class="col-md-12 col-sm-12 mt-2">
+                <button type="button" class="btn btn-success col-sm-12 col-md-12" onclick="filterAllUser()">
+                    Ma'lumotni izlash
+                </button>
+            </div>
+        </div>
+        <div class="col-md-9 pb-5">
+            <table class="table col-md-12  col-sm-12  table-bordered dt-responsive wrap text-center"
+                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead style="border-color: #4663b9; background-color: #4663b9;">
+                    <tr style="border-color: #4663b9;">
+                        <th style="color: white;border-color: #4663b9;width: 20%;">Tartib</th>
+                        <th style="color: white;border-color: #4663b9;width: 50%;">F.I.O</th>
+                        <th style="color: white;border-color: #4663b9;width: 30%;">Passport</th>
+                    </tr>
+                </thead>
+                <tbody style="border-color: black; " class="getDatass"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+
+    const setSelectionSingle = async (DATA, APPENDING) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const Token = window.localStorage.getItem('user')
+    let userID;
+
+    // Menegerga tegishli yo'nalishlarni olish
+    axios.get('/api/user/decode', { headers: { authorization: Token } }).then((res) => {
+        const id = res.data.id;
+        userID = id
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const data = res.data.data.category
+            setSelectionSingle(data, "#CATEGORY_LIST")
+        })
+    })
+    const getSpeciality = (id) => {
+        axios.get(`/api/speciality/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionSingle(data, "#SPECIALITY_LIST")
+        })
+    }
+
+
+    const filterAllUser = () => {
+        const category = document.getElementById("CATEGORY_LIST").value
+        const speciality = document.getElementById("SPECIALITY_LIST").value
+        if (category == "" || speciality == "") {
+            danger("Ma'lumotlarni hammasini tanlang")
+        } else {
+            const DATA = []
+            axios.get("/api/analitic/by_category", {
+                params: {
+                    userId: userID,
+                    category: category,
+                    speciality: speciality,
+                    actions: "active",
+                }
+            }).then(async (res) => {
+                const data = res.data.data[0].student
+                for (let a = 0; a < data.length; a++) {
+                    const element_a = data[a] // 
+                    for (let b = 0; b < element_a.length; b++) {
+                        const element_b = element_a[b];
+                        for (let c = 0; c < element_b.length; c++) {
+                            const element_c = element_b[c];
+                            if (element_c) {
+
+                                for (let indexes = 0; indexes < 1000000; indexes++) {
+                                    if (element_c[indexes]) {
+                                        DATA.push(element_c[indexes])
+                                    }
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                console.log(DATA)
+
+                const getData = $(".getDatass")
+                await getData.html("")
+                DATA.forEach((item, index) => {
+                    getData.append(`
+                    <tr>
+                        <td style="border-color: black;">${index += 1}</td>
+                        <td style="border-color: black;">${item.name}</td>
+                        <td style="border-color: black;">${item.passport}</td>
+                    </tr>
+                    `)
+                })
+
+
+                document.getElementById("showTotolStudentCount").style.display = "block"
+                document.getElementById("showTotolStudentCount").innerHTML = "Jami " + DATA.length + "ta"
+
+
+            })
+        }
+    }
+
+
+
+
+
+
+
+    const user_token = window.localStorage.getItem('user');
+    axios.get('/api/user/decode', { headers: { authorization: user_token } }).then((res) => {
+        const id = res.data.id;
+        axios.get(`/api/school/manager/${id}`, {
+            params: { actions: "active" }
+        }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingle(school, "#filterBySchool", "Ma'lumot mavjud emas")
+        })
+    })
+
+    const filterBySchoolNames = (id) => {
+        // --------------------------------  UMUMIY LIDLAR SONI   -------------------------------------
+        const NEW_LID = document.getElementById("NEW_LID")
+        const SPOKEN_LID = document.getElementById("SPOKEN_LID")
+        const TRIAL_LID = document.getElementById("TRIAL_LID")
+        const ACCEPTED_LID = document.getElementById("ACCEPTED_LID")
+        const NOACCCEPTED_LID = document.getElementById("NOACCCEPTED_LID")
+        axios.get('/api/analitic/leads', { params: { school: id, status: "1" } }).then((res) => {
+            NEW_LID.innerHTML = res.data.data.length
+        })
+        axios.get('/api/analitic/leads', { params: { school: id, status: "2" } }).then((res) => {
+            SPOKEN_LID.innerHTML = res.data.data.length
+        })
+        axios.get('/api/analitic/leads', { params: { school: id, status: "3" } }).then((res) => {
+            TRIAL_LID.innerHTML = res.data.data.length
+        })
+        axios.get('/api/analitic/leads', { params: { school: id, status: "4" } }).then((res) => {
+            ACCEPTED_LID.innerHTML = res.data.data.length
+        })
+        axios.get('/api/analitic/leads', { params: { school: id, status: "5" } }).then((res) => {
+            NOACCCEPTED_LID.innerHTML = res.data.data.length
+        })
+        // ---------------------------------   UMUMIY FOYDALANUVCHILAR    ---------------------------------   
+        axios.get(`/api/analitic/groups`, { params: { schoolId: id, actions: "active", } }).then((res) => {
+            const actives = res.data.data.length
+            axios.get(`/api/analitic/groups`, {
+                params: { schoolId: id, actions: "archive", }
+            }).then((res) => {
+                const archives = res.data.data.length
+                document.getElementById("TOTAL_GROUP").innerHTML = archives + actives + " ta"
+                document.getElementById("ACTIVE_GROUP").innerHTML = actives + " ta"
+                document.getElementById("ARCHIVE_GROUP").innerHTML = archives + " ta"
+            })
+        })
+        // ---------------------------------   UMUMIY FOYDALANUVCHILAR    ---------------------------------   
+        axios.get(`/api/analitic/users`, {
+            params: { schoolId: id, role: "student", actions: "active", }
+        }).then((res) => {
+            const actives = res.data.data.length
+            axios.get(`/api/analitic/users`, {
+                params: { schoolId: id, role: "student", actions: "archive", }
+            }).then((res) => {
+                const archives = res.data.data.length
+                document.getElementById("TOTAL_STUDENT").innerHTML = archives + actives + " ta"
+            })
+        })
+        axios.get(`/api/analitic/users`, {
+            params: { schoolId: id, role: "mentor", actions: "active", }
+        }).then((res) => {
+            const actives = res.data.data.length
+            axios.get(`/api/analitic/users`, {
+                params: { schoolId: id, role: "mentor", actions: "archive", }
+            }).then((res) => {
+                const archives = res.data.data.length
+                document.getElementById("TOTAL_MENTOR").innerHTML = archives + actives + " ta"
+                document.getElementById("ACTIVE_MENTOR").innerHTML = actives + " ta"
+                document.getElementById("ARCHIVE_MENTOR").innerHTML = archives + " ta"
+            })
+        })
+        axios.get(`/api/analitic/users`, {
+            params: { schoolId: id, role: "seller", actions: "active", }
+        }).then((res) => {
+            const actives = res.data.data.length
+            axios.get(`/api/analitic/users`, {
+                params: { schoolId: id, role: "seller", actions: "archive", }
+            }).then((res) => {
+                const archives = res.data.data.length
+                document.getElementById("TOTAL_SELLER").innerHTML = archives + actives + " ta"
+                document.getElementById("ACTIVE_SELLER").innerHTML = actives + " ta"
+                document.getElementById("ARCHIVE_SELLER").innerHTML = archives + " ta"
+            })
+        })
+        axios.get(`/api/analitic/users`, {
+            params: { schoolId: id, role: "admin", actions: "active", }
+        }).then((res) => {
+            const actives = res.data.data.length
+            axios.get(`/api/analitic/users`, {
+                params: { schoolId: id, role: "admin", actions: "archive", }
+            }).then((res) => {
+                const archives = res.data.data.length
+                document.getElementById("TOTAL_ADMIN").innerHTML = archives + actives + " ta"
+                document.getElementById("ACTIVE_ADMIN").innerHTML = actives + " ta"
+                document.getElementById("ARCHIVE_ADMIN").innerHTML = archives + " ta"
+            })
+        })
+    }
+
+
+
+
+
+
+</script>

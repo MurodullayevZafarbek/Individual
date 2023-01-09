@@ -1,0 +1,186 @@
+<style>
+    #congratularion_role_1,
+    #congratularion_user_1,
+    #congratularion_role,
+    #congratularion_user {
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Sozlamalar bo'limi</h3>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Sozlamalar</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="main-container">
+
+    <!-- Row start -->
+    <div class="row gutters">
+
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="user-profile">
+                            <div class="user-avatar mb-4">
+                                <img src="/assets/logo/profile.jpg" style="width: 100%; border-radius: 20%;"
+                                    alt="Le Rouge Admin" />
+                            </div>
+                            <h6 class="user-name"> <span class="badge bg-dark font-size-14 p-1">Viloyat: </span>
+                                Toshkent shahri</h6>
+                            <h6 class="user-name"> <span class="badge bg-dark font-size-14 p-1">Tuman: </span> Chilonzor
+                                tumani</h6>
+                            <h6 class="user-name"> <span class="badge bg-dark font-size-14 p-1">Ism-familiya: </span>
+                                Isomiddinov Shahriyor</h6>
+                            <h6 class="user-name"><span class="badge bg-dark font-size-14 p-1">Mobil aloqa:</span>
+                                +998-90-129-98-81 </h6>
+                            <h6 class="user-name"><span class="badge bg-dark font-size-14 p-1">Passport raqami:</span>
+                                AA8466733 </h6>
+                            <h6 class="user-name"><span class="badge bg-dark font-size-14 p-1">Mening rolim</span>
+                                Manager </h6>
+                            <h6 class="user-name"><span class="badge bg-dark font-size-14 p-1">O'quv markazlarim</span>
+                                <button
+                                    style="padding: 0px 10px 1px 10px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;"
+                                    class="btn btn-outline-success">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card">
+
+                <!-- SMS tizimi bilan ishlash -->
+                <div class="card-body">
+                    <div class="row gutters ">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h5 class="badge bg-danger font-size-16 p-2">SMS tizimi o'quv markazlarga ulash</h5>
+                            <div class="form-group">
+                                <select class="select2 form-control select2-multiple col-md-12" style="width: 100%"
+                                    multiple="multiple">
+                                    <option value="" selected>IT-house 1</option>
+                                    <option value="" selected>IT-house 2</option>
+                                    <option value="" selected>IT-house 3</option>
+                                    <option value="" selected>IT-house 4</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control  mt-2" id="fullName"
+                                    placeholder="Emailni kiriting">
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="text" class="form-control" id="eMail" placeholder="Parolni kiriting">
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-2">
+                            <div class="text-right">
+                                <button type="button" id="submit" name="submit" class="btn btn-outline-success">Saqlash</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Parolni yangilash -->
+                <div class="card-body">
+                    <div class="row gutters ">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h5 class="badge bg-danger font-size-16 p-2">Mening parolimni yangilash</h5>
+                            <div class="form-group mt-2">
+                                <input type="text" class="form-control" id="eMail" placeholder="Parolni kiriting">
+                            </div>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-2">
+                            <div class="text-right">
+                                <button type="button" id="submit" name="submit" class="btn btn-outline-success">Saqlash</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Ma'lumotlarimni tahrirlash -->
+                <div class="card-body">
+                    <div class="row gutters ">
+                        
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h5 class="badge bg-danger font-size-16 p-2">Ma'lumotlarimni tahrirlash</h5>
+                            <div class="form-group mt-2">
+                                <input type="text" class="form-control" id="myName" placeholder="Ismingizni kiriting">
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="text" class="form-control" placeholder="Telefon raqamingizni kiriting">
+                            </div>
+                            <div class="form-group mt-2">
+                                <input type="text" class="form-control" placeholder="Passport seriyangizni kiriting">
+                            </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-2">
+                            <div class="text-right">
+                                <button type="button" id="submit" name="submit" class="btn btn-outline-success">Saqlash</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#user_phone").inputmask("999-99-999-99-99");  // static mask
+        $("#passport").inputmask("AA9999999");  // static mask
+    });
+</script>

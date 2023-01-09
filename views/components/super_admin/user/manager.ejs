@@ -1,0 +1,606 @@
+<style>
+  #statusDATE {
+    display: none;
+  }
+</style>
+
+<div class="row mt-1">
+  <div class="col-12">
+
+
+    <div class="row">
+      <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+          <h3 class="mb-sm-0">Menejerlar bo'limi</h3>
+
+          <div class="page-title-right">
+            <ol class="breadcrumb m-0">
+              <li class="breadcrumb-item"><a href="/super_admin/dashboard/general">Asosiy sahifa</a></li>
+              <li class="breadcrumb-item active">Menejerlar</li>
+            </ol>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="row col md-12 d-flex justify-content-between align-items-center">
+      <div class="col-md-9">
+        <button class="btn btn-primary " type="button" data-bs-toggle="offcanvas" data-bs-target="#CREATE_CANVAS"
+          aria-controls="CREATE_CANVAS">
+          <i class="far fa-plus-square"></i>
+          Qo'shish
+        </button>
+      </div>
+    </div>
+
+
+    <div class="card mt-3">
+      <div class="card-body">
+        <table class="table table-striped table-bordered dt-responsive nowrap text-center"
+          style="border-collapse: collapse; border-spacing: 0; width: 100%">
+          <thead>
+            <tr>
+              <th>Menejer</th>
+              <th>Holat</th>
+              <th>Passport</th>
+              <th>Status</th>
+              <th>Yo'nalishlar</th>
+              <th>Sana</th>
+              <th>Sozlama</th>
+            </tr>
+          </thead>
+
+          <tbody class="put_tables"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="CREATE_CANVAS"
+  aria-labelledby="CREATE_CANVAS_LABEL">
+  <div class="offcanvas-header">
+    <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yangi menejer yaratish</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <label class="form-label">Viloyatlar nomi</label>
+    <select class="form-control select2" style="width: 100%" onchange="filterByRegion(this.value)"
+      id="region_all"></select>
+
+    <label class="form-label mt-3">Tumanlar nomi</label>
+    <select class="form-control select2" style="width: 100%" id="district_all"></select>
+
+    <label class="form-label mb-1 mt-3">Menejer ismi</label>
+    <input type="text" class="form-control" id="user_name" />
+
+    <label class="form-label mb-1 mt-3">Menejer telefon raqami</label>
+    <input class="form-control" type="text" id="user_phone" />
+
+    <label class="form-label mb-1 mt-3">Menejer paroli</label>
+    <input class="form-control" type="password" id="user_password" />
+
+    <label class="form-label mb-1 mt-3">Menejer passport raqami</label>
+    <input class="form-control" type="text" id="user_passport" />
+
+    <button type="button" onclick="create()" class="btn btn-success waves-effect waves-light mt-3">
+      Yaratish
+    </button>
+  </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_CANVAS">
+  <div class="offcanvas-header">
+    <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Menejerni tahrirlash</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body get_canvas"></div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="SEE_CATEGORIES">
+  <div class="offcanvas-header">
+    <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Menejerga biriktirilgan yo'nalishlarni ko'rish</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="add_new_category_list"></div>
+  </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="ADD_CATEGORY">
+  <div class="offcanvas-header">
+    <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Menejerga yo'nalish biriktirish</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="row">
+      <div class="col-md-12">
+        <label class="mb-1 mt-3">Qaysi kategoriyani biriktirmoqchisiz ?
+        </label>
+        <select class="select2 form-control select2-multiple" multiple="multiple" id="category_manager"></select>
+      </div>
+    </div>
+
+    <div class="add_new_category mt-3"></div>
+  </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_STATUS_CANVAS">
+  <div class="offcanvas-header">
+    <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Menejerning statuslarni tahrirlash</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <label class="form-label">Satausni tanlash</label>
+    <select class="form-control select2" style="width: 100%" onchange="changeStatus(this.value)" id="change_status">
+      <option value="" selected>Tanlash</option>
+      <option value="none">Umuman blok holatidan chiqarish</option>
+      <option value="forever">Butunlay bloklash holatiga qo'yish</option>
+      <option value="pending">Vaqtinchalik muddatga bloklash</option>
+    </select>
+
+    <div class="mt-3" id="statusDATE">
+      <label class="form-label">Bloklanadigan sanalarni kiriting</label>
+      <div class="input-daterange input-group" id="datepicker6" data-date-format="dd M, yyyy" data-date-autoclose="true"
+        data-provide="datepicker" data-date-container="#datepicker6">
+        <input type="text" class="form-control" name="start" id="startDate" placeholder="Boshlang'ich sana" />
+        <input type="text" class="form-control" name="end" id="endDate" placeholder="Yankuniy sana" />
+      </div>
+    </div>
+
+    <div class="get_canvas_status mt-3"></div>
+  </div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script src="/assets/libs/inputmask/jquery.inputmask.min.js"></script>
+<script src="/assets/js/pages/form-mask.init.js"></script>
+<script>
+
+
+  $(document).ready(function () {
+    $("#user_phone").inputmask("999-99-999-99-99"); // static mask
+  });
+  $(document).ready(function () {
+    $("#user_passport").inputmask("AA9999999"); // static mask
+  });
+
+
+
+
+
+
+  /* 
+    @description: Hamma viloyatlarni olish
+    @api: /api/region/all
+    @method: GET
+  */
+  axios.get("/api/region/all", { params: { actions: "active" } }).then(async (res) => {
+    const DATA = res.data.data;
+    const region_all = $("#region_all");
+    await region_all.html("");
+    region_all.append(`<option value="" selected>Tanlash</option> `);
+    DATA.forEach((item) => {
+      region_all.append(` <option value="${item._id}">${item.name}</option> `);
+    });
+  });
+
+
+
+  /* 
+    @description: Viloyat bo'yicha tumanlarni hammasini olish
+    @api: /api/district/filter/:id
+    @method: GET
+  */
+  const filterByRegion = (id) => {
+    axios.get(`/api/district/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+      const DATA = res.data.data;
+      if (DATA == "") {
+        const district_all = $("#district_all");
+        await district_all.html("");
+        district_all.append(`<option value="" selected>Mavjud emas</option> `);
+        const school_all = $("#school_all");
+        await school_all.html("");
+        school_all.append(`<option value="" selected>Mavjud emas</option> `);
+        warning("Ushbu viloyatga tegishli tuman mavjud emas");
+      } else {
+        const district_all = $("#district_all");
+        await district_all.html("");
+        district_all.append(`<option value="" selected>Tanlash</option> `);
+        DATA.forEach((item) => {
+          district_all.append(
+            `<option value="${item._id}">${item.name}</option>`
+          );
+        });
+      }
+    });
+  };
+
+
+  /* 
+    @description: Rol boyicha foydalanuvchini olish
+    @api: /api/district/filter/:id
+    @method: GET
+  */
+  const get_all = () => {
+    axios.get("/api/user/get_by_role", { params: { role: "manager", actions: "active" } })
+      .then(async (res) => {
+        const DATA = res.data.data;
+        const put_table = $(".put_tables");
+        await put_table.html("");
+        DATA.forEach((item, index) => {
+          put_table.append(`
+              <tr>
+                  <td>${item.name}</td>
+                  <td class="font-size-18"><span class="actions"> </span></td>
+                  <td>${item.passport}</td>
+                  <td class="font-size-18"><span class="status_default"> </span></td>
+                  <td>
+                    <span style="cursor: pointer;" class="badge bg-primary font-size-12 p-2" onclick="seeCategories('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#SEE_CATEGORIES" aria-controls="SEE_CATEGORIES"> 
+                      <i class="far fa-eye"></i> Ko'rish   
+                    </span>
+                  </td>
+                  <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    
+                    <div class="btn-group">
+                      <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cog"></i>
+                      </button>
+                      <div class="dropdown-menu">
+                          <a onclick="add_category('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#ADD_CATEGORY" aria-controls="ADD_CATEGORY" class="dropdown-item" href="#">Yo'nalish qo'shish</a>
+                          <a onclick="get_one('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS" class="dropdown-item" href="#">Tahrirlash</a>
+                          <a onclick="get_status('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_STATUS_CANVAS" aria-controls="UPDATE_STATUS_CANVAS" class="dropdown-item" href="#">Status holati</a>
+                          <a onclick="make_archive('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
+                      </div>
+                    </div
+                </td>
+              </tr>
+          `);
+
+          document
+            .getElementsByClassName("actions")
+            .forEach((innerValue, innerIndex) => {
+              if (index == innerIndex) {
+                if (item.actions == "active") {
+                  innerValue.innerHTML = "Faol holatda";
+                  innerValue.className = "actions badge bg-success p-2";
+                }
+
+              }
+            });
+          document
+            .getElementsByClassName("actions")
+            .forEach((innerValue, innerIndex) => {
+              if (index == innerIndex) {
+                if (item.actions == "archive") {
+                  innerValue.innerHTML = "Arxivda";
+                  innerValue.className = "actions badge bg-danger p-2";
+                }
+              }
+            });
+
+
+
+
+          document
+            .getElementsByClassName("status_default")
+            .forEach((innerValue, innerIndex) => {
+              if (index == innerIndex) {
+                if (item.status_default == "none") {
+                  innerValue.innerHTML = "Bloklanmagan";
+                  innerValue.className = "status_default badge bg-success p-2";
+                }
+              }
+            });
+          document
+            .getElementsByClassName("status_default")
+            .forEach((innerValue, innerIndex) => {
+              if (index == innerIndex) {
+                if (item.status_default == "forever") {
+                  innerValue.innerHTML = "Butunlay bloklangan";
+                  innerValue.className = "status_default badge bg-warning p-2";
+                }
+              }
+            });
+          document
+            .getElementsByClassName("status_default")
+            .forEach((innerValue, innerIndex) => {
+              if (index == innerIndex) {
+                if (item.status_default == "pending") {
+                  innerValue.innerHTML = "Vaqtinchalik blokda";
+                  innerValue.className = "status_default badge bg-danger p-2";
+                }
+              }
+            });
+        });
+      });
+  };
+  get_all();
+
+
+
+  /* 
+    @description: Foydalanuvchi yaratish
+    @api: /api/user/create
+    @method: POST
+  */
+  const create = () => {
+    const region_all = document.getElementById("region_all").value;
+    const district_all = document.getElementById("district_all").value;
+    const user_name = document.getElementById("user_name").value;
+    const user_phone = document.getElementById("user_phone").value;
+    const user_password = document.getElementById("user_password").value;
+    const user_passport = document.getElementById("user_passport").value;
+    if (
+      region_all == "" ||
+      district_all == "" ||
+      user_name == "" ||
+      user_phone == "" ||
+      user_passport == "" ||
+      user_password == ""
+    ) {
+      warning("Malumotni to'liq kiriting");
+    } else {
+      axios({
+        url: "/api/user/create",
+        method: "POST",
+        data: {
+          region: region_all,
+          district: district_all,
+          name: user_name,
+          passport: user_passport,
+          phone: user_phone,
+          password: user_password,
+          role: "manager",
+          status_default: "none",
+        },
+      }).then((res) => {
+        success("Muvaffaqiyatli yaratildi");
+        get_all();
+      });
+    }
+  };
+
+
+  /* 
+    @description: Foydalanuvchi tahrirlash
+    @api: /api/user/:id
+    @method: PUT
+  */
+  const get_one = (id) => {
+    axios.get(`/api/user/${id}`).then(async (res) => {
+      const DATA = res.data.data;
+      const get_canvas = $(".get_canvas");
+      await get_canvas.html("");
+      get_canvas.append(`
+                <label class="mb-1 mt-3 ">Menejer ismi</label>
+                <input type="text" class="form-control" value="${DATA.name}"  id="name_edit">
+
+                <label class="mb-1 mt-3 ">Menejer telefon raqami</label>
+                <input type="text" class="form-control" value="${DATA.phone}"  id="phone_edit">
+                
+                <label class="mb-1 mt-3 ">Menejer passport raqami</label>
+                <input type="text" class="form-control" value="${DATA.passport}"  id="user_passport_edit">
+
+                <label class="mb-1 mt-3 ">Yangi parol</label>
+                <input type="text" class="form-control" value=""  id="password_edit">
+
+                <button type="button" onclick="update_one('${DATA._id}')" class=" mt-3 btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+            `);
+      $(document).ready(function () {
+        $("#user_passport_edit").inputmask("AA9999999"); // static mask
+      });
+      $(document).ready(function () {
+        $("#phone_edit").inputmask("999-99-999-99-99"); // static mask
+      });
+    });
+  };
+  const update_one = (id) => {
+    const name = document.getElementById("name_edit").value;
+    const phone = document.getElementById("phone_edit").value;
+    const password = document.getElementById("password_edit").value;
+    const passport = document.getElementById("user_passport_edit").value;
+    if (name == "" || phone == "" || password == "") {
+      warning("Malumotni to'liq kiriting");
+    } else {
+      axios({
+        url: `/api/user/content/${id}`,
+        method: "PUT",
+        data: {
+          name: name,
+          phone: phone,
+          passport: passport,
+          password: password,
+        },
+      }).then((res) => {
+        success("Muvaffaqiyatli tahrirlandi");
+        get_all();
+      });
+    }
+  };
+
+
+  /* 
+    @description: Foydalanuvchi tahrirlash
+    @api: /api/user/:id
+    @method: PUT
+  */
+  const get_status = (id) => {
+    axios.get(`/api/user/${id}`).then(async (res) => {
+      const DATA = res.data.data;
+      const get_canvas_status = $(".get_canvas_status");
+      await get_canvas_status.html("");
+      get_canvas_status.append(`
+
+        <button type="button" onclick="update_status('${DATA._id}')" class=" mt-3 btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+      `);
+    });
+  };
+  let statusAction = "";
+  const changeStatus = (value) => {
+    if (value == "pending") {
+      document.getElementById("statusDATE").style.display = "block";
+      statusAction = "pending";
+    }
+    if (value == "none") {
+      document.getElementById("statusDATE").style.display = "none";
+      statusAction = "none";
+    }
+    if (value == "forever") {
+      document.getElementById("statusDATE").style.display = "none";
+      statusAction = "forever";
+    }
+  };
+  const update_status = (id) => {
+    const status = document.getElementById("change_status").value;
+    const startDate = document.getElementById("startDate").value;
+    const endDate = document.getElementById("endDate").value;
+
+    if (status == "") {
+      warning("Malumotni to'liq kiriting");
+    } else {
+      if (statusAction == "none") {
+        axios({
+          url: `/api/user/content/${id}`,
+          method: "PUT",
+          data: {
+            status_default: "none",
+            blocking_start_date: "",
+            blocking_end_date: "",
+          },
+        }).then((res) => {
+          success("Muvaffaqiyatli tahrirlandi");
+          get_all();
+        });
+      }
+      if (statusAction == "forever") {
+        axios({
+          url: `/api/user/content/${id}`,
+          method: "PUT",
+          data: {
+            status_default: "forever",
+            blocking_start_date: "",
+            blocking_end_date: "",
+          },
+        }).then((res) => {
+          success("Muvaffaqiyatli tahrirlandi");
+          get_all();
+        });
+      }
+      if (statusAction == "pending") {
+        if (startDate == "" || endDate == "") {
+          warning("Boshlang'ich va yakuniy sanalarni to'liq kiriting");
+        } else {
+          axios({
+            url: `/api/user/content/${id}`,
+            method: "PUT",
+            data: {
+              status_default: "pending",
+              blocking_start_date: new Date(startDate).toISOString(),
+              blocking_end_date: new Date(endDate).toISOString(),
+            },
+          }).then((res) => {
+            success("Muvaffaqiyatli tahrirlandi");
+            get_all();
+          });
+        }
+      }
+    }
+  };
+
+
+  /* 
+    @description: Foydalanuvchi arxivlash
+    @api: /api/user/:id
+    @method: PUT
+  */
+  const make_archive = (id) => {
+    axios.put(`/api/user/content/${id}`, { actions: "archive" }).then((res) => {
+      success("Muvaffaqiyatli o'chirildi");
+      get_all();
+    });
+  };
+
+
+  /* 
+    @description: Menejerga yo'nalish biriktirish
+    @api: /api/user/:id
+    @method: PUT
+  */
+  const add_category = async (id) => {
+    axios.get("/api/category/all", { params: { actions: "active" } }).then(async (res) => {
+      const DATA = res.data.data;
+      const category_manager = $("#category_manager");
+      await category_manager.html("");
+      DATA.forEach((item, index) => {
+        category_manager.append(
+          `<option value="${item._id}">${item.name}</option> `
+        );
+      });
+      const add_new_category = $(".add_new_category");
+      await add_new_category.html("");
+      add_new_category.append(
+        ` <button type="button" onclick="adding_categories('${id}')" class="btn btn-success waves-effect waves-light mt-3">  Yaratish </button>`
+      );
+    });
+  };
+  const adding_categories = (id) => {
+    const category_manager = document.getElementById("category_manager");
+    const manager_category_array = [];
+    for (let item of category_manager) {
+      const values = item;
+      if (values.selected) {
+        manager_category_array.push(values.value);
+      }
+    }
+
+    if (
+      manager_category_array == [] ||
+      manager_category_array == null ||
+      manager_category_array == undefined ||
+      manager_category_array == "" ||
+      manager_category_array.length < 1
+    ) {
+      warning("Malumotni to'liq kiriting");
+    } else {
+      axios({
+        url: `/api/user/content/${id}`,
+        method: "PUT",
+        data: {
+          category: manager_category_array,
+        },
+      }).then((res) => {
+        success("Muvaffaqiyatli tahrirlandi");
+      });
+    }
+  }
+
+
+  /* 
+    @description: Menejerning yo'nalishlarini ko'rish
+    @api: /api/user/:id
+    @method: GET 
+  */
+  const seeCategories = (id) => {
+    axios.get(`/api/user/${id}`).then(async (res) => {
+      const DATA = res.data.data;
+      const CATEGORY = DATA.category; // []
+      const lists = $(".add_new_category_list");
+      await lists.html("");
+      CATEGORY.forEach((item, index) => {
+        lists.append(`
+              <div class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                      <h6 style="font-weight: 900;0">${(index += 1)} - kategoriya: </h6>
+                      <h6 >${item.name}</h6>
+                  </div>
+              </div>
+          `);
+      });
+    });
+  };
+
+
+
+
+</script>

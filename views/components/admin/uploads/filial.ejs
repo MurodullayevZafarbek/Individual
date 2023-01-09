@@ -1,0 +1,293 @@
+<style>
+    #school_password {
+        -webkit-text-security: disc;
+
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">O'quv markazlar bo'limi</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/admin/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">O'quv markazlar</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="card mt-1">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%">
+                    <thead>
+                        <tr>
+                            <th>O'quv markazi</th>
+                            <th>Lid manzil</th>
+                            <th>Yo'nalishlar</th>
+                            <th>Ma'lumot</th>
+                            <th>SMS</th>
+                            <th>Yaratilgan sana</th>
+                        </tr>
+                    </thead>
+                    <tbody class="setTables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="SEE_CATEGORIES">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yo'nalishlarni ko'rish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="add_new_category_list"></div>
+    </div>
+</div>
+
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="INFORMATION">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">O'quv markaz haqida to'liq ma'lumot</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body filial_information">
+        <div class="filial_information"></div>
+        <div class="filial_descrtiption list-group"> </div>
+    </div>
+</div>
+
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script src="/assets/libs/inputmask/jquery.inputmask.min.js"></script>
+<script src="/assets/js/pages/form-mask.init.js"></script>
+<script>
+
+
+    // @description: Adminga tegishli AKTIVE o'quv markazlarni olish
+    // @api: /api/school/manager/:id
+    // @mentod: GET
+    const user_token = window.localStorage.getItem('user');
+    const get_active_schools = () => {
+        axios.get('/api/user/decode', { headers: { authorization: user_token } }).then((res) => {
+            const id = res.data.id;
+            axios.get(`/api/user/${id}`).then(async (res) => {
+                const response = res.data.data.school
+                const setTables = $('.setTables')
+                await setTables.html("");
+                response.forEach((item, index) => {
+                    setTables.append(`
+                        <tr>    
+                            <td>${item.name}</td>
+                            <td class="leadsUrl"></td>
+                            <td>
+                                <span style="cursor: pointer;" class="badge bg-primary font-size-14 p-2" onclick="seeCategories('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#SEE_CATEGORIES" aria-controls="SEE_CATEGORIES"> 
+                                    <i class="fas fa-eye"> </i>
+                                    Ko'rish   
+                                </span>
+                            </td>
+                            <td>
+                                <span style="cursor: pointer;" class="badge bg-primary font-size-14 p-2" onclick="get_information('${item._id}')"  data-bs-toggle="offcanvas" data-bs-target="#INFORMATION" aria-controls="INFORMATION"> 
+                                    <i class="fas fa-eye"> </i>
+                                    Ko'rish   
+                                </span>
+                            </td>
+                            <td class="checkSMS"></td>
+                            <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                        </tr>
+                    `)
+
+
+                    const leadsUrl = document.getElementsByClassName("leadsUrl");
+                    leadsUrl.forEach((inputs, inputsIndex) => {
+                        if (inputsIndex == index) {
+                            if (item.subDomain == "" || !item.subDomain || item.subDomain == undefined) {
+                                inputs.innerHTML = `
+                                <span   class="badge bg-danger  font-size-12 p-2" >
+                                    <i class="far fa-times-circle"></i>
+                                    Mavjud emas
+                                </span>
+                                `
+                            }
+                            else {
+                                inputs.innerHTML = `
+                                <span   class="badge bg-dark font-size-12 p-2" >
+                                    ${window.location.host}/${item.subDomain}
+                                </span>
+                                `
+                            }
+                        }
+                    })
+
+
+
+
+
+
+
+                    // const leadsUrl = document.getElementsByClassName("leadsUrl");
+                    // leadsUrl.forEach((inputs, inputsIndex) => {
+                    //     if (inputsIndex == index) {
+                    //         if (item.subDomain == "" || !item.subDomain || item.subDomain == undefined) {
+                    //             inputs.innerHTML = `<span  style="cursor: pointer;"  class="badge bg-danger font-size-12 p-2" >
+                    //                 <i class="far fa-times-circle"></i>
+                    //                 Mavjud emas
+                    //             </span>`
+                    //         }
+                    //         else {
+                    //             inputs.innerHTML = `
+                    //                 <input id="copy_url_${index}"  value="${window.location.origin}/${item.subDomain}" style="font-size: 10px; backgroup: transpatent; display: none;"  disabled type="text" />
+                    //                 <span style="cursor: pointer;"  onclick="copyUrl('copy_url_${index}')"  class="badge bg-success font-size-12 p-2"> 
+                    //                     <i class="far fa-copy"></i>
+                    //                     Nusxa olish
+                    //                 </span>
+                    //             `
+                    //         }
+                    //     }
+                    // })
+
+                    const checkSMS = document.getElementsByClassName("checkSMS");
+                    checkSMS.forEach((inputs, inputsIndex) => {
+                        if (inputsIndex == index) {
+                            if (item.sms.status == "0" && item.sms.sms_email == "none" && item.sms.sms_token == "none") {
+                                inputs.innerHTML = `
+                                    <span style="cursor: pointer;" class="badge bg-danger font-size-12 p-2"  data-bs-toggle="offcanvas" data-bs-target="#SET_SMS" aria-controls="SET_SMS">
+                                        <i class="far fa-times-circle"></i>
+                                        Sms yoqilmagan
+                                    </span>
+                                `
+                            }
+                            if (item.sms.status == "1" && item.sms.sms_email != "none" && item.sms.sms_token != "none") {
+                                inputs.innerHTML = `
+                                    <span  data-bs-toggle="offcanvas" data-bs-target="#CANCEL_SMS" aria-controls="CANCEL_SMS"  style="cursor: pointer;"  class="badge bg-success font-size-12 p-2">
+                                        <i class="far fa-check-circle"></i>
+                                        Sms yoqilgan
+                                    </span>
+                                `
+                            }
+                        }
+                    })
+                })
+            });
+        });
+    }
+    get_active_schools()
+
+
+
+    // @description: O'quv markazga tegishli kategoriyalarni ko'rish
+    // @api: /api/school/create
+    // @mentod: POST
+    const seeCategories = (id) => {
+        axios.get(`/api/school/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const CATEGORY = DATA.category; // []
+            const lists = $(".add_new_category_list");
+            await lists.html("");
+            CATEGORY.forEach((item, index) => {
+                lists.append(`
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;0">${(index += 1)} - yo'nalish: </h6>
+                            <h6 >${item.name}</h6>
+                        </div>
+                    </div>
+                `);
+            });
+        });
+    };
+
+
+
+
+
+    // @description: O'quv markaz haqida ma'lumot olish
+    // @api: /api/school/:id
+    // @mentod: GET
+    const get_information = (id) => {
+        axios.get(`/api/school/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const filial_information = $(".filial_information");
+            await filial_information.html("");
+            filial_information.append(`
+                <div class="list-group">
+
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <img class="rounded col-md-6 offset-3" src="/assets/logo/1.jpg" id="school_logotip"  >
+                        </div>
+                    </div>
+
+                    <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Filial nomi: </h6>
+                            <h6>${DATA.name}</h6>
+                        </div>
+                    </div>
+                    <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Filial telefon raqami: </h6>
+                            <h6>${DATA.phone}</h6>
+                        </div>
+                    </div>
+                    <div  class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Viloyat  nomi: </h6>
+                            <h6>${DATA.region.name}</h6>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Tuman nomi: </h6>
+                            <h6 >${DATA.district.name}</h6>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">Kirish kodi: </h6>
+                            <h6 id="COPY">${DATA.code}</h6>
+                        </div>
+                    </div>
+                </div>
+            `);
+            if (DATA.image.length == 1) {
+                document.getElementById('school_logotip').src = `/school/${DATA.image[0]}`
+            }
+            const description = DATA.school_descrtiption // []
+            const filial_descrtiption = $(".filial_descrtiption");
+            await filial_descrtiption.html("");
+            description.forEach((element, index) => {
+                filial_information.append(`
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6  style="font-weight: 900; padding-right: 20px;">[${index += 1}] </h6> 
+                            <h6  id="COPY" style="word-break: break-all;">${element}</h6>
+                        </div>
+                    </div>
+                `)
+            });
+        });
+
+    }
+    function copyUrl(url) {
+        var copyText = document.getElementById(url);
+        copyText.select();
+        copyText.setSelectionRange(0, 99999)
+        navigator.clipboard.writeText(copyText.value);
+        success("Lid manzili uchun nusxa olindi")
+    }
+
+
+
+</script>

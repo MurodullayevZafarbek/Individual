@@ -1,0 +1,56 @@
+<div id='div'>
+  <button id="download">click me to download</button>
+</div>
+
+function download() {
+  let file = new Blob(['Hello, I am downloaded'], {type: 'text/plain'});
+  let fileRoute = window.URL.createObjectURL(file);
+  let a = document.createElement('a');
+  a.setAttribute('href', fileRoute);
+  a.setAttribute('download', 'codepen-lolfail.txt');
+  document.getElementById('div').appendChild(a);
+  a.click();
+  document.getElementById('div').removeChild(a); 
+};
+
+document.getElementById('download').addEventListener('click', download);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<textarea id="text-val" rows="4">This is the content of my file</textarea><br/>
+<input type="button" id="dwn-btn" value="Download dinamically generated text file"/>
+
+
+function downloadasTextFile(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+// Start file download.
+document.getElementById("dwn-btn").addEventListener("click", function(){
+    // Generate download of phpcodertech.txt file with some content
+    var text = document.getElementById("text-val").value;
+    var filename = "phpcodertech.txt";
+    
+    downloadasTextFile(filename, text);
+}, false);

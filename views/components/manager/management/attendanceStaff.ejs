@@ -1,0 +1,1196 @@
+<style>
+    #displayReason {
+        display: none;
+    }
+
+    .seeRed:hover {
+        background-color: rgb(228, 81, 62);
+    }
+</style>
+
+<div class="page-header">
+    <div class="row">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Xodimlar yo'qlamasi</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Xodimlar yo'qlamasi</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col-md-12 d-flex justify-content-between align-items-center">
+            <div class="col-md-2 col-lg-2  col-sm-12">
+                <button class="btn btn-primary  col-sm-12  col-md-12" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#CREATE_CANVAS" aria-controls="CREATE_CANVAS">
+                    <i class="far fa-plus-square"></i>
+                    Qo'shish
+                </button>
+            </div>
+            <div class="col-md-2 col-lg-2  col-sm-12">
+                <div class="btn-group col-md-12 col-sm-12">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false"> Filtrlash <i class=" ri-filter-fill"></i></button>
+                    <div class="dropdown-menu">
+                        <!-- <a onclick="filterSetUserAttendance('general')" class="dropdown-item text-dark"
+                            data-bs-toggle="offcanvas" data-bs-target="#GENERAL_FILTER" aria-controls="GENERAL_FILTER"
+                            href="#">O'quv markaz bo'yicha yo'qlamalar</a> -->
+                        <a onclick="filterSetUserAttendance('staff')" class="dropdown-item text-dark"
+                            data-bs-toggle="offcanvas" data-bs-target="#BY_STAFF" aria-controls="BY_STAFF"
+                            href="#">Xodimlar bo'yicha yo'qlamalar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered custom-table table-nowrap  p-1 text-center">
+                        <thead>
+                            <tr>
+                                <th>Xodimlar</th>
+                                <th>1</th>
+                                <th>2</th>
+                                <th>3</th>
+                                <th>4</th>
+                                <th>5</th>
+                                <th>6</th>
+                                <th>7</th>
+                                <th>8</th>
+                                <th>9</th>
+                                <th>10</th>
+                                <th>11</th>
+                                <th>12</th>
+                                <th>13</th>
+                                <th>14</th>
+                                <th>15</th>
+                                <th>16</th>
+                                <th>17</th>
+                                <th>18</th>
+                                <th>19</th>
+                                <th>20</th>
+                                <th>21</th>
+                                <th>22</th>
+                                <th>23</th>
+                                <th>24</th>
+                                <th>25</th>
+                                <th>26</th>
+                                <th>27</th>
+                                <th>28</th>
+                                <th>29</th>
+                                <th>30</th>
+                                <th>31</th>
+                            </tr>
+                        </thead>
+                        <tbody class="user_all"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Malumot yaratish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="CREATE_CANVAS"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Yangi yo'qlama yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="col-sm-6 col-md-12">
+            <label class="form-label mt-2">Filiallar nomi</label>
+            <select class="form-control select2" onchange="filterUser(this.value)" id="SCHOOL"></select>
+        </div>
+        <div class="col-sm-6 col-md-12">
+            <label class="form-label mt-2">Xodimlar ismi</label>
+            <select class="select2 form-control" id="USERS"></select>
+        </div>
+        <div class="col-sm-6 col-md-12">
+            <div class="form-group custom-select">
+                <label class="form-label mt-2">Kunni tanlang</label>
+                <select class="select2 form-control " id="DAY">
+                    <option value="">Kunni tanlang</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24">24</option>
+                    <option value="25">25</option>
+                    <option value="26">26</option>
+                    <option value="27">27</option>
+                    <option value="28">28</option>
+                    <option value="29">29</option>
+                    <option value="30">30</option>
+                    <option value="31">31</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12">
+            <div class="form-group custom-select">
+                <label class="form-label mt-2">Oyni tanlang</label>
+                <select class="select2 form-control " id="MONTH">
+                    <option value="">Oyni tanlang</option>
+                    <option value="january">Yanvar</option>
+                    <option value="february">Fevral</option>
+                    <option value="march">Mart</option>
+                    <option value="april">Aprel</option>
+                    <option value="may">May</option>
+                    <option value="june">Iyun</option>
+                    <option value="july">Iyul</option>
+                    <option value="august">Avgust</option>
+                    <option value="september">Sentyabr</option>
+                    <option value="october">Oktyabr</option>
+                    <option value="november">Noyabr</option>
+                    <option value="december">Dekabr</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12">
+            <div class="form-group custom-select">
+                <label class="form-label mt-2">Yilni tanlang</label>
+                <select class="select2 form-control " id="YEAR">
+                    <option>Yilni tanlang</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12">
+            <div class="form-group custom-select">
+                <label class="form-label mt-2">Yo'qlama holati</label>
+                <select class="select2 form-control " id="ABSENT" onchange="ReasonSelect(this.value)">
+                    <option value="">Tanlang</option>
+                    <option value="1">Kelgan</option>
+                    <option value="0">Kelmagan</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12" id="displayReason">
+            <div class="form-group custom-select">
+                <label class="form-label mt-2">Kelmaganlik haqida sababini kiriting</label>
+                <select class="select2 form-control select2-multiple" multiple="multiple" id="REASON">
+                    <option value="0">Sababsiz ishga kelmaslik </option>
+                    <option value="1">Xojayinning buyrug'i bilan boshqa joyga borganligi uchun kelmaslik </option>
+                    <option value="2">Ishlash tartibidan norozi bo'lganlik uchun </option>
+                    <option value="3">Yo'lda vaqtinchalik ushlanib qolish </option>
+                    <option value="4">Kasallik tufayli kelmaganlik </option>
+                    <option value="5">Shaxsiy ish yuzasidan kelmadi </option>
+                    <option value="6">Ob-havoning noqulayligi tufayli </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12">
+            <button type="button" onclick="create()"
+                class="btn btn-primary waves-effect waves-light mt-2 col-md-12 col-sm-12"> Saqlash
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Kelmaganlik haqida malumotni bilish -->
+<div id="SEE_REASON" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Ishga kelmaslik sabablari</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body getReasons">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Umumiy filtrlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="GENERAL_FILTER"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quv markaz bo'yicha umumiy yo'qlamalar</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="form-group custom-select">
+                <select class="select2 form-control " id="school_all">
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="form-group custom-select">
+                <select class="select2 form-control " id="month_all">
+                    <option value="">Oyni tanlang</option>
+                    <option value="january">Yanvar</option>
+                    <option value="february">Fevral</option>
+                    <option value="march">Mart</option>
+                    <option value="april">Aprel</option>
+                    <option value="may">May</option>
+                    <option value="june">Iyun</option>
+                    <option value="july">Iyul</option>
+                    <option value="august">Avgust</option>
+                    <option value="september">Sentyabr</option>
+                    <option value="october">Oktyabr</option>
+                    <option value="november">Noyabr</option>
+                    <option value="december">Dekabr</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="form-group custom-select">
+                <select class="select2 form-control " id="year_all">
+                    <option>Yilni tanlang</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="d-grid">
+                <button type="button" onclick="filterAttendance()" class="btn btn-primary">Izlash</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Alohida foydalanuvchini olish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="BY_STAFF">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Xodimlar bo'yicha umumiy yo'qlamalar</h5>
+
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="form-group custom-select">
+                <label class="form-label">Filialni nomi</label>
+                <select class="select2 form-control " onchange="filterUser(this.value)" id="school_all_aaa">
+                </select>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <label class="form-label mt-3">Xodim nomi</label>
+            <select class="select2 form-control" id="members_all_aaa"></select>
+        </div>
+
+
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="form-group custom-select">
+                <label class="form-label ">Oyning nomi</label>
+                <select class="select2 form-control " id="month_all_aaa">
+                    <option value="">Oyni tanlang</option>
+                    <option value="january">Yanvar</option>
+                    <option value="february">Fevral</option>
+                    <option value="march">Mart</option>
+                    <option value="april">Aprel</option>
+                    <option value="may">May</option>
+                    <option value="june">Iyun</option>
+                    <option value="july">Iyul</option>
+                    <option value="august">Avgust</option>
+                    <option value="september">Sentyabr</option>
+                    <option value="october">Oktyabr</option>
+                    <option value="november">Noyabr</option>
+                    <option value="december">Dekabr</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="form-group custom-select">
+                <label class="form-label ">Yilning nomi</label>
+                <select class="select2 form-control " id="year_all_aaa">
+                    <option>Yilni tanlang</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                    <option value="2025">2025</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-12 mt-3">
+            <div class="d-grid">
+                <button type="button" onclick="filterAttendanceByUser()" class="btn btn-primary">Izlash</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+    /*  @description: Default xolatda restart berish  */
+    let checkFiltering;
+    const filterSetUserAttendance = (key) => {
+        return checkFiltering = key
+    }
+
+    /* 
+        @description:  Managerga tegishli filiallarni olish
+        @api: /api/user/decode
+        @method: GET
+    */
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiples = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    
+    const USER_TOKEN = window.localStorage.getItem('user');
+    axios.get('/api/user/decode', { headers: { authorization: USER_TOKEN } }).then((res) => {
+        const id = res.data.id; // user id
+        axios.get(`/api/school/manager/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingle(school, "#SCHOOL", "O'quv markazlar mavjud emas")
+            setSelectionSingle(school, "#school_all", "O'quv markazlar mavjud emas")
+            setSelectionSingle(school, "#school_all_aaa", "O'quv markazlar mavjud emas")
+        })
+    })
+
+
+    /* 
+        @description: Filialga oid xodimlarni olish
+        @api: /api/user/filter_user
+        @method: GET
+    */
+    const filterUser = async (id) => {
+        axios.get(`/api/user/filter_user`, { params: { school: id, role: "seller", actions: "active" } }).then(async (res) => {
+            const seller = res.data.data;
+            axios.get(`/api/user/filter_user`, { params: { school: id, role: "mentor", actions: "active" } }).then(async (res) => {
+                const mentor = res.data.data;
+                axios.get(`/api/user/filter_user`, { params: { school: id, role: "admin", actions: "active" } }).then(async (res) => {
+                    const admin = res.data.data;
+                    const users = admin.concat(seller, mentor)
+                    const USERS = $('#USERS')
+                    const members_all = $('#members_all_aaa')
+                    await USERS.html("")
+                    await members_all.html("")
+                    users.forEach((item) => {
+                        USERS.append(`<option value="${item._id}">${item.name}</option>`);
+                    })
+                    users.forEach((item) => {
+                        members_all.append(`<option value="${item._id}">${item.name}</option>`);
+                    })
+                })
+            })
+        })
+    }
+    /* 
+        @description:  Yangi yoqlama yaratish
+        @api: /api/attendance/create
+        @method: POST
+    */
+    const ReasonSelect = (value) => {
+        if (value == "" || value == "0") {
+            document.getElementById("displayReason").style.display = "block"
+        }
+        if (value == "1") {
+            document.getElementById("displayReason").style.display = "none"
+        }
+
+    }
+
+    const create = () => {
+        const users = document.getElementById("USERS").value
+        const school = document.getElementById("SCHOOL").value
+        const day = document.getElementById("DAY").value
+        const month = document.getElementById("MONTH").value
+        const year = document.getElementById("YEAR").value
+        const absent = document.getElementById("ABSENT").value
+        if (absent == "") {
+            warning("Malumotlarni to'liq kiriting")
+        }
+        else {
+            if (absent == "1") {
+                if (users == "" || school == "" || day == "" || month == "" || year == "") {
+                    warning("Malumotlarni to'liq kiriting")
+                }
+                else {
+                    axios.get(`/api/user/${users}`).then((res) => {
+                        const NAME = res.data.data.name
+                        axios.post('/api/attendance/create', {
+                            checkRole: "staff",
+                            school: school,
+                            members: users,
+                            name: NAME,
+                            day: day,
+                            month: month,
+                            year: year,
+                            absent: "1",
+                        }).then(async (res) => {
+                            const data = res.data;
+                            if (data.message == "Yo'qlama allaqachon qilingan") {
+                                danger("Siz kiritgan malumotlar allaqachon mavjud. Qaytadan tekshirishingizni so'rayman ")
+                            } else {
+                                success("Yo'qlama yaratildi")
+                            }
+                        })
+                    })
+                }
+            }
+            if (absent == "0") {
+                const reason = document.getElementById("REASON")
+                const reasonArray = [];
+                for (const item of reason) {
+                    if (item.selected) {
+                        reasonArray.push(item.value)
+                    }
+                }
+                if (reasonArray == "") {
+                    warning("Malumotlarni to'liq kiriting")
+                }
+                else {
+                    axios.get(`/api/user/${users}`).then((res) => {
+                        const NAME = res.data.data.name
+                        axios.post('/api/attendance/create', {
+                            checkRole: "staff",
+                            school: school,
+                            members: users,
+                            name: NAME,
+                            day: day,
+                            month: month,
+                            year: year,
+                            absent: "0",
+                            reason: reasonArray,
+                        }).then(async (res) => {
+                            const data = res.data;
+                            if (data.message == "Yo'qlama allaqachon qilingan") {
+                                danger("Siz kiritgan malumotlar allaqachon mavjud. Qaytadan tekshirishingizni so'rayman ")
+                            } else {
+                                success("Yo'qlama yaratildi")
+                            }
+                        })
+                    })
+                }
+            }
+        }
+    }
+    /* 
+        @description:  Umumiy filtrlash
+        @api: /api/attendance/filter
+        @method: GET
+    */
+    const filterAttendance = () => {
+        const school_all = document.getElementById("school_all").value
+        const month_all = document.getElementById("month_all").value
+        const year_all = document.getElementById("year_all").value
+
+        if (school_all == "" || month_all == "" || year_all == "") {
+            warning("Malumotlarni to'liq kiriting")
+        } else {
+            axios.get('/api/attendance/filter', {
+                params: {
+                    school: school_all,
+                    month: month_all,
+                    year: year_all,
+                }
+            })
+                .then(async (res) => {
+                    const data = res.data.data;
+                    console.log(data)
+                    if (data == "") {
+                        danger("Afsuski ma'lumot topilmadi")
+                    } else {
+                        const user_all = $(".user_all")
+                        await user_all.html("")
+                        data.forEach((item, index) => {
+                            user_all.append(`
+                            <tr id="cover_all">
+                                <td><a id="user_name" class="font-size-14 text-dark" style="font-weight: 700;" href="#">${item.name}</a></td>
+                                <td id="${item.name[0]}1" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}2" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}3" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}4" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}5" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}6" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}7" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}8" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}9" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}10">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}11">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}12">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}13">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}14">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}15">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}16">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}17">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}18">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}19">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}20">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}21">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}22">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}23">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}24">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}25">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}26">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}27">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}28">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}29">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}30">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="${item.name[0]}31">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                            </tr>
+                        `)
+
+                            const absent = item.user;
+                            function checked_yes(a) {
+                                return document.getElementById(`${item.name[0]}${a}`).innerHTML = `<div  style="border-radius: 50%; width: 25px; height: 25px; background-color: #77c430;"> </div>`
+                            }
+                            function checked_no(a, id) {
+                                return document.getElementById(`${item.name[0]}${a}`).innerHTML = `<div onclick="seeReason('${id}')" data-bs-toggle="modal" data-bs-target="#SEE_REASON" style="cursor: pointer; border-radius: 50%; width: 25px; height: 25px; background-color: #e21811;"> </div>`
+                            }
+
+                            function repeatingData(index) {
+                                if (typeof absent[index] !== "undefined") {
+                                    if (absent[index].day == "1") {
+                                        if (absent[index].absent == "1") checked_yes(1)
+                                        if (absent[index].absent == "0") checked_no(1, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "2") {
+                                        if (absent[index].absent == "1") checked_yes(2)
+                                        if (absent[index].absent == "0") checked_no(2, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "3") {
+                                        if (absent[index].absent == "1") checked_yes(3)
+                                        if (absent[index].absent == "0") checked_no(3, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "4") {
+                                        if (absent[index].absent == "1") checked_yes(4)
+                                        if (absent[index].absent == "0") checked_no(4, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "5") {
+                                        if (absent[index].absent == "1") checked_yes(5)
+                                        if (absent[index].absent == "0") checked_no(5, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "6") {
+                                        if (absent[index].absent == "1") checked_yes(6)
+                                        if (absent[index].absent == "0") checked_no(6, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "7") {
+                                        if (absent[index].absent == "1") checked_yes(7)
+                                        if (absent[index].absent == "0") checked_no(7, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "8") {
+                                        if (absent[index].absent == "1") checked_yes(8)
+                                        if (absent[index].absent == "0") checked_no(8, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "9") {
+                                        if (absent[index].absent == "1") checked_yes(9)
+                                        if (absent[index].absent == "0") checked_no(9, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "10") {
+                                        if (absent[index].absent == "1") checked_yes(10)
+                                        if (absent[index].absent == "0") checked_no(10, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "11") {
+                                        if (absent[index].absent == "1") checked_yes(11)
+                                        if (absent[index].absent == "0") checked_no(11, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "12") {
+                                        if (absent[index].absent == "1") checked_yes(12)
+                                        if (absent[index].absent == "0") checked_no(12, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "13") {
+                                        if (absent[index].absent == "1") checked_yes(13)
+                                        if (absent[index].absent == "0") checked_no(13, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "14") {
+                                        if (absent[index].absent == "1") checked_yes(14)
+                                        if (absent[index].absent == "0") checked_no(14, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "15") {
+                                        if (absent[index].absent == "1") checked_yes(15)
+                                        if (absent[index].absent == "0") checked_no(15, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "16") {
+                                        if (absent[index].absent == "1") checked_yes(16)
+                                        if (absent[index].absent == "0") checked_no(16, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "17") {
+                                        if (absent[index].absent == "1") checked_yes(17)
+                                        if (absent[index].absent == "0") checked_no(17, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "18") {
+                                        if (absent[index].absent == "1") checked_yes(18)
+                                        if (absent[index].absent == "0") checked_no(18, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "19") {
+                                        if (absent[index].absent == "1") checked_yes(19)
+                                        if (absent[index].absent == "0") checked_no(19, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "20") {
+                                        if (absent[index].absent == "1") checked_yes(20)
+                                        if (absent[index].absent == "0") checked_no(20, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "21") {
+                                        if (absent[index].absent == "1") checked_yes(21)
+                                        if (absent[index].absent == "0") checked_no(21, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "22") {
+                                        if (absent[index].absent == "1") checked_yes(22)
+                                        if (absent[index].absent == "0") checked_no(22, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "23") {
+                                        if (absent[index].absent == "1") checked_yes(23)
+                                        if (absent[index].absent == "0") checked_no(23, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "24") {
+                                        if (absent[index].absent == "1") checked_yes(24)
+                                        if (absent[index].absent == "0") checked_no(24, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "25") {
+                                        if (absent[index].absent == "1") checked_yes(25)
+                                        if (absent[index].absent == "0") checked_no(25, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "26") {
+                                        if (absent[index].absent == "1") checked_yes(26)
+                                        if (absent[index].absent == "0") checked_no(26, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "27") {
+                                        if (absent[index].absent == "1") checked_yes(27)
+                                        if (absent[index].absent == "0") checked_no(27, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "28") {
+                                        if (absent[index].absent == "1") checked_yes(28)
+                                        if (absent[index].absent == "0") checked_no(28, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "29") {
+                                        if (absent[index].absent == "1") checked_yes(29)
+                                        if (absent[index].absent == "0") checked_no(29, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "30") {
+                                        if (absent[index].absent == "1") checked_yes(30)
+                                        if (absent[index].absent == "0") checked_no(30, absent[index]._id)
+
+                                    }
+                                    if (absent[index].day == "31") {
+                                        if (absent[index].absent == "1") checked_yes(31)
+                                        if (absent[index].absent == "0") checked_no(31, absent[index]._id)
+
+                                    }
+
+
+                                }
+                            }
+
+                            if (typeof absent[0] !== "undefined") {
+                                repeatingData(0)
+                            }
+
+                            if (typeof absent[1] !== "undefined") {
+                                repeatingData(1)
+                            }
+
+                            if (typeof absent[2] !== "undefined") {
+                                repeatingData(2)
+                            }
+
+                            if (typeof absent[3] !== "undefined") {
+                                repeatingData(3)
+                            }
+
+                            if (typeof absent[4] !== "undefined") {
+                                repeatingData(4)
+                            }
+
+                            if (typeof absent[5] !== "undefined") {
+                                repeatingData(5)
+                            }
+
+                            if (typeof absent[6] !== "undefined") {
+                                repeatingData(6)
+                            }
+
+                            if (typeof absent[7] !== "undefined") {
+                                repeatingData(7)
+                            }
+
+                            if (typeof absent[8] !== "undefined") {
+                                repeatingData(8)
+                            }
+
+                            if (typeof absent[9] !== "undefined") {
+                                repeatingData(9)
+                            }
+
+                            if (typeof absent[10] !== "undefined") {
+                                repeatingData(10)
+                            }
+
+                            if (typeof absent[11] !== "undefined") {
+                                repeatingData(11)
+                            }
+
+                            if (typeof absent[12] !== "undefined") {
+                                repeatingData(12)
+                            }
+
+                            if (typeof absent[13] !== "undefined") {
+                                repeatingData(13)
+                            }
+
+                            if (typeof absent[14] !== "undefined") {
+                                repeatingData(14)
+                            }
+                            if (typeof absent[15] !== "undefined") {
+                                repeatingData(15)
+                            }
+                            if (typeof absent[16] !== "undefined") {
+                                repeatingData(16)
+                            }
+                            if (typeof absent[17] !== "undefined") {
+                                repeatingData(17)
+                            }
+                            if (typeof absent[18] !== "undefined") {
+                                repeatingData(18)
+                            }
+                            if (typeof absent[19] !== "undefined") {
+                                repeatingData(19)
+                            }
+                            if (typeof absent[20] !== "undefined") {
+                                repeatingData(20)
+                            }
+                            if (typeof absent[21] !== "undefined") {
+                                repeatingData(21)
+                            }
+                            if (typeof absent[22] !== "undefined") {
+                                repeatingData(22)
+                            }
+                            if (typeof absent[23] !== "undefined") {
+                                repeatingData(23)
+                            }
+                            if (typeof absent[24] !== "undefined") {
+                                repeatingData(24)
+                            }
+                            if (typeof absent[25] !== "undefined") {
+                                repeatingData(25)
+                            }
+                            if (typeof absent[26] !== "undefined") {
+                                repeatingData(26)
+                            }
+                            if (typeof absent[27] !== "undefined") {
+                                repeatingData(27)
+                            }
+                            if (typeof absent[28] !== "undefined") {
+                                repeatingData(28)
+                            }
+                            if (typeof absent[29] !== "undefined") {
+                                repeatingData(29)
+                            }
+                            if (typeof absent[30] !== "undefined") {
+                                repeatingData(30)
+                            }
+                        })
+                    }
+                })
+        }
+
+    }
+
+    /* 
+        @description: Xodimlar boyicha filtrlash
+        @api: /api/attendance/filter_by_user
+        @method: GET
+    */
+    const filterAttendanceByUser = () => {
+        const members_all = document.getElementById("members_all_aaa").value
+        const month_all = document.getElementById("month_all_aaa").value
+        const year_all = document.getElementById("year_all_aaa").value
+
+        if (members_all == "" || month_all == "" || year_all == "") {
+            warning("Malumotlarni to'liq kiriting")
+        } else {
+            axios.get('/api/attendance/filter_by_user', {
+                params: {
+                    members: members_all,
+                    month: month_all,
+                    year: year_all,
+                }
+            })
+                .then(async (res) => {
+                    if (res.data.data == "") {
+                        danger("Afsuski ma'lumot topilmadi")
+                    }
+                    else {
+                        const data = res.data.data[0]
+                        const user_all = $(".user_all")
+                        await user_all.html("")
+                        user_all.append(`
+                            <tr id="cover_all">
+                                <td><a id="user_name" class="font-size-14 text-dark" style="font-weight: 700;" href="#">${data.name}</a></td>
+                                <td id="user_1" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_2" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_3" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_4" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_5" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_6" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_7" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_8" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_9" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_10">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_11">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_12">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_13">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_14">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_15">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_16">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_17">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_18">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_19">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_20">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_21">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_22">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_23">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_24">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_25">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_26">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_27">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_28">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_29">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_30">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                                <td id="user_31">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                            </tr>
+                        `)
+
+                        const absent = data.user;
+                        function checked_yes(a) {
+                            return document.getElementById(`user_${a}`).innerHTML = `<div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #77c430;"> </div>`
+                        }
+                        function checked_no(a, id) {
+                            return document.getElementById(`user_${a}`).innerHTML = `<div  onclick="seeReason('${id}')" data-bs-toggle="modal" data-bs-target="#SEE_REASON" style="cursor: pointer; border-radius: 50%; width: 25px; height: 25px; background-color: #e21811;"> </div>`
+                        }
+                        function repeatingData(index) {
+                            if (typeof absent[index] !== "undefined") {
+                                if (absent[index].day == "1") {
+                                    if (absent[index].absent == "1") checked_yes(1)
+                                    if (absent[index].absent == "0") checked_no(1, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "2") {
+                                    if (absent[index].absent == "1") checked_yes(2)
+                                    if (absent[index].absent == "0") checked_no(2, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "3") {
+                                    if (absent[index].absent == "1") checked_yes(3)
+                                    if (absent[index].absent == "0") checked_no(3, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "4") {
+                                    if (absent[index].absent == "1") checked_yes(4)
+                                    if (absent[index].absent == "0") checked_no(4, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "5") {
+                                    if (absent[index].absent == "1") checked_yes(5)
+                                    if (absent[index].absent == "0") checked_no(5, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "6") {
+                                    if (absent[index].absent == "1") checked_yes(6)
+                                    if (absent[index].absent == "0") checked_no(6, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "7") {
+                                    if (absent[index].absent == "1") checked_yes(7)
+                                    if (absent[index].absent == "0") checked_no(7, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "8") {
+                                    if (absent[index].absent == "1") checked_yes(8)
+                                    if (absent[index].absent == "0") checked_no(8, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "9") {
+                                    if (absent[index].absent == "1") checked_yes(9)
+                                    if (absent[index].absent == "0") checked_no(9, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "10") {
+                                    if (absent[index].absent == "1") checked_yes(10)
+                                    if (absent[index].absent == "0") checked_no(10, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "11") {
+                                    if (absent[index].absent == "1") checked_yes(11)
+                                    if (absent[index].absent == "0") checked_no(11, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "12") {
+                                    if (absent[index].absent == "1") checked_yes(12)
+                                    if (absent[index].absent == "0") checked_no(12, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "13") {
+                                    if (absent[index].absent == "1") checked_yes(13)
+                                    if (absent[index].absent == "0") checked_no(13, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "14") {
+                                    if (absent[index].absent == "1") checked_yes(14)
+                                    if (absent[index].absent == "0") checked_no(14, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "15") {
+                                    if (absent[index].absent == "1") checked_yes(15)
+                                    if (absent[index].absent == "0") checked_no(15, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "16") {
+                                    if (absent[index].absent == "1") checked_yes(16)
+                                    if (absent[index].absent == "0") checked_no(16, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "17") {
+                                    if (absent[index].absent == "1") checked_yes(17)
+                                    if (absent[index].absent == "0") checked_no(17, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "18") {
+                                    if (absent[index].absent == "1") checked_yes(18)
+                                    if (absent[index].absent == "0") checked_no(18, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "19") {
+                                    if (absent[index].absent == "1") checked_yes(19)
+                                    if (absent[index].absent == "0") checked_no(19, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "20") {
+                                    if (absent[index].absent == "1") checked_yes(20)
+                                    if (absent[index].absent == "0") checked_no(20, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "21") {
+                                    if (absent[index].absent == "1") checked_yes(21)
+                                    if (absent[index].absent == "0") checked_no(21, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "22") {
+                                    if (absent[index].absent == "1") checked_yes(22)
+                                    if (absent[index].absent == "0") checked_no(22, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "23") {
+                                    if (absent[index].absent == "1") checked_yes(23)
+                                    if (absent[index].absent == "0") checked_no(23, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "24") {
+                                    if (absent[index].absent == "1") checked_yes(24)
+                                    if (absent[index].absent == "0") checked_no(24, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "25") {
+                                    if (absent[index].absent == "1") checked_yes(25)
+                                    if (absent[index].absent == "0") checked_no(25, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "26") {
+                                    if (absent[index].absent == "1") checked_yes(26)
+                                    if (absent[index].absent == "0") checked_no(26, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "27") {
+                                    if (absent[index].absent == "1") checked_yes(27)
+                                    if (absent[index].absent == "0") checked_no(27, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "28") {
+                                    if (absent[index].absent == "1") checked_yes(28)
+                                    if (absent[index].absent == "0") checked_no(28, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "29") {
+                                    if (absent[index].absent == "1") checked_yes(29)
+                                    if (absent[index].absent == "0") checked_no(29, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "30") {
+                                    if (absent[index].absent == "1") checked_yes(30)
+                                    if (absent[index].absent == "0") checked_no(30, absent[index]._id)
+
+                                }
+                                if (absent[index].day == "31") {
+                                    if (absent[index].absent == "1") checked_yes(31)
+                                    if (absent[index].absent == "0") checked_no(31, absent[index]._id)
+
+                                }
+
+
+                            }
+                        }
+                        if (typeof absent[0] !== "undefined") repeatingData(0)
+                        if (typeof absent[1] !== "undefined") repeatingData(1)
+                        if (typeof absent[2] !== "undefined") repeatingData(2)
+                        if (typeof absent[3] !== "undefined") repeatingData(3)
+                        if (typeof absent[4] !== "undefined") repeatingData(4)
+                        if (typeof absent[5] !== "undefined") repeatingData(5)
+                        if (typeof absent[6] !== "undefined") repeatingData(6)
+                        if (typeof absent[7] !== "undefined") repeatingData(7)
+                        if (typeof absent[8] !== "undefined") repeatingData(8)
+                        if (typeof absent[9] !== "undefined") repeatingData(9)
+                        if (typeof absent[10] !== "undefined") repeatingData(10)
+                        if (typeof absent[11] !== "undefined") repeatingData(11)
+                        if (typeof absent[12] !== "undefined") repeatingData(12)
+                        if (typeof absent[13] !== "undefined") repeatingData(13)
+                        if (typeof absent[14] !== "undefined") repeatingData(14)
+                        if (typeof absent[15] !== "undefined") repeatingData(15)
+                        if (typeof absent[16] !== "undefined") repeatingData(16)
+                        if (typeof absent[17] !== "undefined") repeatingData(17)
+                        if (typeof absent[18] !== "undefined") repeatingData(18)
+                        if (typeof absent[19] !== "undefined") repeatingData(19)
+                        if (typeof absent[20] !== "undefined") repeatingData(20)
+                        if (typeof absent[21] !== "undefined") repeatingData(21)
+                        if (typeof absent[22] !== "undefined") repeatingData(22)
+                        if (typeof absent[23] !== "undefined") repeatingData(23)
+                        if (typeof absent[24] !== "undefined") repeatingData(24)
+                        if (typeof absent[25] !== "undefined") repeatingData(25)
+                        if (typeof absent[26] !== "undefined") repeatingData(26)
+                        if (typeof absent[27] !== "undefined") repeatingData(27)
+                        if (typeof absent[28] !== "undefined") repeatingData(28)
+                        if (typeof absent[29] !== "undefined") repeatingData(29)
+                        if (typeof absent[30] !== "undefined") repeatingData(30)
+                    }
+                })
+        }
+
+    }
+
+
+    /* 
+        @description: Kelmaganlik haqida malumot olish
+        @api: /api/attendance/filter_by_user
+        @method: GET
+    */
+    const seeReason = (id) => {
+        axios.get(`/api/attendance/${id}`).then(async (res) => {
+            const data = res.data.data.reason
+            const appends = $(".getReasons")
+            await appends.html("");
+            data.forEach((item, index) => {
+                appends.append(`
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;">${index += 1} sabab: </h6>
+                            <h6 id="setElementss_${index}"></h6>
+                        </div>
+                    </a>
+                `);
+                if (item == "0") document.getElementById(`setElementss_${index}`).innerHTML = "Sababsiz ishga kelmaslik                                             "
+                if (item == "1") document.getElementById(`setElementss_${index}`).innerHTML = "Xojayinning buyrug'i bilan boshqa joyga borganligi uchun kelmaslik   "
+                if (item == "2") document.getElementById(`setElementss_${index}`).innerHTML = "Ishlash tartibidan norozi bo'lganlik uchun                           "
+                if (item == "3") document.getElementById(`setElementss_${index}`).innerHTML = "Yo'lda vaqtinchalik ushlanib qolish                                  "
+                if (item == "4") document.getElementById(`setElementss_${index}`).innerHTML = "Kasallik tufayli kelmaganlik                                         "
+                if (item == "5") document.getElementById(`setElementss_${index}`).innerHTML = "Shaxsiy ish yuzasidan kelmadi                                        "
+                if (item == "6") document.getElementById(`setElementss_${index}`).innerHTML = "Ob-havoning noqulayligi tufayli                                      "
+            })
+        })
+    }
+
+
+
+
+
+
+
+
+</script>

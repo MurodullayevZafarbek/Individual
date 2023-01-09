@@ -1,0 +1,944 @@
+<style>
+    #persentage,
+    #defaultingSalary,
+    #per_person {
+        display: none;
+    }
+
+    .HoverElem:hover {
+        color: #020202;
+        transition-duration: 0.3s;
+        cursor: pointer;
+    }
+
+    #salaryPERCENTAGE,
+    #salaryPERSON,
+    #salaryDEFAULT {
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="row col md-12 col-sm-12 d-flex justify-content-between align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h3 class="mb-sm-0">Oylik-maosh bo'limi</h3>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                                <li class="breadcrumb-item active">Oylik-maosh</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class=" col-md-3  col-sm-3">
+                    <select class="form-control select2" onchange="getStaffs(this.value)" id="filter_schools"></select>
+                </div>
+
+                <!-- <div class="col-md-2 col-sm-2">
+                    <div class="btn-group col-md-12 col-sm-12">
+                        <button type="button" class=" col-md-12 col-sm-12 btn btn-danger dropdown-toggle"
+                            data-bs-toggle="dropdown" aria-expanded="false"> Filtrlash <i
+                                class=" ri-filter-fill"></i></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item text-dark" data-bs-toggle="offcanvas"
+                                data-bs-target="#FILTER_SALARIES" aria-controls="FILTER_SALARIES" href="#">Umumiy
+                                holatda filtrlash</a>
+                            <a class="dropdown-item text-dark" data-bs-toggle="offcanvas"
+                                data-bs-target="#FILTER_SALARIES" aria-controls="FILTER_SALARIES" href="#">Guruh
+                                bo'yicha maoshi</a>
+                            <a class="dropdown-item text-dark" data-bs-toggle="offcanvas"
+                                data-bs-target="#FILTER_SALARIES" aria-controls="FILTER_SALARIES" href="#">Barcha
+                                oyliklarni filtrlash</a>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive wrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width:  100%">
+                    <thead>
+                        <tr>
+                            <th style="width: 60%;">Xodim</th>
+                            <th style="width: 20%;">Oylik maosh holati</th>
+                            <th style="width: 20%;">Sana</th>
+                            <th style="width: 10%;">Sozlama</th>
+                        </tr>
+                    </thead>
+                    <tbody class="put_tables"> </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tahrirlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="SET_SALARY">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Oylik maoshni belgilash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+
+            <div class="row">
+                <div class="col-md-12" id="salaryPERCENTAGE">
+                    <button onclick="showPersentage('percentage')" type="button"
+                        class="btn btn-outline-primary col-md-12">Foiz miqdorida maosh belgilash</button>
+                </div>
+                <div class="col-md-12 mt-1" id="salaryPERSON">
+                    <button onclick="showPer_person('per_person')" type="button"
+                        class="btn btn-outline-primary  col-md-12">Har bir o'quvchi uchun maosh belgilash </button>
+                </div>
+                <div class="col-md-12 mt-1" id="salaryDEFAULT">
+                    <button onclick="showDefault('defaulting')" type="button"
+                        class="btn btn-outline-primary  col-md-12">Umumiy 1 oylik maosh belgilash</button>
+                </div>
+            </div>
+
+            <div id="persentage">
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="form-label mb-1 mt-3">Xodim uchun (%)</label>
+                        <input class="form-control" type="number" id="staff_persentage" />
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label mb-1 mt-3">Korxona uchun (%)</label>
+                        <input class="form-control" type="number" id="school_persentage" />
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <button type="button" id="percentageButton" class="btn btn-success">Saqlash</button>
+                    </div>
+                </div>
+            </div>
+            <div id="per_person">
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class=" col-md-12 form-label mb-1 mt-3">Kishi boshi uchun summani kiriting</label>
+                        <input class=" col-md-12 form-control" type="number" id="per_Persentage_staff" />
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <button type="button" id="perPersonButton" class="btn btn-success">Saqlash</button>
+                    </div>
+                </div>
+            </div>
+            <div id="defaultingSalary">
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <label class=" col-md-12 form-label mb-1 mt-3">1 oylik maosh miqdori kiriting</label>
+                        <input class=" col-md-12 form-control" type="number" id="defaultSalaries" />
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <button type="button" id="defaultSalaryButton" class="btn btn-success">Saqlash</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Tahrirlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="SEE_SALARY">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark"> Oylik maoshni ko'rish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body seeSalaries">
+    </div>
+</div>
+<!-- Filtrlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="FILTER_SALARIES">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark"> Oylik maoshni ko'rish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body seeSalaries">
+    </div>
+</div>
+<!-- Maoshlani ko'rish -->
+<div class="offcanvas offcanvas-end" style="width: 100%" tabindex="-1" id="MENTOR_SEE_SALARY">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Xodimning umumiy oylik maoshini ko'rish</h5>
+        <button type="button" style="background-color: rgb(228, 79, 79);" class="btn-close text-reset p-2"
+            data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row col-md-12 mt-3">
+
+            <div class="col-md-2 col-sm-12">
+                <select class="select2 form-control  col-md-12 col-sm-12" id="filter_month">
+                    <option value="">Oyni tanlang</option>
+                    <option value="1">Yanvar</option>
+                    <option value="2">Fevral</option>
+                    <option value="3">Mart</option>
+                    <option value="4">Aprel</option>
+                    <option value="5">May</option>
+                    <option value="6">Iyun</option>
+                    <option value="7">Iyul</option>
+                    <option value="8">Avgust</option>
+                    <option value="9">Sentyabr</option>
+                    <option value="10">Oktyabr</option>
+                    <option value="11">Noyabr</option>
+                    <option value="12">Dekabr</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 col-sm-12">
+                <select class="form-control select2 col-md-12 col-sm-12 text-center" id="filter_year">
+                    <option class="text-center" value="">Yilni tanlang</option>
+                    <option class="text-center" value="2022">2022 yil</option>
+                    <option class="text-center" value="2023">2023 yil</option>
+                    <option class="text-center" value="2024">2024 yil</option>
+                    <option class="text-center" value="2025">2025 yil</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <div class="col-md-12 get_filter_salary">
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="col-md-12">
+                    <h6 class="font-size-22  p-2 pl-5 pr-5 badge badge-rounded bg-warning text-dark"
+                        id="show_current_salary"></h6>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive wrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width:  100%">
+                    <thead>
+                        <tr>
+                            <th>O'quv markazi</th>
+                            <th>Guruh</th>
+                            <th>Muddat</th>
+                            <th>Oylik-maosh</th>
+                            <th>Kelishuv holati</th>
+                            <th>Yaratilgan sana</th>
+                        </tr>
+                    </thead>
+                    <tbody class="getAllSalaries"> </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Mentor uchun maosh berish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="MENTOR_CREATE_SALARY">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Xodim uchun maosh berish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body getSalary">
+
+    </div>
+</div>
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script src="/assets/libs/inputmask/jquery.inputmask.min.js"></script>
+<script src="/assets/js/pages/form-mask.init.js"></script>
+<script>
+
+    const returnID = (item) => { return document.getElementById(item) }
+    /* 
+        @description: Managerning tokeni orqali unga tegishli o'quv markazlarni hammasini olish
+        @api: /api/user/decode
+        @method: GET
+    */
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const UserToken = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: UserToken } }).then((res) => {
+        const id = res.data.id;
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const school = res.data.data.school
+            setSelectionSingle(school, "#filter_schools", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#pay_salary_mentor_SCHOOL", "Iltimos yangi o'quv markazi yarating")
+        })
+    })
+
+    /* 
+       @description: O'quv markaz boyicha barcha hodimlarni olish
+       @api: /api/user/filter_user
+       @method: GET
+    */
+    const getStaffs = async (id) => {
+        axios.get(`/api/user/filter_user`, { params: { school: id, role: "seller", actions: "active" } }).then(async (res) => {
+            const seller = res.data.data;
+            axios.get(`/api/user/filter_user`, { params: { school: id, role: "mentor", actions: "active" } }).then(async (res) => {
+                const mentor = res.data.data;
+                axios.get(`/api/user/filter_user`, { params: { school: id, role: "admin", actions: "active" } }).then(async (res) => {
+                    const admin = res.data.data;
+                    const users = admin.concat(seller, mentor)
+                    const element = $('.put_tables')
+                    await element.html("")
+                    users.forEach((item, index) => {
+                        element.append(`
+                            <tr>
+                                <td>${item.name}</td>
+                                <td class="salaryStatus"></td>
+                                <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a  onclick="setSalary('${item._id}')"  data-bs-toggle="offcanvas" data-bs-target="#SET_SALARY" aria-controls="SET_SALARY"  class="dropdown-item" href="#"> <i class="far fa-check-circle"> </i> Maosh belgilash</a>
+                                            <a  onclick="paySalary('${item._id}')"  data-bs-toggle="offcanvas" data-bs-target="#MENTOR_CREATE_SALARY" aria-controls="MENTOR_CREATE_SALARY"  class="dropdown-item" href="#"><i class="fas fa-hand-holding-usd"> </i> Maosh berish</a>
+                                            <a  onclick="cancelSalary('${item._id}')"  class="dropdown-item text-danger" href="#"><i class="fas fa-ban"> </i> Maoshni taqiqlash</a>
+                                            <a  onclick="seeAllSalaries('${item._id}')"  data-bs-toggle="offcanvas" data-bs-target="#MENTOR_SEE_SALARY" aria-controls="MENTOR_SEE_SALARY"  class="dropdown-item" href="#"> <i class="fas fa-eye"> </i> Maoshni ko'rish</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        `);
+                        const salaryStatus = document.getElementsByClassName("salaryStatus");
+                        salaryStatus.forEach((inputs, inputsIndex) => {
+                            if (inputsIndex == index) {
+                                if (item.salary.status == "0") {
+                                    inputs.innerHTML = `<span class="badge bg-danger font-size-14 p-2">Maosh belgilanmagan</span>`
+                                } else {
+                                    inputs.innerHTML = `<span data-bs-toggle="offcanvas" data-bs-target="#SEE_SALARY" aria-controls="SEE_SALARY" onclick="SeeSalary('${item._id}')" class=" HoverElem badge bg-success font-size-14 p-2">Maosh belgilangan</span>`
+                                }
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    }
+
+    /*
+      @description: Xodimning barcha oylik maoshlarini korish
+    */
+    const seeAllSalaries = async (id) => {
+        const element = $(".get_filter_salary")
+        await element.html("")
+        element.append(`
+                <button type="button" onclick="filterSalary('${id}')"  class="col-md-12 btn btn-primary waves-effect waves-light">
+                    <i class="fas fa-search"></i> Izlash
+                </button>
+        `)
+    }
+    const filterSalary = (id) => {
+        const year = document.getElementById("filter_year").value;
+        const month = document.getElementById("filter_month").value;
+        const show_current_salary = document.getElementById("show_current_salary");
+        if (year == "" || month == "") {
+            danger("Iltimos yil va oyni tanlang")
+        } else {
+            axios.get('/api/salary/filter_by_year', { params: { member: id, year: year, month: month } }).then(async (res) => {
+                const data = res.data.data;
+                if (data == "") {
+                    warning("Oylik-maosh ro'yhati mavjud emas")
+                } else {
+                    const mySalary = data
+                        .map((item) => {
+                            return item.salary.default[0].STAFF_SIDE
+                        }).reduce((a, b) => {
+                            return a + b
+                        })
+                    if (month == "1") show_current_salary.innerHTML = `Yanvar oyi uchun - ${mySalary} so'm`
+                    if (month == "2") show_current_salary.innerHTML = `Fevral oyi uchun - ${mySalary} so'm`
+                    if (month == "3") show_current_salary.innerHTML = `Mart oyi uchun - ${mySalary} so'm`
+                    if (month == "4") show_current_salary.innerHTML = `Aprel oyi uchun - ${mySalary} so'm`
+                    if (month == "5") show_current_salary.innerHTML = `May oyi uchun - ${mySalary} so'm`
+                    if (month == "6") show_current_salary.innerHTML = `Iyun oyi uchun - ${mySalary} so'm`
+                    if (month == "7") show_current_salary.innerHTML = `Iyul oyi uchun - ${mySalary} so'm`
+                    if (month == "8") show_current_salary.innerHTML = `Avgust oyi uchun - ${mySalary} so'm`
+                    if (month == "9") show_current_salary.innerHTML = `Sentyabr oyi uchun - ${mySalary} so'm`
+                    if (month == "10") show_current_salary.innerHTML = `Oktyabr oyi uchun - ${mySalary} so'm`
+                    if (month == "11") show_current_salary.innerHTML = `Noyabr oyi uchun - ${mySalary} so'm`
+                    if (month == "12") show_current_salary.innerHTML = `Dekabr oyi uchun - ${mySalary} so'm`
+
+                    const element = $(".getAllSalaries")
+                    await element.html("")
+                    data.forEach((item, index) => {
+                        element.append(`
+                        <tr>
+                            <td>${item.school.name}</td>
+                            <td class="groups"></td>
+                            <td class="month_year"></td>
+                            <td class="salary"></td>
+                            <td class="conratct"></td>
+                            <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                        </tr>
+                    `)
+
+
+                        const groups = document.getElementsByClassName("groups");
+                        groups.forEach((inputs, inputsIndex) => {
+                            if (inputsIndex == index) {
+                                if (item.group || item.group != "") {
+                                    inputs.innerHTML = item.group.name
+                                }
+                                if (typeof item.group == undefined || typeof item.group == null || item.group == "" || !item.group) {
+                                    inputs.innerHTML = ` <span style="background-color: #EB5353;"  class="badge font-size-14 p-2">Mavjud emas</span>  `
+                                }
+                            }
+                        })
+
+
+                        const conratct = document.getElementsByClassName("conratct");
+                        conratct.forEach((inputs, inputsIndex) => {
+                            if (inputsIndex == index) {
+                                if (item.salary_type == "percentage") {
+                                    inputs.innerHTML = ` <span style="background-color: #83BD75;"  class="badge font-size-14 p-2">Foizga kelishuv</span>  `
+                                }
+                                if (item.salary_type == "per_person") {
+                                    inputs.innerHTML = ` <span style="background-color: #83BD75;"  class="badge font-size-14 p-2">Kishi boshiga</span>  `
+                                }
+                                if (item.salary_type == "default_salary") {
+                                    inputs.innerHTML = ` <span style="background-color: #83BD75;"  class="badge font-size-14 p-2">Ixtiyoriy maosh</span>  `
+                                }
+                            }
+                        })
+
+
+                        const salary = document.getElementsByClassName("salary");
+                        salary.forEach((inputs, inputsIndex) => {
+                            if (inputsIndex == index) {
+                                if (item.salary_type == "percentage") {
+                                    inputs.innerHTML = `
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span style="background-color: #003865;"  class="badge font-size-14 p-2">O'quv markaz - ${item.salary.default[0].SCHOOL_SIDE}</span>
+                                        <span style="background-color: #EF5B0C;"  class="badge font-size-14 p-2 mt-1">Xodim - ${item.salary.default[0].STAFF_SIDE}</span>
+                                    <div>
+                                `
+                                }
+                                if (item.salary_type == "per_person") {
+                                    inputs.innerHTML = `
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span style="background-color: #003865;"  class="badge font-size-14 p-2">O'quv markaz - ${item.salary.default[0].SCHOOL_SIDE}</span>
+                                        <span style="background-color: #EF5B0C;"  class="badge font-size-14 p-2 mt-1">Xodim - ${item.salary.default[0].STAFF_SIDE}</span>
+                                    <div>
+                                `
+                                }
+                                if (item.salary_type == "default_salary") {
+                                    inputs.innerHTML = `
+                                    <div style="display: flex; flex-direction: column;">
+                                        <span style="background-color: #EF5B0C;" class="badge font-size-14 p-2 mt-1">Xodim - ${item.salary.default[0].STAFF_SIDE}</span>
+                                    <div>
+                                `
+                                }
+                            }
+                        })
+
+
+
+                        const month_year = document.getElementsByClassName("month_year");
+                        month_year.forEach((inputs, inputsIndex) => {
+                            if (inputsIndex == index) {
+                                if (item.month == "1") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Yanvar - ${item.year}</span>`
+                                if (item.month == "2") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Fevral - ${item.year}</span>`
+                                if (item.month == "3") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Mart - ${item.year}</span>`
+                                if (item.month == "4") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Aprel - ${item.year}</span>`
+                                if (item.month == "5") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">May - ${item.year}</span>`
+                                if (item.month == "6") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Iyun - ${item.year}</span>`
+                                if (item.month == "7") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Iyul - ${item.year}</span>`
+                                if (item.month == "8") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Avgust - ${item.year}</span>`
+                                if (item.month == "9") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Sentyabr - ${item.year}</span>`
+                                if (item.month == "10") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Oktyabr - ${item.year}</span>`
+                                if (item.month == "11") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Noyabr - ${item.year}</span>`
+                                if (item.month == "12") inputs.innerHTML = `<span class="badge bg-primary font-size-14 p-2">Dekabr - ${item.year}</span>`
+                            }
+                        })
+                    });
+
+                }
+
+            })
+        }
+
+    }
+    /*
+       @description: Xodim uchun oylik maosh belgilash
+       @api: /api/user/:id
+       @method: PUT
+    */
+    let userID;
+    let userROLE;
+    let percentages = {}
+    let persons;
+    let defaultStaffSalary;
+    const setSalary = (id) => {
+        axios.get(`/api/user/${id}`).then((res) => {
+            const user = res.data.data;
+            userID = id
+            if (user.role == "admin") {
+                returnID("salaryPERCENTAGE").style.display = "none"
+                returnID("salaryPERSON").style.display = "none"
+                returnID("salaryDEFAULT").style.display = "block"
+            }
+            if (user.role == "mentor") {
+                returnID("salaryPERCENTAGE").style.display = "block"
+                returnID("salaryPERSON").style.display = "block"
+                returnID("salaryDEFAULT").style.display = "block"
+            }
+            if (user.role == "seller") {
+                returnID("salaryPERCENTAGE").style.display = "none"
+                returnID("salaryPERSON").style.display = "none"
+                returnID("salaryDEFAULT").style.display = "block"
+            }
+        })
+    }
+
+    const showPersentage = (value) => {
+        returnID("persentage").style.display = "block"
+        returnID("per_person").style.display = "none"
+        returnID("defaultingSalary").style.display = "none"
+    }
+    const showPer_person = (value) => {
+        returnID("persentage").style.display = "none"
+        returnID("per_person").style.display = "block"
+        returnID("defaultingSalary").style.display = "none"
+    }
+    const showDefault = (value) => {
+        returnID("persentage").style.display = "none"
+        returnID("per_person").style.display = "none"
+        returnID("defaultingSalary").style.display = "block"
+    }
+
+    const setSalaries = (key) => {
+        if (key == "persentage") {
+            const staff_side = returnID("staff_persentage").value;
+            const school_side = returnID("school_persentage").value;
+            percentages.staff_side = staff_side
+            percentages.school_side = school_side
+        }
+        if (key == "per_person") {
+            const onePerson = returnID("per_Persentage_staff").value;
+            persons = onePerson
+        }
+        if (key == "per_person") {
+            const defaultSalariesStaffs = returnID("defaultSalaries").value;
+            defaultStaffSalary = defaultSalariesStaffs
+        }
+    }
+    returnID("percentageButton").addEventListener("click", () => {
+        setSalaries("persentage");
+        const staff_side = returnID("staff_persentage").value;
+        const school_side = returnID("school_persentage").value;
+        if (staff_side == "" || school_side == "") {
+            danger("Malumotlar to'liq kiritishingiz kerak")
+        }
+        else {
+            const id = userID
+            const staffSide = percentages.staff_side
+            const schoolSide = percentages.school_side
+            axios.put(`/api/user/content/${id}`, {
+                salary: {
+                    status: "1",
+                    percenteage: {
+                        staff_side: staffSide,
+                        school_side: schoolSide,
+                    },
+                    per_person: "0",
+                    default_salary: "0",
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli amalga oshirildi")
+                restart()
+            })
+        }
+    })
+    returnID("perPersonButton").addEventListener("click", () => {
+        setSalaries("per_person");
+        const onePerson = returnID("per_Persentage_staff").value;
+        if (onePerson == "") {
+            danger("Malumotlar to'liq kiritishingiz kerak")
+        }
+        else {
+            const id = userID
+            const personSumma = persons
+            axios.put(`/api/user/content/${id}`, {
+                salary: {
+                    status: "1",
+                    percenteage: {
+                        staff_side: "0",
+                        school_side: "0",
+                    },
+                    per_person: personSumma,
+                    default_salary: "0",
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli amalga oshirildi")
+                restart()
+            })
+        }
+    })
+    returnID("defaultSalaryButton").addEventListener("click", () => {
+        setSalaries("per_person");
+        const onePerson = returnID("defaultSalaries").value;
+        if (onePerson == "") {
+            danger("Malumotlar to'liq kiritishingiz kerak")
+        }
+        else {
+            const id = userID
+            const defaultSumma = defaultStaffSalary
+            axios.put(`/api/user/content/${id}`, {
+                salary: {
+                    status: "1",
+                    percenteage: {
+                        staff_side: "0",
+                        school_side: "0",
+                    },
+                    per_person: "0",
+                    default_salary: defaultSumma,
+
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli amalga oshirildi")
+                restart()
+            })
+        }
+    })
+
+    /*
+       @description: Xodim uchun oylik maosh berishdan mahrum qilish
+       @api: /api/user/:id
+       @method: PUT
+    */
+    const cancelSalary = (id) => {
+        axios.put(`/api/user/content/${id}`, {
+            salary: {
+                status: "0",
+                percenteage: {
+                    staff_side: "0",
+                    school_side: "0",
+                },
+                per_person: "0",
+                default_salary: "0"
+            },
+        }).then((res) => {
+            success("Muvaffaqiyatli amalga oshirildi")
+            restart()
+        })
+    }
+
+    /*
+       @description: Agar hodimga oylik maosh belgilangan bolsa uni korish imkoniyatiga ega bolishi kerak;
+       @api: /api/user/:id
+       @method: GET
+    */
+    const SeeSalary = (id) => {
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const user = res.data.data;
+
+            const seeSalaries = $(".seeSalaries");
+            await seeSalaries.html("");
+
+            seeSalaries.append(` <div class="list-group setElements">   </div>   `);
+
+            const setElements = $(".setElements");
+            await setElements.html("");
+
+            if (user.salary.percenteage.staff_side == "0" && user.salary.percenteage.school_side == "0" && user.salary.default_salary == "0") {
+                setElements.append(`
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;0">Har bir o'quvchi boshiga to'lov miqdori: </h6>
+                            <h6>${user.salary.per_person} so'm</h6>
+                        </div>
+                    </a>
+                `)
+            }
+
+
+            if (user.salary.percenteage.staff_side == "0" && user.salary.percenteage.school_side == "0" && user.salary.per_person == "0") {
+                setElements.append(`
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;0">1 oylik maosh miqdori: </h6>
+                            <h6>${user.salary.default_salary} so'm</h6>
+                        </div>
+                    </a>
+                `)
+            }
+
+
+
+            if (user.salary.per_person == "0" && user.salary.default_salary == "0") {
+                setElements.append(`
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;0">Xodim uchun foiz miqdori: </h6>
+                            <h6>${user.salary.percenteage.staff_side} %</h6>
+                        </div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;0">O'quv markazi uchun foiz miqdori: </h6>
+                            <h6>${user.salary.percenteage.school_side} %</h6>
+                        </div>
+                    </a>
+                `)
+            }
+
+        });
+    }
+
+    /*
+       @description: O'quv markaziga tegishli xodimlarni olish
+       @api: /api/user/filter_user
+       @method: GET
+    */
+    const FILTER_SCHOOL = (id) => {
+        axios.get(`/api/user/filter_user`, { params: { school: id, role: "seller", actions: "active" } }).then(async (res) => {
+            const seller = res.data.data;
+            axios.get(`/api/user/filter_user`, { params: { school: id, role: "mentor", actions: "active" } }).then(async (res) => {
+                const mentor = res.data.data;
+                axios.get(`/api/user/filter_user`, { params: { school: id, role: "admin", actions: "active" } }).then(async (res) => {
+                    const admin = res.data.data;
+                    const users = admin.concat(seller, mentor)
+                    if (users == "") {
+                        const appends = $("#pay_salary_mentor_STAFF");
+                        await appends.html("");
+                        appends.append(`<option value="" selected>Mavjud emas</option> `);
+                        danger("O'quv markazi bo'yicha xodimlar mavjud emas. Iltimos yangi xodimlarni qo'shing !!!");
+                    } else {
+                        const appends = $("#pay_salary_mentor_STAFF");
+                        await appends.html("");
+                        appends.append(`<option value="" selected>Tanlang</option> `);
+                        users.forEach((item) => {
+                            appends.append(`<option value="${item._id}">${item.name}</option>`);
+                        });
+                    }
+                })
+            })
+        })
+    }
+
+
+
+    /*  @description: Default xolatda restart berish  */
+    const restart = () => {
+        const headerSelection = document.getElementById("filter_schools")
+        if (headerSelection.value != "") {
+            for (let item of headerSelection) {
+                if (item.selected) {
+                    getStaffs(item.value)
+                }
+            }
+        }
+    }
+
+
+
+    /*
+      @description: Xodim uchun oylik maosh to'lash
+      @api: /api/salary/create
+      @method: POST
+   */
+    const paySalaryHTML = async (user, appending, role) => {
+        const element = $(appending)
+        await element.html("")
+        element.append(`
+            <div class="row mt-3 mengtorGroup" id="mentorGroup">
+                <div class="col-md-12">
+                    <label class="form-label">O'qituvchi guruhini tanlang</label>
+                    <select class="form-control select2" id="pay_salary_mentor_GROUP"></select>
+                </div>
+            </div>
+            <div class="row col-md-12 mt-3"  id="mentorMonth">
+                <div class="col-md-6 col-sm-12">
+                    <label class="form-label ">Oyni tanlang</label>
+                    <select class="form-control select2 col-md-12 col-sm-12" id="pay_salary_mentor_MONTH">
+                        <option value="">Tanlang</option>
+                        <option value="1">Yanvar</option>
+                        <option value="2">Fevral</option>
+                        <option value="3">Mart</option>
+                        <option value="4">Aprel</option>
+                        <option value="5">May</option>
+                        <option value="6">Iyun</option>
+                        <option value="7">Iyul</option>
+                        <option value="8">Avgust</option>
+                        <option value="9">Sentyabr</option>
+                        <option value="10">Oktyabr</option>
+                        <option value="11">Noyabr</option>
+                        <option value="12">Dekabr</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-sm-12" id="mentorYear">
+                    <label class="form-label">Yilni tanlang</label>
+                    <select class="form-control select2 col-md-12 col-sm-12" id="pay_salary_mentor_YEAR">
+                        <option value="">Tanlang</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3" id="mentorPayment">
+                <div class="col-md-12">
+                    <label class="form-label">To'lov turi</label>
+                    <select class="form-control select2" id="pay_salary_mentor_PAYMENT">
+                        <option value="">Tanlang</option>
+                        <option value="account_number">Hisob raqami orqali</option>
+                        <option value="cash">Naqd pul orqali</option>
+                        <option value="card">Plastik karta orqali</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-4" id="mentorSendSalaryButton">
+                <div class="col-md-12">
+                    <button type="button" onclick="pay_salary_to_mentor('${user._id}' , '${role}')"  class="col-md-12 btn btn-primary waves-effect waves-light">
+                        To'lovni amalga oshirish
+                    </button>
+                </div>
+            </div>
+        `)
+        document.getElementById('mentorGroup').style.display = "none"
+
+        if (role == "mentor") {
+            axios.get(`/api/user/${user._id}`).then((res) => {
+                const data = res.data.data.group;
+                if (data == "") {
+                    document.getElementById('mentorGroup').style.display = "none"
+                    document.getElementById('mentorMonth').style.display = "none"
+                    document.getElementById('mentorYear').style.display = "none"
+                    document.getElementById('mentorPayment').style.display = "none"
+                    document.getElementById('mentorSendSalaryButton').style.display = "none"
+                    warning(`
+                            Ushbu o'qituvchi uchun avval guruh qo'shing! 
+                            So'ngra guruh uchun to'lovlarni amalga oshirgandan 
+                            so'ng oylik-maosh chiqarish huquqiga egasiz!
+                    `)
+
+                }
+                else {
+                    document.getElementById('mentorGroup').style.display = "block"
+                    setSelectionSingle(data, "#pay_salary_mentor_GROUP", "O'qituvchining guruhlari mavjud emas")
+                }
+            })
+        }
+    }
+    const paySalary = (id) => {
+        axios.get(`/api/user/${id}`).then((res) => {
+            const user = res.data.data;
+            if (user.role == "admin") {
+                paySalaryHTML(user, ".getSalary", user.role)
+            }
+            if (user.role == "seller") {
+                paySalaryHTML(user, ".getSalary", user.role)
+            }
+            if (user.role == "mentor") {
+                paySalaryHTML(user, ".getSalary", user.role)
+            }
+        })
+    }
+    const pay_salary_to_mentor = (id, role) => {
+        const group = document.getElementById("pay_salary_mentor_GROUP").value;
+        const month = document.getElementById("pay_salary_mentor_MONTH").value;
+        const year = document.getElementById("pay_salary_mentor_YEAR").value;
+        const payment = document.getElementById("pay_salary_mentor_PAYMENT").value;
+        const school = document.getElementById("filter_schools").value;
+
+        // Mentor uchun maosh belgilash
+        if (role == "mentor") {
+            if (group == "" || month == "" || year == "" || payment == "") {
+                danger("Ma'lumotlarni to'liq kiriting")
+            }
+            else {
+                axios.post('/api/salary/2', {
+                    school: school,
+                    group: group,
+                    member: id,
+                    month: month,
+                    year: year,
+                    payment_system: payment,
+                })
+                    .then((res) => {
+                        const data = res.data;
+                        if (data.message == "Oylik-maosh belgilanmagan") {
+                            danger("Oylik-maosh belgilanmagan")
+                        }
+                        if (data.message == "Hech kim to'lovni amalga oshirmagan") {
+                            danger("Hech kim ushbu guruh uchun to'lovni amalga oshirmagan")
+                        }
+                        if (data.message == "Tanlagan guruh bo'yicha oldin oylik-maosh chiqarilgan") {
+                            danger("Tanlagan guruh bo'yicha oldin oylik-maosh chiqarilgan")
+                        }
+                        if (data.message == "Guruh uchun qarzdorlik mavjud") {
+                            danger(`Guruh uchun to'lovlar to'liq amalga oshmagan. Qaytadan tekshiring`)
+                        }
+                        if (data.message == "Success") {
+                            success("Oylik-maosh chiqarildi")
+                        }
+                    })
+            }
+        }
+
+        // Admin va sotuvchi uchun maosh belgilash
+        if (role == "admin" || role == "seller") {
+            if (month == "" || year == "" || payment == "") {
+                danger("Ma'lumotlarni to'liq kiriting")
+            }
+            else {
+                axios.post('/api/salary/1', {
+                    member: id,
+                    month: month,
+                    year: year,
+                    payment_system: payment,
+                })
+                    .then((res) => {
+                        const data = res.data;
+                        if (data.message == "Ma'lumotlarni to'liq kiriting") {
+                            danger("Ma'lumotlarni to'liq kiriting")
+                        }
+                        if (data.message == "Ushbu oy uchun oylik-maosh belgilangan") {
+                            danger("Ushbu oy uchun oylik-maosh belgilangan! Iltimos qaytadan tekshiring ")
+                        }
+                        if (data.message == "Oylik-maosh belgilanmagan") {
+                            danger(`Oylik-maosh hali belgilanmagan`)
+                        }
+                        if (data.message == "Success") {
+                            success(`Oylik maosh ushbu hodim uchun chiqarib berildi`)
+                        }
+                    })
+            }
+        }
+
+
+    }
+
+
+
+
+
+</script>

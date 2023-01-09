@@ -1,0 +1,198 @@
+<div class="row">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">Tumanlar bo'limi</h3>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/super_admin/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">Tumanlar</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row col md-12 d-flex justify-content-between align-items-center">
+            <div class="col-md-9">
+                <button class="btn btn-primary " type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#CREATE_CANVAS" aria-controls="CREATE_CANVAS">
+                    <i class="far fa-plus-square"></i>
+                    Qo'shish
+                </button>
+            </div>
+        </div>
+
+
+        <div class="card mt-2">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive
+                    nowrap text-center" style="border-collapse: collapse; border-spacing: 0; width:
+                    100%">
+                    <thead>
+                        <tr>
+                            <th>Tuman nomi</th>
+                            <th>Yaratilgan sana</th>
+                            <th>Sozlama</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="put_tables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Malumot yaratsih -->
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="CREATE_CANVAS"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yangi tuman yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <label class="form-label">Viloyatlar nomi</label>
+        <select class="form-control select2" id="region_all"></select>
+
+        <label class="mb-1 mt-3">Tuman nomi</label>
+        <input type="text" class="form-control" maxlength="40" id="name" />
+        <button type="button" onclick="create()" class="btn btn-success waves-effect waves-light mt-2">
+            Yaratish
+        </button>
+    </div>
+</div>
+
+<!-- Malumot tahrirlash -->
+<div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="UPDATE_CANVAS"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Tumanni tahrirlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body get_canvas"></div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+    /* 
+        @description: Hamma tumanlarni olish
+        @api: /api/district/all
+        @method: GET
+    */
+    axios.get("/api/region/all", { params: { actions: "active" } }).then(async (res) => {
+        const DATA = res.data.data;
+        const region_all = $("#region_all");
+        await region_all.html("");
+        region_all.append(`<option value="" selected>Tanlash</option> `);
+        DATA.forEach((item) => {
+            region_all.append(` <option value="${item._id}">${item.name}</option> `);
+        });
+    });
+    const get_all = () => {
+        axios.get("/api/district/all", { params: { actions: "active" } }).then(async (res) => {
+            const DATA = res.data.data;
+            const put_table = $(".put_tables");
+            await put_table.html("");
+            DATA.forEach((item) => {
+                put_table.append(`
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <a  onclick="get_one('${item._id}')"   style="padding: 5px 9px; font-size: 16px;" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS"class="btn btn-warning" href="#">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a onclick="delete_one('${item._id}')" class="btn btn-danger" style="padding: 5px 10px; font-size: 16px;" href="#">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `);
+            });
+        });
+
+    }
+    get_all()
+
+
+    /* 
+        @description: Yangi tuman yaratish
+        @api: /api/district/create
+        @method: POST
+    */
+    const create = () => {
+        const name = document.getElementById("name").value;
+        const region = document.getElementById("region_all").value;
+        if (name == "" || region == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: "/api/district/create",
+                method: "POST",
+                data: {
+                    name: name,
+                    region: region
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli yaratildi");
+                get_all()
+            });
+        }
+    };
+
+
+    /* 
+        @description: Tumanni tahrirlash
+        @api: /api/district/:id
+        @method: PUT
+    */
+    const get_one = (id) => {
+        axios.get(`/api/district/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const get_canvas = $(".get_canvas");
+            await get_canvas.html("");
+            get_canvas.append(`
+                <label class="mb-1">Yangi viloyat nomi</label>
+                <input type="text" class="form-control" value="${DATA.name}" maxlength="40" id="name_edit">
+                
+                <button type="button" onclick="update_one('${DATA._id}')" class="btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+            `);
+        });
+    };
+    const update_one = (id) => {
+        const name = document.getElementById("name_edit").value;
+        if (name == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: `/api/district/${id}`,
+                method: "PUT",
+                data: {
+                    name: name,
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli tahrirlandi");
+                get_all()
+            });
+        }
+    };
+
+
+    /* 
+        @description: Tumanni arxivlash
+        @api: /api/district/:id
+        @method: PUT
+    */
+    const delete_one = (id) => {
+        axios.put(`/api/district/${id}`, { actions: "archive" }).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            get_all()
+        });
+    };
+</script>

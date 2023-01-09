@@ -1,0 +1,797 @@
+<style>
+    #GENERAL_DATE,
+    #ADMIN_TASK,
+    #MENTOR_TASK,
+    #SELLER_TASK {
+        display: none;
+    }
+
+    .designSelection {
+        /* background-color: #6d21b4; */
+        background: #dc2424;
+        background: -webkit-linear-gradient(to right, #dc2424, #4a569d);
+        background: linear-gradient(to right, #dc2424, #4a569d);
+        padding: 20px 15px;
+        border-radius: 10px;
+        color: white;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="row col md-12 col-sm-12 d-flex justify-content-between align-items-center">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h3 class="mb-sm-0">Topshiriqlar bo'limi</h3>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                                <li class="breadcrumb-item active">Topshiriqlar</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12 col-sm-12 mt-1">
+                <button type="button" class=" col-md-2 col-sm-12 btn btn-primary" data-bs-toggle="offcanvas"
+                    data-bs-target="#CREATE_NEW_TASK" aria-controls="CREATE_NEW_TASK">
+                    <i class="far fa-plus-square"></i>
+                    Qo'shish
+                </button>
+                <button type="button" class=" col-md-2 col-sm-12 btn btn-warning" data-bs-toggle="offcanvas"
+                    data-bs-target="#ACTIVES" aria-controls="ACTIVES">
+                    <i class=" fas fa-filter"></i> Faol topshiriqlar
+                </button>
+                <button type="button" class=" col-md-2 col-sm-12 btn btn-dark" data-bs-toggle="offcanvas"
+                    data-bs-target="#ARCHIVE" aria-controls="ARCHIVE">
+                    <i class="fas fa-archive"></i> Arxiv topshiriqlar
+                </button>
+            </div>
+        </div>
+
+
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive wrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width:  100%">
+                    <thead>
+                        <tr>
+                            <th>Vazifa</th>
+                            <th>Topshiriq muddati</th>
+                            <th>Sana</th>
+                            <th>Sozlama</th>
+                        </tr>
+                    </thead>
+                    <tbody class="setTables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Yangi vazifa yaratish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="CREATE_NEW_TASK">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Yangi topshiriq berish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+
+
+        <div class="col-md-12 designSelection">
+            <label class="form-label">Kimlar uchun vazifa bermoqchisiz ?</label>
+            <select class="form-control select2" onchange="select_TASK(this.value)">
+                <option value="">Tanlash</option>
+                <option value="admin">Adminstratorlar uchun</option>
+                <option value="seller">Sotuvchilar uchun</option>
+                <option value="mentor">O'qituvchilar uchun</option>
+            </select>
+        </div>
+
+        <!-- barcha uchun vazifa muddatini belgilash -->
+        <div class="col-md-12 col-sm-12 mt-2" id="GENERAL_DATE">
+            <label style="color: #000;" class="form-label">Vazifaning muddatini belgilash</label>
+            <div class="input-daterange input-group" id="datepicker6" data-date-format="dd M, yyyy"
+                data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
+                <input type="text" class="form-control" id="START_DAY" placeholder="Boshlanish sanasi" />
+                <input type="text" class="form-control" id="END_DAY" placeholder="Yakunlanish sanasi" />
+            </div>
+        </div>
+        <!-- Adminlar uchun vazifa berish -->
+        <div class="mt-2" id="ADMIN_TASK">
+            <div class="col-md-12 col-sm-12">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label">O'quv markazni tanlang</label>
+                <select class="col-md-12 col-sm-12 form-control select2" onchange="FILTER_SCHOOLS(this.value, 'admin')"
+                    id="ADMIN_SCHOOL"></select>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label ">Adminstratorni tanlang</label>
+                <select class="col-md-12 col-sm-12 select2 form-control select2-multiple " multiple="multiple"
+                    id="ALL_ADMINS"></select>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label ">Vazifa nomi</label>
+                <input type="text" class="col-md-12 col-sm-12 form-control " id="ADMINS_TASK" />
+            </div>
+            <div class="col-md-12 col-sm-12 mt-3">
+                <button onclick="CREATE_TASK()" type="button"
+                    class="col-md-12 col-sm-12 btn btn-primary">Yaratish</button>
+            </div>
+        </div>
+        <!-- O'qituvchilar uchun  vazifa berish -->
+        <div class="mt-2" id="MENTOR_TASK">
+            <div class="col-md-12 col-sm-12">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label">O'quv markazni tanlang</label>
+                <select class="col-md-12 col-sm-12 form-control select2" onchange="FILTER_SCHOOLS(this.value, 'mentor')"
+                    id="MENTOR_SCHOOL"></select>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label ">O'qituvchini tanlang</label>
+                <select class="col-md-12 col-sm-12 select2 form-control select2-multiple " multiple="multiple"
+                    id="ALL_MENTORS"></select>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label ">Vazifa nomi</label>
+                <input type="text" class="col-md-12 col-sm-12 form-control " id="MENTORS_TASK" />
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <button onclick="CREATE_TASK()" type="button"
+                    class="col-md-12 col-sm-12 btn btn-primary">Yaratish</button>
+            </div>
+        </div>
+        <!-- Sotuvchilar uchun vazifa berish -->
+        <div class="mt-2" id="SELLER_TASK">
+            <div class="col-md-12 col-sm-12">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label">O'quv markazni tanlang</label>
+                <select class="col-md-12 col-sm-12 form-control select2" onchange="FILTER_SCHOOLS(this.value, 'seller')"
+                    id="SELLER_SCHOOL"></select>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label ">Sotuvchini tanlang</label>
+                <select class="col-md-12 col-sm-12 select2 form-control select2-multiple " multiple="multiple"
+                    id="ALL_SELLERS"></select>
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label style="color: #000;" class="col-md-12 col-sm-12 form-label ">Vazifa nomi</label>
+                <input type="text" class="col-md-12 col-sm-12 form-control " id="SELLERS_TASK" />
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <button onclick="CREATE_TASK()" type="button"
+                    class="col-md-12 col-sm-12 btn btn-primary">Yaratish</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Aktiv topshiriqlarni olish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="ACTIVES">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Faol topshiriqlarni kuzatish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="col-md-12 col-sm-12 mt-2">
+            <label style="color: #000;" class="col-md-12 col-sm-12 form-label">O'quv markazni tanlang</label>
+            <select id="filtering_schools" class="col-md-12 col-sm-12 form-control select2"></select>
+        </div>
+        <div class="col-md-12 mt-2">
+            <label style="color: #000;" class="form-label">Kimlar uchun berilgan vazifalarni izlamoqchisiz ?</label>
+            <select id="filtering_status" class="form-control select2">
+                <option value="">Tanlash</option>
+                <option value="admin">Admin</option>
+                <option value="seller">Sotuvchi</option>
+                <option value="mentor">O'qituvchi</option>
+            </select>
+        </div>
+        <div class="col-md-12 col-sm-12 mt-3">
+            <button onclick="FILTER_actives()" type="button" class="col-md-12 col-sm-12 btn btn-primary">Izlash</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Archive topshiriqlarni olish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="ARCHIVE">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Arxiv topshiriqlarni kuzatish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="col-md-12 col-sm-12 mt-2">
+            <label style="color: #000;" class="col-md-12 col-sm-12 form-label">O'quv markazni tanlang</label>
+            <select id="filtering_schools_ARCHIVES" class="col-md-12 col-sm-12 form-control select2"></select>
+        </div>
+        <div class="col-md-12 mt-2">
+            <label style="color: #000;" class="form-label">Kimlar uchun berilgan vazifalarni izlamoqchisiz ?</label>
+            <select id="filtering_status_ARCHIVES" class="form-control select2">
+                <option value="">Tanlash</option>
+                <option value="admin">Admin</option>
+                <option value="seller">Sotuvchi</option>
+                <option value="mentor">O'qituvchi</option>
+            </select>
+        </div>
+        <div class="col-md-12 col-sm-12 mt-3">
+            <button onclick="FILTER_archives()" type="button"
+                class="col-md-12 col-sm-12 btn btn-primary">Izlash</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- Vazifa haqida malumot olish -->
+<div class="offcanvas offcanvas-end" style="width: 95%" tabindex="-1" id="GET_TASKS">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Topshiriq haqida ma'lumot olish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <div class="row">
+            <div class="col-md-12 p-4">
+                <div id="GET_INFORMATION"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Xodim qoldirgan komentni ko'rish -->
+<div id="COMMENT" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Topshiriqni kuzatish</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body getComments">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+
+<script>
+
+    const elementID = (item) => { return document.getElementById(item) }
+
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiple = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+
+
+    /* 
+        @description: Managerga oid o'quv markazlarni olish
+        @api: /api/user/decode
+        @method: GET
+    */
+    const UserToken = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: UserToken } }).then((res) => {
+        const id = res.data.id;
+        axios.get(`/api/school/manager/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingle(school, "#create_SCHOOL", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#ADMIN_SCHOOL", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#MENTOR_SCHOOL", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#SELLER_SCHOOL", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#STUDENT_SCHOOL", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#GROUP_SCHOOL", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#filtering_schools", "Iltimos yangi o'quv markazi yarating")
+            setSelectionSingle(school, "#filtering_schools_ARCHIVES", "Iltimos yangi o'quv markazi yarating")
+        })
+    })
+
+
+
+    // @description: Vazifa formlarini olish 
+    const deadline = document.getElementById("GENERAL_DATE")
+    const admin_task_form = document.getElementById("ADMIN_TASK")
+    const mentor_task_form = document.getElementById("MENTOR_TASK")
+    const seller_task_form = document.getElementById("SELLER_TASK")
+
+    // @description: Vazifani tanlaganda osha bo'lim uchun modal orqali oyna ochiladi
+    let defaultKey;
+
+
+    const select_TASK = (key) => {
+        if (key == "") {
+            danger("Vazifa turini tanlang")
+            admin_task_form.style.display = "none"
+            mentor_task_form.style.display = "none"
+            seller_task_form.style.display = "none"
+            deadline.style.display = "none"
+        } else {
+            deadline.style.display = "block"
+            if (key == "admin") {
+                defaultKey = "admin"
+                admin_task_form.style.display = "block"
+                mentor_task_form.style.display = "none"
+                seller_task_form.style.display = "none"
+            }
+            if (key == "seller") {
+                defaultKey = "seller"
+                admin_task_form.style.display = "none"
+                mentor_task_form.style.display = "none"
+                seller_task_form.style.display = "block"
+            }
+            if (key == "mentor") {
+                defaultKey = "mentor"
+                admin_task_form.style.display = "none"
+                mentor_task_form.style.display = "block"
+                seller_task_form.style.display = "none"
+            }
+        }
+    }
+    
+    
+    /* 
+        @description: O'quv markaziga tegishli narsalarni olish
+        @api: /api/user/filter_user
+        @method: POST
+    */
+    const FILTER_SCHOOLS = (id, role) => {
+        axios.get("/api/user/filter_user", { params: { school: id, role: role, actions: "active" } }).then(async (res) => {
+            const data = res.data.data
+            if (role == "admin") {
+                setSelectionMultiple(data, "#ALL_ADMINS", "O'quv markaziga tegishli admin mavjud emas")
+            }
+            if (role == "mentor") {
+                setSelectionMultiple(data, "#ALL_MENTORS", "O'quv markaziga tegishli mentor mavjud emas")
+            }
+            if (role == "seller") {
+                setSelectionMultiple(data, "#ALL_SELLERS", "O'quv markaziga tegishli sotuvchi mavjud emas")
+            }
+        })
+    }
+    /* 
+        @description: Vazifa berish
+        @api: /api/task_main/create
+        @method: POST
+    */
+    const CREATE_TASK = () => {
+        // Tugash muddati
+        const START_DAY = elementID("START_DAY").value
+        const END_DAY = elementID("END_DAY").value
+        // Adminlar qismlari uchun
+        const ADMIN_SCHOOL = elementID("ADMIN_SCHOOL").value
+        const ALL_ADMINS = elementID("ALL_ADMINS")
+        const ADMINS_TASK = elementID("ADMINS_TASK").value
+        // Mentorlar qismlari uchun
+        const MENTOR_SCHOOL = elementID("MENTOR_SCHOOL").value
+        const ALL_MENTORS = elementID("ALL_MENTORS")
+        const MENTORS_TASK = elementID("MENTORS_TASK").value
+        // Sotuvchilar qisnmlari uchun
+        const SELLER_SCHOOL = elementID("SELLER_SCHOOL").value
+        const ALL_SELLERS = elementID("ALL_SELLERS")
+        const SELLERS_TASK = elementID("SELLERS_TASK").value
+
+        // Foydalanuvchilarni arrayga yigish uchun
+        const selectUsers = (users) => {
+            const people = []
+            for (let item of users) {
+                if (item.selected) {
+                    people.push(item.value)
+                }
+            }
+            return people
+        }
+        // role boyicha xodmlarga vazifa berish
+        if (defaultKey == "admin") {
+            if (START_DAY == "" || END_DAY == "" || ADMIN_SCHOOL == "" || selectUsers(ALL_ADMINS) == "" || ADMINS_TASK == "") {
+                danger("Ma'lumotni to'liq kiriting")
+            } else {
+                axios.post("/api/task_main/create", {
+                    task: ADMINS_TASK,
+                    school: ADMIN_SCHOOL,
+                    status: "admin",
+                    members: selectUsers(ALL_ADMINS),
+                    startDate: new Date(START_DAY).toISOString(),
+                    endDate: new Date(END_DAY).toISOString(),
+                })
+                    .then((res) => {
+                        const data = res.data.data;
+                        success("Adminlar uchun  yaratildi")
+                    })
+            }
+        }
+        if (defaultKey == "mentor") {
+            if (START_DAY == "" || END_DAY == "" || MENTOR_SCHOOL == "" || selectUsers(ALL_MENTORS) == "" || MENTORS_TASK == "") {
+                danger("Ma'lumotni to'liq kiriting")
+            } else {
+                axios.post("/api/task_main/create", {
+                    task: MENTORS_TASK,
+                    school: MENTOR_SCHOOL,
+                    status: "mentor",
+                    members: selectUsers(ALL_MENTORS),
+                    startDate: new Date(START_DAY).toISOString(),
+                    endDate: new Date(END_DAY).toISOString(),
+                })
+                    .then((res) => {
+                        const data = res.data.data;
+                        success("Mentorlar uchun  yaratildi")
+                    })
+            }
+        }
+        if (defaultKey == "seller") {
+            if (START_DAY == "" || END_DAY == "" || SELLER_SCHOOL == "" || selectUsers(ALL_SELLERS) == "" || SELLERS_TASK == "") {
+                danger("Ma'lumotni to'liq kiriting")
+            } else {
+                axios.post("/api/task_main/create", {
+                    task: SELLERS_TASK,
+                    school: SELLER_SCHOOL,
+                    status: "seller",
+                    members: selectUsers(ALL_SELLERS),
+                    startDate: new Date(START_DAY).toISOString(),
+                    endDate: new Date(END_DAY).toISOString(),
+                })
+                    .then((res) => {
+                        const data = res.data.data;
+                        success("Sotuvchilar uchun yaratildi")
+                    })
+            }
+        }
+    }
+
+    /*
+       @description: Vazifa berish
+       @api: /api/task_main/filter
+       @method: POST
+    */
+    const setHTML = async (DATA, APPENDING, MESSAGE, check) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item, index) => {
+                appends.append(`
+                    <tr>
+                        <td>${item.task}</td>
+                        <td>
+                            <span class="font-size-14 p-2">${new Date(item.startDate).toLocaleDateString()}</span>
+                            <span class="font-size-14 p-2">${new Date(item.endDate).toLocaleDateString()}</span>
+                        </td>
+                        <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                        <td class="checkActions">
+                            
+                        </td>
+                    </tr>
+                `);
+
+
+
+                const checkActions = document.getElementsByClassName("checkActions");
+                checkActions.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+                        if (check == "actives") {
+                            inputs.innerHTML = `
+                                <a onclick="getTask('${item._id}')" style="cursor: pointer; padding: 8px 15px;" data-bs-toggle="offcanvas" data-bs-target="#GET_TASKS" aria-controls="GET_TASKS" class="badge bg-success font-size-18 " href="#">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                                <a onclick="makeArchive('${item._id}')" style="cursor: pointer; padding: 8px 15px;" class="badge bg-danger font-size-18 " href="#">
+                                    <i class="ri-delete-bin-6-fill"></i>
+                                </a>
+                            `
+                        }
+                        if (check == "archives") {
+                            inputs.innerHTML = `
+                                <a onclick="getTask('${item._id}')" style="cursor: pointer; padding: 8px 15px;" data-bs-toggle="offcanvas" data-bs-target="#GET_TASKS" aria-controls="GET_TASKS" class="badge bg-success font-size-18 " href="#">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                                <a onclick="makeActive('${item._id}')" style="cursor: pointer; padding: 9px 14px;" class="badge bg-danger font-size-18 " href="#">
+                                    <i class="fas fa-redo-alt"></i>
+                                </a>
+                            `
+                        }
+                    }
+                })
+
+            });
+        }
+    }
+    const FILTER_actives = () => {
+        const status = document.getElementById("filtering_status").value
+        const school = document.getElementById("filtering_schools").value
+        if (status == "" || school == "") {
+            danger("Ma'lumotlarni to'liq kiriting")
+        }
+        else {
+            axios.get("/api/task_main/filter", {
+                params: {
+                    school: school,
+                    status: status,
+                    actions: "active",
+                }
+            }).then((res) => {
+                const data = res.data.data
+                setHTML(data, ".setTables", "Aktiv topshiriqlar  mavjud emas", "actives");
+            })
+        }
+    }
+    const FILTER_archives = () => {
+        const school = document.getElementById("filtering_schools_ARCHIVES").value;
+        const status = document.getElementById("filtering_status_ARCHIVES").value;
+        if (status == "" || school == "") {
+            danger("Ma'lumotlarni to'liq kiriting")
+        }
+        else {
+            axios.get("/api/task_main/filter", {
+                params: {
+                    school: school,
+                    status: status,
+                    actions: "archive"
+                }
+            }).then((res) => {
+                const data = res.data.data
+                setHTML(data, ".setTables", "Arxive topshiriqlar  mavjud emas", "archives");
+            })
+        }
+    }
+    /*
+       @description: MAIN_TASK ni o'chirish
+       @api: /api/task_main/:id
+       @method: DELETE
+    */
+    const makeArchive = (mainTaskId) => {
+        axios.put(`/api/task_main/${mainTaskId}`, { actions: "archive" }).then((res) => {
+            success("Vazifa o'chirildi")
+            setInterval(() => { window.location.reload() }, 1000)
+        })
+    }
+    const makeActive = (mainTaskId) => {
+        axios.put(`/api/task_main/${mainTaskId}`, { actions: "active" }).then((res) => {
+            success("Vazifa o'chirildi")
+            setInterval(() => { window.location.reload() }, 1000)
+        })
+    }
+    /*
+       @description: Vazifani arxivlashtirish
+       @api: /api/task_main/:id
+       @method: PUT
+    */
+    const archiveMainTask = (id) => {
+        axios.put(`/api/task_main/${id}`, {
+            actions: "archive"
+        }).then((res) => {
+            success("Vazifa muvaffaqiyatli arxivga joylashtirildi")
+            setInterval(() => { window.location.reload() }, 1000)
+        })
+    }
+    /*
+        @description: Vazifa haqida malumot olish
+        @api: /api/task_main/:id
+        @method: GET
+    */
+    let MAIN_task;
+    const getTask = (taskID) => {
+        axios.get(`/api/task_main/${taskID}`).then(async (res) => {
+            const data = res.data.data;
+            const GET_INFORMATION = $('#GET_INFORMATION')
+            await GET_INFORMATION.html("")
+            GET_INFORMATION.append(`
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 list-group">
+                            <div class="col-md-12 col-sm-12">
+                                <h5 style="font-weight: 900; color: #000;" class="mb-sm-0">Topshiriq berilgan xodimlar</h5>
+                            </div>
+
+                            <table class=" mt-2 col-md-12 col-sm-12 table table-striped table-bordered dt-responsive wrap text-center"
+                                style="border-collapse: collapse; border-spacing: 0; width:  100%">
+                                <thead>
+                                    <tr>
+                                        <th>Xodim</th>
+                                        <th>Vazifa holati</th>
+                                        <th>Fayl</th>
+                                        <th>Komment</th>
+                                        <th>Sana</th>
+                                        <th>Sozlama</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="setTaskChilds"> </tbody>
+                            </table>
+
+
+                            <div class=" mt-2 col-md-12 col-sm-12">
+                                <h5 style="font-weight: 900; color: #000;" class="mb-sm-0">Topshiriq haqida </h5>
+                            </div>
+                            <a href="#"
+                                class="list-group-item list-group-item-action flex-column align-items-start  mt-2">
+                                <div class="d-flex w-100 justify-content-between align-items-center">
+                                    <h6 style="font-weight: 900;">Vazifa nomi: </h6>
+                                    <h6>${data.task}</h6>
+                                </div>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between  align-items-center">
+                                    <h6 style="font-weight: 900;">O'quv markazi nomi: </h6>
+                                    <h6>${data.school.name}</h6>
+                                </div>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between  align-items-center">
+                                    <h6 style="font-weight: 900;">Qaysi xodimlar uchun mo'ljallangan: </h6>
+                                    <h6>${data.status}</h6>
+                                </div>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between  align-items-center">
+                                    <h6 style="font-weight: 900;">Topshiriq boshlanadigan sana: </h6>
+                                    <h6><span class="badge bg-primary font-size-14 p-2">${new Date(data.startDate).toLocaleDateString()}</span></h6>
+                                </div>
+                            </a>
+                            <a href="#"
+                                class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between  align-items-center">
+                                    <h6 style="font-weight: 900;">Topshiriq yakunlanadigan sana: </h6>
+                                    <h6><span class="badge bg-primary font-size-14 p-2">${new Date(data.endDate).toLocaleDateString()}</span></h6>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+            `)
+
+            const setTaskChilds = $('.setTaskChilds')
+            await setTaskChilds.html("");
+
+            axios.get(`/api/task_child/filter/${data._id}`).then((response) => {
+                const taskMember = response.data.data;
+                taskMember.forEach((item, index) => {
+                    setTaskChilds.append(`
+                        <tr>
+                            <td>${item.username}</td>
+                            <td class="STATUS_TASK_CHILD"></td>
+                            <td> 
+                                <span onclick="TASK_CHILD_file('${item._id}')" style="cursor: pointer;" class="badge bg-secondary text-light color-light font-size-12 p-1"  data-bs-toggle="modal" data-bs-target="#COMMENT" >
+                                    Yuklash
+                                    <span class="badge bg-dark text-light color-light font-size-10 pt-1 pb-1 pl-3 pr-3"> ${item.documents.length}</span>
+                                </span>
+                            </td>
+                            <td> 
+                                <span onclick="TASK_CHILD_comment('${item._id}')" style="cursor: pointer;" class="badge bg-secondary color-light font-size-12 p-1" data-bs-toggle="modal" data-bs-target="#COMMENT" >
+                                    Ko'rish
+                                    <span class="badge bg-dark text-light color-light font-size-10 pt-1 pb-1 pl-3 pr-3"> ${item.comment.length}</span>
+                                </span>
+                               
+                            </td>
+                            <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                            <td>
+                                <span onclick="deleteChildTask('${item._id}')" style="cursor: pointer;" class="badge bg-danger color-light font-size-12 p-2">Vazifadan ozod etish</span>
+                            </td>
+                        </tr>
+                    `)
+
+                    const status = document.getElementsByClassName("STATUS_TASK_CHILD");
+                    status.forEach((inputs, inputsIndex) => {
+                        if (inputsIndex == index) {
+                            if (item.status == "1") {
+                                inputs.innerHTML = `<span class="badge bg-danger font-size-12 p-2">😏 Vazifa berilgan</span>`
+                            }
+                            if (item.status == "2") {
+                                inputs.innerHTML = `<span class="badge bg-warning font-size-12 p-2">😐 Qabul qilingan</span>`
+                            }
+                            if (item.status == "3") {
+                                inputs.innerHTML = `<span class="badge bg-success font-size-12 p-2">😍To'liq bajarilgan </span>`
+                            }
+                            if (item.status == "4") {
+                                inputs.innerHTML = `<span class="badge bg-dark font-size-12 p-2">😥Tugatilmay qoldirilgan</span>`
+                            }
+                        }
+                    })
+
+                })
+            })
+
+            MAIN_task = data._id
+        })
+    }
+    /*
+        @description: Vazifani ochirish
+        @api: /api/task_child/:id
+        @method: GET
+    */
+    const deleteChildTask = (id) => {
+        axios.delete(`/api/task_child/${id}`, { actions: "archive" }).then((res) => {
+            success("Vazifa o'chirildi")
+            getTask(MAIN_task)
+        })
+    }
+    /*
+         @description: Komentariyani ko'rish
+         @api: /api/task_child/:id
+         @method: GET
+     */
+    const TASK_CHILD_comment = (id) => {
+        axios.get(`/api/task_child/${id}`).then(async (res) => {
+            const data = res.data.data.comment
+            const appends = $(".getComments")
+            await appends.html("");
+            if (data == "") {
+                appends.append(`
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-center align-items-center">
+                            <h5 style="font-weight: 900; color: red;">Koment mavjud emas</h5>
+                        </div>
+                    </a>
+                `);
+            } else {
+                data.forEach((item, index) => {
+                    appends.append(`
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div style="display: flex; flex-direction: column;">
+                            <h6 style="font-weight: 900;">${index += 1} - komentariya: </h6>
+                            <p >${item}</p>
+                        </div>
+                    </a>
+                `);
+                })
+            }
+        })
+    }
+    const TASK_CHILD_file = (id) => {
+        axios.get(`/api/task_child/${id}`).then(async (res) => {
+            const data = res.data.data.documents
+            const appends = $(".getComments")
+            await appends.html("");
+            if (data == "") {
+                appends.append(`
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-center align-items-center">
+                            <h5 style="font-weight: 900; color: red;">Fayl mavjud emas</h5>
+                        </div>
+                    </a>
+                `);
+            } else {
+                data.forEach((item, index) => {
+                    appends.append(`
+                        <a class="badge bg-primary text-light p-2 col-md-10 offset-1 col-sm-10 font-size-16 mt-2" href="/documents/${item}" download="${item}" >${index += 1}-fayl yuklash:</a>
+                    `);
+                })
+            }
+        })
+    }
+
+</script>

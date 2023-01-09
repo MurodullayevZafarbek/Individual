@@ -1,0 +1,1733 @@
+<link href="/assets/libs/dropzone/min/dropzone.min.css" rel="stylesheet" type="text/css" />
+
+<style>
+    #statusDATE {
+        display: none;
+    }
+
+    .designSelection {
+        /* background-color: #6d21b4; */
+        background: #dc2424;
+        background: -webkit-linear-gradient(to right, #dc2424, #4a569d);
+        background: linear-gradient(to right, #dc2424, #4a569d);
+        padding: 20px 15px;
+        border-radius: 10px;
+        color: white;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">O'quvchi bo'limi</h3>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/manager/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">O'quvchi</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row col md-12 d-flex justify-content-between align-items-center">
+            <div class="col-md-3 col-sm-12">
+                <button class="btn btn-success col-md-12" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#CREATE_CANVAS" aria-controls="CREATE_CANVAS">
+                    Yaratish
+                </button>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <button class="btn btn-warning col-md-12" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#FILE_CREATE" aria-controls="FILE_CREATE">
+                    Excel fayl
+                </button>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <button class="btn btn-outline-primary col-md-12" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#FILTER_BY_GROUP_STUDENT" aria-controls="FILTER_BY_GROUP_STUDENT">
+                    Guruh bo'yicha qidirish
+                </button>
+            </div>
+
+            <div class="col-md-3 col-sm-12">
+                <select class="select2 form-control" onchange="FILTER_USERS(this.value)" id="filterBySchool"></select>
+            </div>
+
+            <div class="col-md-6 col-md-6  mt-3">
+                <input type="text" class="form-control" id="keyPressStudent"
+                    placeholder="O'quvchini ism sharfi va passport raqami bilan izlash ... ">
+            </div>
+
+        </div>
+
+
+        <div class="card mt-3">
+            <div class="card-body">
+                <table class="table table-striped table-bordered dt-responsive nowrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%">
+                    <thead>
+                        <tr>
+                            <th>O'quvchi</th>
+                            <th>Passport</th>
+                            <th>Guruhlar</th>
+                            <th>Status</th>
+                            <th>Yaratilgan sana</th>
+                            <th>Sozlama</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="put_tables"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Malumot yaratsih -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="CREATE_CANVAS"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Yangi o'quvchi yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <label class="form-label mt-2">Viloyat</label>
+        <select style="width: 100%" class="select2 form-control" onchange="filterRegion(this.value)"
+            id="REGION"></select>
+
+        <label class="form-label mt-2">Tuman</label>
+        <select style="width: 100%" class="select2 form-control" id="DISTRICT"></select>
+
+        <label class="form-label mt-2">O'quv markazi</label>
+        <select style="width: 100%" class="select2 form-control" onchange="filterGroup(this.value)"
+            id="SCHOOL"></select>
+
+        <label class="form-label mt-2">Guruh</label>
+        <select style="width: 100%" class="select2 form-control select2-multiple" multiple="multiple"
+            id="GROUP"></select>
+
+        <label class="form-label mb-1 mt-2">F.I.O</label>
+        <input style="width: 100%" type="text" class="form-control" id="NAME" />
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <label class="form-label mb-1 mt-2">Telefon raqam</label>
+                <input style="width: 100%" class="form-control" type="text" id="PHONE" />
+            </div>
+            <!-- <div class="col-md-1 mt-2">
+                <button onclick="replacePhone()" class="btn btn-outline-dark"
+                    style="font-size: 14px; margin-top: 20px;  padding: 5px 10px; cursor: pointer;">
+                    <i class="ri-repeat-line"></i>
+                </button>
+            </div> -->
+
+            <div class="col-md-6">
+                <label class="form-label mb-1 mt-2">Qo'shimcha telefon raqam</label>
+                <input style="width: 100%" class="form-control" type="text" id="ADDITIONAL_PHONE" />
+            </div>
+        </div>
+
+        <div class="row mb-1 mt-2">
+            <div
+                style="height: 80px; width: 100%; display: flex; flex-direction: row; justify-content: space-between; align-items: flex-end;">
+                <div style="width: 75%;">
+                    <label class="form-label ">Passport raqam</label>
+                    <input style="width: 100%" class="form-control" type="text" id="PASSPORT" />
+                </div>
+                <button style="width: 20%;" type="button" onclick="generator()" class="btn btn-outline-danger">
+                    Generator
+                </button>
+            </div>
+
+            <div class="col-md-12 mt-2">
+                <label class="form-label">O'quvchining tu'g'ilgan sanasi</label>
+                <div class="input-group" id="datepicker2">
+                    <input id="BIRTHDAY" type="text" class="form-control" placeholder="dd M, yyyy"
+                        data-date-format="dd M, yyyy" data-date-container='#datepicker2' data-provide="datepicker"
+                        data-date-autoclose="true">
+                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                </div>
+            </div>
+
+        </div>
+
+        <label class="form-label mb-1 mt-2">Parol</label>
+        <input style="width: 100%" class="form-control" type="password" id="PASSWORD" />
+
+
+        <label class="form-label mt-2">Jinsi</label>
+        <select style="width: 100%" class="select2 form-control" id="GENDER">
+            <option value="">Tanlash</option>
+            <option value="man">Erkak</option>
+            <option value="woman">Ayol</option>
+        </select>
+
+        <button type="button" onclick="create()" class="btn btn-success waves-effect waves-light mt-2">
+            Yaratish
+        </button>
+    </div>
+</div>
+<!-- Malumot tahrirlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_CANVAS"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quvchi ma'lumotini tahrirlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body get_canvas">
+
+    </div>
+</div>
+<!-- Stataus boyicha tahrirlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_STATUS_CANVAS"
+    aria-labelledby="UPDATE_STATUS_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quvchini bloklash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <label class="form-label">Status tanlash</label>
+        <select class="form-control select2" style="width: 100%" onchange="changeStatus(this.value)" id="change_status">
+            <option value="" selected>Tanlash</option>
+            <option value="none">Umuman blok holatidan chiqarish</option>
+            <option value="forever">Butunlay bloklash holatiga qo'yish</option>
+            <option value="pending">Vaqtinchalik muddatga bloklash</option>
+        </select>
+
+        <div class="mt-2" id="statusDATE">
+            <label class="form-label">Bloklanadigan sanalarni kiriting</label>
+            <div class="input-daterange input-group" id="datepicker6" data-date-format="dd M, yyyy"
+                data-date-autoclose="true" data-provide="datepicker" data-date-container="#datepicker6">
+                <input type="text" class="form-control" name="start" id="startDate" placeholder="Boshlang'ich sana" />
+                <input type="text" class="form-control" name="end" id="endDate" placeholder="Yankuniy sana" />
+            </div>
+        </div>
+
+        <div class="get_canvas_status mt-2"></div>
+    </div>
+</div>
+<!-- Filiallarni korish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="SEE_FILIALS">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quvchiga oid filiallar</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="add_new_schools_list"></div>
+    </div>
+</div>
+<!--  Yangi guruhga biriktirish -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="ADD_GROUP"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Guruhi va o'quv markazini tahrirlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+
+        <div class="card">
+            <div class="card-body col-md-12 all_own_groups">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label mt-2">O'quv markazi</label>
+                <select class="select2 form-control" onchange="FILTER_SCHOOL_GROUP(this.value)"
+                    id="SCHOOL_add_groups"></select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label mt-2">Guruhni nomi</label>
+                <select class="select2 form-control select2-multiple" multiple="multiple" id="student_group"></select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 s_groupss">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Chegirma qo'shib berish -->
+<div class="offcanvas offcanvas-end" style="width: 90%" tabindex="-1" id="CHEGIRMA">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Chegirma</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+
+        <div class="row">
+            <div class="col-md-10 offset-1">
+                <div class="col-md-12 designSelection">
+                    <label class="form-label">Chegirma turini tanlash</label>
+                    <select class="form-control select2" id="statusDiscount">
+                        <option value="">Tanlash</option>
+                        <option value="1">Bir nechta fanga qatnashgani uchun qaysidir fan uchun bonus</option>
+                        <option value="2">Bir oiladan bir nechta farzand uchun nechtadir fanga bonus qilish</option>
+                        <option value="3">Hech qanday sabablarsiz chegirma qilish</option>
+                    </select>
+                </div>
+                <div class="mt-3" id="Discounting">
+                    <div class="container">
+
+                        <div class="row col-md-12 col-sm-12 mt-3 mb-1" id="showElement_1">
+                            <div class="col-md-6">
+                                <label class="mt-3">O'quvchining guruhi</label>
+                                <select class="select2 form-control studentGroups" id="StudentGroup"
+                                    onchange="getAll(this.value)"></select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="mt-3"> Chegirma kiriting (%) </label>
+                                <input class="form-control" id="discountsPercentage" type="text"
+                                    placeholder="Chegirmani kiriting (foizda)" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="mt-3">Yo'nalish nomi:</label>
+                                <input class="form-control" type="text" id="categoryDiscount" disabled />
+                                <input class="form-control" type="hidden" id="categoryDiscountHidden" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="mt-3">Kurs nomi:</label>
+                                <input class="form-control" type="text" id="specialityDiscount" disabled />
+                                <input class="form-control" type="hidden" id="specialityDiscountHidden" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 col-sm-12 mt-1 mb-5 addDiscount"> </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered dt-responsive nowrap text-center"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Yo'nalish nomi</th>
+                                    <th>Kurs nomi</th>
+                                    <th>Guruh to'lovi</th>
+                                    <th>Chegirma</th>
+                                    <th>Sozlama</th>
+                                </tr>
+                            </thead>
+                            <tbody class="getDiscounts"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Filiallarni korish -->
+<div class="offcanvas offcanvas-start" style="width: 50%" tabindex="-1" id="EDIT_DISCOUNT">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Chegirmani tahrirlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="editDiscounting">
+
+
+        </div>
+    </div>
+</div>
+<!-- O'quvchi to'lov qiladigan sanani belgilash -->
+<div class="offcanvas offcanvas-end" style="width: 90%" tabindex="-1" id="NEED_PAYMENT">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Guruh bo'yicha to'lov muddatlari</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div class="mt-3" id="Discounting">
+                    <div class="container">
+
+                        <div class="row col-md-12 col-sm-12 mt-3 mb-1">
+
+                            <div class="col-md-4">
+                                <label class="mt-3">Guruhni tanlang</label>
+                                <select class="select2 form-control" id="needPayment_group"></select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <!-- <label class="mt-3">To'lov boshlanadigan sana</label>
+                                <input class="form-control" type="date" id="needPayment_startDay"> -->
+
+                                <label class="form-label mt-3">To'lov boshlanadigan sana</label>
+                                <div class="input-group" id="datepicker1">
+                                    <input id="needPayment_startDay" type="text" class="form-control"
+                                        placeholder="dd M, yyyy" data-date-format="dd M, yyyy"
+                                        data-date-container='#datepicker1' data-provide="datepicker">
+                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-4">
+                                <label class="form-label mt-3">Oyni tanlang</label>
+                                <select class="select2 form-control col-md-12 col-sm-12" id="needPayment_month">
+                                    <option value="">Tanlash</option>
+                                    <option value="1">1-oy</option>
+                                    <option value="2">2-oy</option>
+                                    <option value="3">3-oy</option>
+                                    <option value="4">4-oy</option>
+                                    <option value="5">5-oy</option>
+                                    <option value="6">6-oy</option>
+                                    <option value="7">7-oy</option>
+                                    <option value="8">8-oy</option>
+                                    <option value="9">9-oy</option>
+                                    <option value="10">10-oy</option>
+                                    <option value="11">11-oy</option>
+                                    <option value="12">12-oy</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-12  mt-2 getButtons">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered dt-responsive nowrap text-center"
+                            style="border-collapse: collapse; border-spacing: 0; width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Guruh nomi</th>
+                                    <th>To'lov boshlangan sana</th>
+                                    <th>Kurs davomiyligi</th>
+                                    <th>Status</th>
+                                    <th>Sozlama</th>
+                                </tr>
+                            </thead>
+                            <tbody class="getNeedPayment"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- O'quvchilarni izlash (O'quv markazi va guruh boyicha) -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="FILTER_BY_GROUP_STUDENT"
+    aria-labelledby="FILTER_BY_GROUP_STUDENT">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quvchini qidirish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label mt-2">O'quv markazi</label>
+                <select class="select2 form-control" onchange="Filtering_School(this.value)"
+                    id="FILTER_STUDENT_by_school"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label mt-2">Guruhni nomi</label>
+                <select class="select2 form-control" id="FILTER_STUDENT_by_group"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" onclick="filteringStudent()"
+                    class="btn btn-success waves-effect waves-light mt-2">
+                    Izlash
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<div class="offcanvas offcanvas-end" style="width: 60%" tabindex="-1" id="FILE_CREATE" aria-labelledby="FILE_CREATE">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Exceldan yuklash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <label class="form-label mt-2">Viloyat</label>
+        <select style="width: 100%" class="select2 form-control" onchange="filterRegions(this.value)"
+            id="REGION_excel"></select>
+        <label class="form-label mt-2">Tuman</label>
+        <select style="width: 100%" class="select2 form-control" id="DISTRICT_excel"></select>
+        <label class="form-label mt-2">O'quv markazi</label>
+        <select style="width: 100%" class="select2 form-control" onchange="filterGroups(this.value)"
+            id="SCHOOL_excel"></select>
+        <label class="form-label mt-2">Guruh</label>
+        <select style="width: 100%" class="select2 form-control" id="GROUP_excel"></select>
+        <div class="row col-md-12">
+            <div class="col-md-6">
+                <label class="form-label mt-2">Qaysi qatordan ... </label>
+                <input type="number" min="2" class="form-control" id="FILE_start">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label mt-2">Qaysi qatorgacha ... </label>
+                <input type="number" max="10000" class="form-control" id="FILE_end">
+            </div>
+        </div>
+        <label class="form-label mt-2">Excel faylni yuklang</label>
+        <input name="file" type="file" class="form-control" id="FILE_excel">
+        <button type="button" onclick="createExcel()" class="btn btn-success waves-effect waves-light mt-2">
+            Yaratish
+        </button>
+    </div>
+</div>
+
+<!-- Oq'uvchi haqida malumnot olish -->
+<div class="offcanvas offcanvas-start" style="width: 50%" tabindex="-1" id="INFORMATION">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quvchi haqida ma'lumot</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body  get_information_student">
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<script src="/assets/libs/dropzone/min/dropzone.min.js"></script>
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+
+
+
+    let schoolID = ""
+    // @description: Formalarni o'zgartirsh
+    $(document).ready(function () {
+        $("#PHONE").inputmask("999-99-999-99-99");
+        $("#ADDITIONAL_PHONE").inputmask("999-99-999-99-99");
+        $("#discountsPercentage").inputmask("99.9");
+        $("#discountsEditing").inputmask("99.9");
+        $("#PASSPORT").inputmask("AA9999999");
+    });
+
+    // const PHONE = document.getElementById("PHONE")
+    // const ADDITIONAL_PHONE = document.getElementById("ADDITIONAL_PHONE")
+    // let copiedPhone = ""
+    // const replacePhone = () => {
+    //     copiedPhone = PHONE.value
+    //     ADDITIONAL_PHONE.value = copiedPhone
+    // }
+
+
+    /* 
+       @description: Managerga tegishli filiallarni olish
+       @api: /api/user/decode
+       @method: GET
+   */
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiples = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const user_token = window.localStorage.getItem('user')
+    axios.get('/api/user/decode', { headers: { authorization: user_token } }).then((res) => {
+        const id = res.data.id; // user id
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const school = res.data.data.school
+            setSelectionSingle(school, "#SCHOOL", "O'quv markazlari mavjud emas")
+            setSelectionSingle(school, "#filterBySchool", "O'quv markazlari mavjud emas")
+            setSelectionSingle(school, "#SCHOOL_add_groups", "O'quv markazlari mavjud emas")
+            setSelectionSingle(school, "#FILTER_STUDENT_by_school", "O'quv markazlari mavjud emas")
+            setSelectionSingle(school, "#SCHOOL_excel", "O'quv markazlari mavjud emas")
+        })
+    })
+    /* 
+       @description: Filial boyicha o'quvchilarni olish tablega joylashtirish
+       @api: /api/user/filter_user
+       @method: GET
+    */
+    const FILTER_USERS = async (id) => {
+        axios.get("/api/user/filter_user", {
+            params: {
+                school: id,
+                role: "student",
+                actions: "active"
+            }
+        })
+            .then(async (res) => {
+                const DATA = res.data.data
+                if (DATA == "") {
+                    const put_table = $(".put_tables");
+                    await put_table.html("");
+                    put_table.append('')
+                } else {
+                    const put_table = $(".put_tables");
+                    await put_table.html("");
+                    DATA.forEach((item, index) => {
+                        put_table.append(`
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.passport}</td>
+                                <td>
+                                    <span style="cursor: pointer;" class="badge bg-primary font-size-12 p-2" onclick="seeGroup('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#SEE_FILIALS" aria-controls="SEE_FILIALS"> 
+                                        <i class="fas fa-eye"> </i>
+                                        Ko'rish   
+                                    </span>
+                                </td>
+                                <td class="font-size-18"><span class="status_default"> </span></td>
+                                <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a style="font-weight: 700;" onclick="information('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#INFORMATION" aria-controls="INFORMATION" class="dropdown-item text-success" href="#">Ma'lumotnoma</a>
+                                        <a style="font-weight: 700;" onclick="get_one('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS" class="dropdown-item" href="#">Tahrirlash</a>
+                                        <a style="font-weight: 700;" onclick="discount_add('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#CHEGIRMA" aria-controls="CHEGIRMA" class="dropdown-item" href="#">Chegirma qo'shish</a>
+                                        <a style="font-weight: 700;" onclick="get_status('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_STATUS_CANVAS" aria-controls="UPDATE_STATUS_CANVAS" class="dropdown-item text-primary" href="#">Bloklash </a>
+                                        <a style="font-weight: 700;" onclick="get_group_of_school('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#ADD_GROUP" aria-controls="ADD_GROUP" class="dropdown-item text-warning" href="#"> Guruhni yangilash</a>
+                                        <a style="font-weight: 700;" onclick="needPayment('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#NEED_PAYMENT" aria-controls="NEED_PAYMENT" class="dropdown-item text-warning" href="#">Aniq to'lov sanalari</a>
+                                        <a style="font-weight: 700;" onclick="delete_one('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
+                                    </div> 
+                                </td>
+                            </tr>
+                        `);
+                        document
+                            .getElementsByClassName("status_default")
+                            .forEach((innerValue, innerIndex) => {
+                                if (index == innerIndex) {
+                                    if (item.status_default == "none") {
+                                        innerValue.innerHTML = "Bloklanmagan";
+                                        innerValue.className = "status_default badge bg-success p-2";
+                                    }
+                                }
+                            });
+                        document
+                            .getElementsByClassName("status_default")
+                            .forEach((innerValue, innerIndex) => {
+                                if (index == innerIndex) {
+                                    if (item.status_default == "forever") {
+                                        innerValue.innerHTML = "Butunlay bloklangan";
+                                        innerValue.className = "status_default badge bg-warning p-2";
+                                    }
+                                }
+                            });
+                        document
+                            .getElementsByClassName("status_default")
+                            .forEach((innerValue, innerIndex) => {
+                                if (index == innerIndex) {
+                                    if (item.status_default == "pending") {
+                                        innerValue.innerHTML = "Vaqtinchalik blokda";
+                                        innerValue.className = "status_default badge bg-danger p-2";
+                                    }
+                                }
+                            });
+                    });
+                }
+            })
+
+
+        axios.get(`/api/school/${id}`).then((res) => {
+            const category = res.data.data.category;
+            setSelectionSingle(category, ".learned_course", "Yo'nalish mavjud emas")
+        })
+    }
+    /* 
+       @description: Barcha viloyatlarni olish
+       @api: /api/region/all
+       @method: GET
+    */
+    axios.get("/api/region/all", { params: { actions: "active" } }).then(async (res) => {
+        const data = res.data.data;
+        setSelectionSingle(data, "#REGION", "Viloyatlar mavjud emas")
+        setSelectionSingle(data, "#REGION_excel", "Viloyatlar mavjud emas")
+    });
+    /* 
+       @description: Viloyat boyicha tumanlarni olish
+       @api: /api/district/filter/:id
+       @method: GET
+    */
+    const filterRegion = (id) => {
+        axios.get(`/api/district/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionSingle(data, "#DISTRICT", "Tumanlar mavjud emas")
+        });
+    };
+    const filterRegions = (id) => {
+        axios.get(`/api/district/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionSingle(data, "#DISTRICT_excel", "Tumanlar mavjud emas")
+        });
+    };
+
+    /*
+       @description: Filial boyicha guruhlarni filtrlash
+       @api: /api/group/filter/:id
+       @mentod: GET
+    */
+    const filterGroup = (id) => {
+        axios.get(`/api/group/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionMultiples(data, "#GROUP", "Guruhlar mavjud emas")
+        })
+    }
+    const filterGroups = (id) => {
+        axios.get(`/api/group/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionSingle(data, "#GROUP_excel", "Guruhlar mavjud emas")
+        })
+    }
+
+    const Filtering_School = (id) => {
+        axios.get(`/api/group/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionMultiples(data, "#FILTER_STUDENT_by_group", "Guruhlar mavjud emas")
+        })
+    }
+    /*
+        @description: Yangi o'quvchilarni yaratish
+        @api: /api/user/create
+        @mentod: POST
+    */
+    const create = () => {
+        const REGION = document.getElementById("REGION").value
+        const DISTRICT = document.getElementById("DISTRICT").value
+        const SCHOOL = document.getElementById("SCHOOL").value
+        const GROUP = document.getElementById("GROUP");
+        const NAME = document.getElementById("NAME").value
+        const PHONE = document.getElementById("PHONE").value;
+        const ADDITIONAL_PHONE = document.getElementById("ADDITIONAL_PHONE").value;
+        const PASSPORT = document.getElementById("PASSPORT").value;
+        const BIRTHDAY = document.getElementById("BIRTHDAY").value;
+        const PASSWORD = document.getElementById("PASSWORD").value;
+        const GENDER = document.getElementById("GENDER").value;
+
+        const GROUPS = []
+        for (let item of GROUP) {
+            if (item.selected) {
+                GROUPS.push(item.value)
+            }
+        }
+
+        if (REGION == "" || DISTRICT == "" || PASSPORT == "" || SCHOOL == "" || NAME == "" || PHONE == "" || ADDITIONAL_PHONE == "" || PASSWORD == "" || GENDER == "" || GROUPS == "") {
+            warning("Malumotni to'liq kiriting");
+        }
+        else {
+            axios({
+                url: "/api/user/create",
+                method: "POST",
+                data: {
+                    region: REGION,
+                    district: DISTRICT,
+                    school: SCHOOL,
+                    group: GROUPS,
+                    name: NAME,
+                    phone: PHONE,
+                    password: PASSWORD,
+                    additionalDocuments: {
+                        born_date: BIRTHDAY,
+                        another_phone: ADDITIONAL_PHONE
+                    },
+                    passport: PASSPORT,
+                    gender: GENDER,
+                    role: "student",
+                    status_default: "none",
+                },
+            }).then((res) => {
+                const message = res.data.name;
+                if (message == "MongoError") {
+                    warning("Bunday passport raqami mavjud. Qaytaddan kiriting")
+                } else {
+                    success("Muvaffaqiyatli yaratildi");
+                    FILTER_USERS(SCHOOL)
+
+                }
+
+            });
+        }
+    };
+    const generator = () => {
+        const letters_1 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+        const letters_2 = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"]
+        const numbers_1 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        const numbers_2 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        const numbers_3 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        const numbers_4 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        const numbers_5 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        const numbers_6 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+        const numbers_7 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+
+        const letters_index_1 = Math.floor(Math.random() * letters_1.length)
+        const letters_index_2 = Math.floor(Math.random() * letters_2.length)
+
+        const numbers_index_1 = Math.floor(Math.random() * numbers_1.length)
+        const numbers_index_2 = Math.floor(Math.random() * numbers_2.length)
+        const numbers_index_3 = Math.floor(Math.random() * numbers_3.length)
+        const numbers_index_4 = Math.floor(Math.random() * numbers_4.length)
+        const numbers_index_5 = Math.floor(Math.random() * numbers_5.length)
+        const numbers_index_6 = Math.floor(Math.random() * numbers_6.length)
+        const numbers_index_7 = Math.floor(Math.random() * numbers_7.length)
+
+        const data = letters_1[letters_index_1]
+            + letters_2[letters_index_2]
+            + numbers_1[numbers_index_1]
+            + numbers_2[numbers_index_2]
+            + numbers_3[numbers_index_3]
+            + numbers_4[numbers_index_4]
+            + numbers_5[numbers_index_5]
+            + numbers_6[numbers_index_6]
+            + numbers_7[numbers_index_7]
+
+        document.getElementById("PASSPORT").value = data
+    }
+    /*
+        @description:O'quvchini tahrirlash -  [name, passport, password, phone]
+        @api: /api/user/create
+        @mentod: PUT
+    */
+    const get_one = (id) => {
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const get_canvas = $(".get_canvas");
+            await get_canvas.html("");
+            get_canvas.append(`
+                    <label class="mb-1 mt-2 ">O'quvchi ismi</label>
+                    <input style="width: 100%;" type="text" class="form-control" value="${DATA.name}"  id="name_edit">
+    
+                    <label class="mb-1 mt-2 ">O'quvchi telefon raqami</label>
+                    <input style="width: 100%;" type="text" class="form-control" value="${DATA.phone}"  id="phone_edit">
+                    
+                    <label class="mb-1 mt-2 ">O'quvchi passport raqami</label>
+                    <input style="width: 100%;" type="text" class="form-control" value="${DATA.passport}"  id="user_passport_edit">
+    
+                    <label class="mb-1 mt-2 ">Yangi parol</label>
+                    <input style="width: 100%;" type="text" class="form-control" value=""  id="password_edit">
+    
+                    <button type="button" onclick="update_one('${DATA._id}')" class=" mt-2 btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+                `);
+
+            $(document).ready(function () {
+                $("#user_passport_edit").inputmask("AA9999999");  // static mask
+            });
+            $(document).ready(function () {
+                $("#phone_edit").inputmask("999-99-999-99-99");  // static mask
+            });
+        });
+    };
+    const update_one = (id) => {
+        const name = document.getElementById("name_edit").value;
+        const phone = document.getElementById("phone_edit").value;
+        const password = document.getElementById("password_edit").value;
+        const passport = document.getElementById("user_passport_edit").value;
+        if (name == "" || phone == "" || passport == "" || password == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: `/api/user/content/${id}`,
+                method: "PUT",
+                data: {
+                    name: name,
+                    phone: phone,
+                    passport: passport,
+                    password: password,
+                },
+            }).then(async (res) => {
+                success("Muvaffaqiyatli tahrirlandi");
+                const DATA = res.data;
+                if (DATA == "") {
+                    const put_table = $(".put_tables");
+                    await put_table.html("");
+                    put_table.append('')
+                } else {
+                    const put_table = $(".put_tables");
+                    await put_table.html("");
+                    put_table.append(`
+                            <tr>
+                                <td>${DATA.name}</td>
+                                <td>${DATA.passport}</td>
+                                <td>
+                                    <span style="cursor: pointer;" class="badge bg-primary font-size-12 p-2" onclick="seeGroup('${DATA._id}')" data-bs-toggle="offcanvas" data-bs-target="#SEE_FILIALS" aria-controls="SEE_FILIALS"> 
+                                        <i class="fas fa-eye"> </i>
+                                        Ko'rish   
+                                    </span>
+                                </td>
+                                <td class="font-size-18"><span class="status_default"> </span></td>
+                                <td>${new Date(DATA.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a style="font-weight: 700;" onclick="information('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#INFORMATION" aria-controls="INFORMATION" class="dropdown-item text-success" href="#">Ma'lumotnoma</a>
+                                        <a style="font-weight: 700;" onclick="get_one('${DATA._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS" class="dropdown-item" href="#">Tahrirlash</a>
+                                        <a style="font-weight: 700;" onclick="discount_add('${DATA._id}')" data-bs-toggle="offcanvas" data-bs-target="#CHEGIRMA" aria-controls="CHEGIRMA" class="dropdown-item" href="#">Chegirma qo'shish</a>
+                                        <a style="font-weight: 700;" onclick="get_status('${DATA._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_STATUS_CANVAS" aria-controls="UPDATE_STATUS_CANVAS" class="dropdown-item text-primary" href="#">Bloklash </a>
+                                        <a style="font-weight: 700;" onclick="get_group_of_school('${DATA._id}')" data-bs-toggle="offcanvas" data-bs-target="#ADD_GROUP" aria-controls="ADD_GROUP" class="dropdown-item text-warning" href="#"> Guruhni yangilash</a>
+                                        <a style="font-weight: 700;" onclick="needPayment('${DATA._id}')" data-bs-toggle="offcanvas" data-bs-target="#NEED_PAYMENT" aria-controls="NEED_PAYMENT" class="dropdown-item text-warning" href="#">Aniq to'lov sanalari</a>
+                                        <a style="font-weight: 700;" onclick="delete_one('${DATA._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
+                                    </div> 
+                                </td>
+                            </tr>
+                        `);
+                    document
+                        .getElementsByClassName("status_default")
+                        .forEach((innerValue, innerIndex) => {
+                            if (DATA.status_default == "none") {
+                                innerValue.innerHTML = "Bloklanmagan";
+                                innerValue.className = "status_default badge bg-success p-2";
+                            }
+                        });
+                    document
+                        .getElementsByClassName("status_default")
+                        .forEach((innerValue, innerIndex) => {
+                            if (DATA.status_default == "forever") {
+                                innerValue.innerHTML = "Butunlay bloklangan";
+                                innerValue.className = "status_default badge bg-warning p-2";
+                            }
+                        });
+                    document
+                        .getElementsByClassName("status_default")
+                        .forEach((innerValue, innerIndex) => {
+                            if (DATA.status_default == "pending") {
+                                innerValue.innerHTML = "Vaqtinchalik blokda";
+                                innerValue.className = "status_default badge bg-danger p-2";
+                            }
+                        });
+                }
+            });
+        }
+    };
+    /*
+        @description:O'quvchini tahrirlash -  [status]
+        @api: /api/user/create
+        @mentod: PUT
+    */
+    const get_status = (id) => {
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const get_canvas_status = $(".get_canvas_status");
+            await get_canvas_status.html("");
+            get_canvas_status.append(`
+                <button type="button" onclick="update_status('${DATA._id}')" class=" mt-2 btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+            `);
+        });
+    };
+    let statusAction = "";
+    const changeStatus = (value) => {
+        if (value == "pending") {
+            document.getElementById("statusDATE").style.display = "block";
+            statusAction = "pending";
+        }
+        if (value == "none") {
+            document.getElementById("statusDATE").style.display = "none";
+            statusAction = "none";
+        }
+        if (value == "forever") {
+            document.getElementById("statusDATE").style.display = "none";
+            statusAction = "forever";
+        }
+    };
+    const update_status = (id) => {
+        const status = document.getElementById("change_status").value;
+        const startDate = document.getElementById("startDate").value;
+        const endDate = document.getElementById("endDate").value;
+
+        if (status == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            if (statusAction == "none") {
+                axios({
+                    url: `/api/user/content/${id}`,
+                    method: "PUT",
+                    data: {
+                        status_default: "none",
+                        blocking_start_date: "",
+                        blocking_end_date: "",
+                    },
+                }).then((res) => {
+                    success("Muvaffaqiyatli tahrirlandi");
+                });
+            }
+            if (statusAction == "forever") {
+                axios({
+                    url: `/api/user/content/${id}`,
+                    method: "PUT",
+                    data: {
+                        status_default: "forever",
+                        blocking_start_date: "",
+                        blocking_end_date: "",
+                    },
+                }).then((res) => {
+                    success("Muvaffaqiyatli tahrirlandi");
+                });
+            }
+            if (statusAction == "pending") {
+                if (startDate == "" || endDate == "") {
+                    warning("Boshlang'ich va yakuniy sanalarni to'liq kiriting");
+                } else {
+                    axios({
+                        url: `/api/user/content/${id}`,
+                        method: "PUT",
+                        data: {
+                            status_default: "pending",
+                            blocking_start_date: new Date(startDate).toISOString(),
+                            blocking_end_date: new Date(endDate).toISOString(),
+                        },
+                    }).then((res) => {
+                        success("Muvaffaqiyatli tahrirlandi");
+                    });
+                }
+            }
+        }
+    };
+    /*
+        @description:O'quvchini o'chirish
+        @api: /api/user/:id
+        @mentod: DELETE
+    */
+
+    const delete_one = (id) => {
+        axios.delete(`/api/user/${id}`).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            const filterBySchool = document.getElementById("filterBySchool").value
+            FILTER_USERS(filterBySchool)
+        });
+    };
+    /*
+        @description: Qaysi filialga tegishli ekanligini bilish
+        @api: /api/user/:id
+        @mentod: GET
+    */
+    const seeGroup = (id) => {
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const SCHOOL = DATA.group // []
+            const lists = $(".add_new_schools_list");
+            await lists.html("")
+            SCHOOL.forEach((item, index) => {
+                lists.append(`
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 style="font-weight: 900;0">${index += 1} - o'quv markaz: </h6>
+                            <h6 >${item.name}</h6>
+                        </div>
+                    </div>
+                `)
+            });
+        });
+    }
+    /*
+        @description: O'quvchini yangi guruhga biriktirish
+        @api: /api/user/content/:id
+        @mentod: PUT
+    */
+    let studentID = ""
+    const get_group_of_school = (id) => {
+        studentID = id
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const user = res.data.data
+            const groups = res.data.data.group
+            const appends = $(".s_groupss");
+            const all_own_groups = $(".all_own_groups");
+            await appends.html("");
+            await all_own_groups.html("");
+            appends.append(`
+                <button type="button" id="ADD__GROUPS" onclick="add_group('${user._id}')" class="btn btn-success waves-effect waves-light mt-2">
+                    Tahrirlash
+                </button>
+            `);
+            groups.forEach((item) => {
+                all_own_groups.append(`
+                    <div class="alert border-1 border-secondary alert-light col-md-12 mb-1  row align-items-center" role="alert">
+                        <span class="col-md-11">${item.name}</span>   
+                        <a style="font-weight: 700;padding: 3px 5px;" onclick="deleteGroup('${item._id}', '${id}')"  class="btn btn-outline-danger col-md-1" href="#">
+                            <i  style="font-size: 18px; "  class="ri-delete-bin-line"></i>
+                        </a>
+                    </div>
+                `);
+            })
+
+        })
+    }
+    let selectedSchool = ""
+    const FILTER_SCHOOL_GROUP = (id) => {
+        selectedSchool = id
+        axios.get(`/api/group/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const schoolGroups = res.data.data
+            axios.get(`/api/user/${studentID}`).then(async (res) => {
+                const userGroups = res.data.data.group
+                const data = schoolGroups.filter(({ _id: id1 }) => !userGroups.some(({ _id: id2 }) => id2 === id1));
+                if (data == "" || data == []) {
+                    warning("Ushbu o'quvchiga boshqa guruh qo'shish imkoniyati mavjud emas")
+                    document.getElementById("ADD__GROUPS").disabled = true
+
+                } else {
+                    document.getElementById("ADD__GROUPS").disabled = false
+                    setSelectionMultiples(data, "#student_group", "Ushbu o'quv markazlarning guruhlari mavjud emas")
+                }
+
+            })
+
+
+        })
+    }
+    const add_group = (id) => {
+        const school = document.getElementById('SCHOOL_add_groups').value
+        const group = document.getElementById('student_group');
+
+        const arraySchool = []
+        arraySchool.push(school)
+
+        const setArray = (element) => {
+            const arrays = []
+            for (const option of element) {
+                if (option.selected) {
+                    arrays.push(option.value)
+                }
+            }
+            return arrays
+        }
+
+
+        if (setArray(group) == "" || arraySchool == "") {
+            warning("Malumotlatlarni to'liq kiriting")
+        }
+        else {
+
+            axios.get(`/api/user/${id}`).then(async (res) => {
+                const userGroups = res.data.data.group
+                const containeGroup = setArray(group).concat(userGroups.map((item) => item._id))
+
+                axios({
+                    url: `/api/user/content/${id}`,
+                    method: "PUT",
+                    data: {
+                        school: arraySchool,
+                        group: containeGroup,
+                    },
+                }).then((res) => {
+                    get_group_of_school(id)
+                    FILTER_SCHOOL_GROUP(selectedSchool)
+
+                    // document.getElementById('SCHOOL_add_groups').disabled =
+                    success("Muvaffaqiyatli tahrirlandi");
+                });
+
+
+            })
+
+
+
+        }
+    }
+    const deleteGroup = (groupID, userID) => {
+        axios.get(`/api/user/${userID}`).then(async (res) => {
+            const groups = res.data.data.group
+            const restedGroups = groups.filter((item) => {
+                return item._id !== groupID
+            })
+            axios.put(`/api/user/content/${userID}`, {
+                group: restedGroups
+            }).then(async (res) => {
+                get_group_of_school(userID)
+                FILTER_SCHOOL_GROUP(selectedSchool)
+            })
+        })
+    }
+    // -----------------------------------------    Chegirmalar   ----------------------------------------------------
+    let discountUserID = ""
+    const setDiscountHtml = (id) => {
+        axios.get(`/api/discount/user/${id}`, { params: { actions: "active" } }).then(async (res) => {
+            const data = res.data.data
+            const appends = $(".getDiscounts");
+            await appends.html("");
+            data.forEach((item) => {
+                appends.append(
+                    `
+                        <tr>
+                            <td>${item.category.name}</td>
+                            <td>${item.speciality.name}</td>
+                            <td>${item.group.payment} so'm</td>
+                            <td>${item.percentage} foiz - ${(parseInt(item.group.payment) / 100) * parseFloat(item.percentage)} so'm</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-cog"></i>
+                                    </button>
+                                <div class="dropdown-menu">
+                                    <a style="font-weight: 700;" onclick="seeDiscountType('${item.status}', '${item.percentage}', '${item.speciality.name}')" class="dropdown-item  text-success" href="#">Chegirma turi</a>
+                                    <a style="font-weight: 700;" onclick="editDiscount('${item._id}', '${item.percentage}')"   data-bs-toggle="offcanvas" data-bs-target="#EDIT_DISCOUNT" aria-controls="EDIT_DISCOUNT"  class="dropdown-item text-warning" href="#">Tahrirlash</a>
+                                    <a style="font-weight: 700;" onclick="deleteDiscount('${item._id}')"  class="dropdown-item text-danger" href="#">Chegirmani o'chirish</a>
+                                </div> 
+                                </div>
+                            </td>
+                        </tr>
+                    `
+                );
+            });
+        })
+    }
+    const discount_add = async (id) => {
+        discountUserID = id
+        const addDiscount = $(".addDiscount")
+        await addDiscount.html("")
+        addDiscount.append(`<button onclick="addDiscounts('${id}')" type="button" class="col-md-12 col-sm-12  mt-3 btn btn-primary">Chegirma berish</button>`)
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const data = res.data.data.group
+            const appends = $(".studentGroups");
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            data.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        })
+        setDiscountHtml(id)
+    }
+    const getAll = (id) => {
+        axios.get(`/api/group/${id}`).then((res) => {
+            const data = res.data.data
+            document.getElementById("categoryDiscount").value = data.category.name
+            document.getElementById("specialityDiscount").value = data.speciality.name
+            document.getElementById("categoryDiscountHidden").value = data.category._id
+            document.getElementById("specialityDiscountHidden").value = data.speciality._id
+
+        })
+    }
+    const addDiscounts = (id) => {
+        const status = document.getElementById("statusDiscount").value;
+        const group = document.getElementById("StudentGroup").value;
+        const category = document.getElementById("categoryDiscountHidden").value;
+        const speciality = document.getElementById("specialityDiscountHidden").value;
+        const percentage = document.getElementById("discountsPercentage").value;
+        if (status == "" || group == "" || category == "" || speciality == "" || percentage == "") {
+            danger("Ma'lumotlarni to'liq kiriting")
+        }
+        else {
+            axios.post('/api/discount/create', {
+                userID: id,
+                status: status,
+                percentage: percentage,
+                groupID: group,
+                categoryID: category,
+                specialityID: speciality,
+            })
+                .then((res) => {
+                    const message = res.data.message;
+                    if (message == "Success") {
+                        success("Chegirma yaratildi")
+                        setDiscountHtml(id)
+                    }
+                    else danger("Ushbu kurs uchun chegirma oldin yaratilgan. Qaytadan tekshiring !")
+                })
+        }
+    }
+    const deleteDiscount = (id) => {
+        axios.delete(`/api/discount/${id}`, { actions: "archive" }).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            setDiscountHtml(discountUserID)
+        });
+    };
+    const editDiscount = async (id, discounts) => {
+
+        const editDiscounting = $(".editDiscounting")
+        await editDiscounting.html("")
+        editDiscounting.append(`
+            <label class="form-label mb-1 mt-2">Yangi chegirmani kiriting</label>
+            <input  class="form-control" type="text" id="discountsEditing" />
+            
+            <button type="button" onclick="edit_disc('${id}')" class="btn btn-success waves-effect waves-light mt-2">
+                Tahrirlash
+            </button>
+        `)
+        $("#discountsEditing").inputmask("99");
+
+    }
+    const edit_disc = (id) => {
+        const discountsEditing = document.getElementById("discountsEditing").value;
+        if (discountsEditing == "") {
+            danger("Ma'lumotni to'liq kiriting")
+        }
+        else {
+            axios.put(`/api/discount/${id}`, {
+                percentage: discountsEditing
+            }).then((res) => {
+                success(`Chegirma miqdori ${discountsEditing} foizga o'zgartirildi`)
+                setDiscountHtml(discountUserID)
+            })
+        }
+    }
+    const seeDiscountType = (status, percentage, speciality) => {
+        if (status == "1") success(`Ushbu o'quvchi bir nachta fanga qatnashganligi uchun ${speciality} kursidan ${percentage} foiz chegirma qilindi`)
+        if (status == "2") success(`Bir oiladan kurslarga qatnashgani uchun ${speciality} kursidan ${percentage} foiz chegirma qilindi`)
+        if (status == "3") success(`Hech qanday sabablarsiz ${speciality} kursidan ${percentage} foiz chegirma qilindi`)
+    }
+    // -----------------------------------------    To'lov sanasini belgilash   ----------------------------------------------------
+    let needPaymentuserID = ""
+    const setNeedPaymentHtml = (id) => {
+        axios.get(`/api/need_payment/user/${id}`).then(async (res) => {
+            const data = res.data.data;
+            const appends = $(".getNeedPayment");
+            await appends.html("");
+            data.forEach((item, index) => {
+                appends.append(
+                    `
+                        <tr>
+                            <td style="vertical-align: middle;">${item.groupID.name}</td>
+                            <td style="vertical-align: middle;">${item.startDay} </td>
+                            <td style="vertical-align: middle;">${item.all_month} oy</td>
+                            <td style="vertical-align: middle;" class="paymentDATA"></td>
+                            <td style="vertical-align: middle;">
+                                <div class="btn-group">
+                                    <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-outline-warning mr-2 " onclick="reloadNeedPayment('${item.userID._id}')" >
+                                        <i class="ri-refresh-line"></i>
+                                    </button>
+                                    <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-outline-danger " onclick="deleteNeedPayment('${item._id}')" >
+                                        <i class="ri-delete-bin-line"></i>
+                                    </button>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                    `
+                );
+                const paymentDATA = document.getElementsByClassName("paymentDATA");
+                paymentDATA.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+                        if (typeof item.payment == "undefined" || !item.payment || item.payment == "0") {
+                            inputs.innerHTML = `<span class=" badge bg-danger font-size-14 p-2">Mavjud emas</span>`
+                        }
+                        else {
+                            const payments = item.payment
+
+                            for (let index = 0; index < payments.length; index++) {
+                                const element = payments[index];
+                                const div = document.createElement("div")
+
+                                if (element.types == "payed") {
+                                    div.innerHTML += `
+                                    <span style="border: 2px solid #1cbb8c; color: #1cbb8c;" class="badge  mt-1 font-size-14 p-2">${element.startMonth}</span> 
+                                    <span style="border: 2px solid #1cbb8c; color: #1cbb8c;" class="badge mt-1 font-size-14 p-2">${element.endMonth} </span>
+                                    <span style="border: 2px solid #1cbb8c;" class="badge bg-success mt-1 font-size-14 p-2">Qarzdorlik yo'q</span>
+                                    `
+                                }
+                                if (element.types == "debtor") {
+                                    div.innerHTML += `
+                                    <span style="border: 2px solid #ff3d60; color: #ff3d60;" class="badge  mt-1 font-size-14 p-2">${element.startMonth}</span> 
+                                    <span style="border: 2px solid #ff3d60; color: #ff3d60;" class="badge mt-1 font-size-14 p-2">${element.endMonth} </span>
+                                    <span style="border: 2px solid #ff3d60;" class="badge bg-danger mt-1 font-size-14 p-2">Qarzdorlik  bor</span>
+                                    `
+                                }
+                                inputs.append(div)
+                            }
+                        }
+                    }
+                })
+            });
+        })
+    }
+    const needPayment = async (userID) => {
+        needPaymentuserID = userID
+        setNeedPaymentHtml(userID)
+        axios.get(`/api/user/${userID}`).then(async (res) => {
+            const data = res.data.data.group
+            const appends = $("#needPayment_group");
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            data.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        })
+        const getButtons = $(".getButtons");
+        await getButtons.html("");
+        getButtons.append(`
+            <button type="button" onclick="saveNeedPayment('${userID}')"  class="btn btn-outline-success col-12">Saqlash</button>
+        `);
+    }
+    const saveNeedPayment = (userID) => {
+        const group = document.getElementById("needPayment_group").value;
+        const startDate = document.getElementById("needPayment_startDay").value;
+        const month = document.getElementById("needPayment_month").value
+
+        if (group == "" || startDate == "" || month == "") {
+            danger("Ma'lumotni to'liq kirting")
+        }
+        else {
+            const currentMonth = new Date(startDate).toLocaleDateString()
+            const payments = []
+
+            function rekursion(month) {
+                if (month > 0) {
+                    let START = -1
+                    let END = 0
+                    START += month
+                    END += month
+                    const startMonth = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + START)).toLocaleDateString()
+                    const endMonth = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + END)).toLocaleDateString()
+                    payments.push({
+                        startMonth: startMonth,
+                        endMonth: endMonth,
+                        types: "debtor",
+                    })
+                    rekursion(month - 1)
+                }
+            }
+            rekursion(parseInt(month))
+            axios.post("/api/need_payment/create", {
+                userID: userID,
+                groupID: group,
+                startDay: currentMonth,
+                all_month: month,
+                payment: payments
+
+            }).then((res) => {
+                const message = res.data.message;
+                if (message == "Success") {
+                    success("To'lov muddatlari aniq belgilandi")
+                    setNeedPaymentHtml(needPaymentuserID)
+                }
+                else danger("Ushbu ma'lumot qaytadan kiritilgan. Iltimos qayta tekshiring")
+            })
+
+        }
+    }
+    const deleteNeedPayment = (id) => {
+        axios.delete(`/api/need_payment/${id}`).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            setNeedPaymentHtml(needPaymentuserID)
+        });
+    }
+    const reloadNeedPayment = (userID) => {
+        setNeedPaymentHtml(userID)
+    }
+    // Malumotlarni izlash
+    const keyPressStudent = document.getElementById("keyPressStudent")
+    keyPressStudent.addEventListener("keypress", () => {
+        const value = keyPressStudent.value;
+
+        axios.get('/api/search/user', { params: { name: value } }).then(async (res) => {
+            const DATA = res.data.data;
+            if (DATA == "") {
+                const put_table = $(".put_tables");
+                await put_table.html("");
+                put_table.append('')
+            } else {
+                const put_table = $(".put_tables");
+                await put_table.html("");
+                DATA.forEach((item, index) => {
+                    put_table.append(`
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.passport}</td>
+                                <td>
+                                    <span style="cursor: pointer;" class="badge bg-primary font-size-12 p-2" onclick="seeGroup('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#SEE_FILIALS" aria-controls="SEE_FILIALS"> 
+                                        <i class="fas fa-eye"> </i>
+                                        Ko'rish   
+                                    </span>
+                                </td>
+                                <td class="font-size-18"><span class="status_default"> </span></td>
+                                <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a style="font-weight: 700;" onclick="information('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#INFORMATION" aria-controls="INFORMATION" class="dropdown-item text-success" href="#">Ma'lumotnoma</a>
+                                        <a style="font-weight: 700;" onclick="get_one('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS" class="dropdown-item" href="#">Tahrirlash</a>
+                                        <a style="font-weight: 700;" onclick="discount_add('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#CHEGIRMA" aria-controls="CHEGIRMA" class="dropdown-item" href="#">Chegirma qo'shish</a>
+                                        <a style="font-weight: 700;" onclick="get_status('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_STATUS_CANVAS" aria-controls="UPDATE_STATUS_CANVAS" class="dropdown-item text-primary" href="#">Bloklash </a>
+                                        <a style="font-weight: 700;" onclick="get_group_of_school('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#ADD_GROUP" aria-controls="ADD_GROUP" class="dropdown-item text-warning" href="#"> Guruhni yangilash</a>
+                                        <a style="font-weight: 700;" onclick="needPayment('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#NEED_PAYMENT" aria-controls="NEED_PAYMENT" class="dropdown-item text-warning" href="#">Aniq to'lov sanalari</a>
+                                        <a style="font-weight: 700;" onclick="delete_one('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
+                                    </div> 
+                                </td>
+                            </tr>
+                        `);
+                    document
+                        .getElementsByClassName("status_default")
+                        .forEach((innerValue, innerIndex) => {
+                            if (index == innerIndex) {
+                                if (item.status_default == "none") {
+                                    innerValue.innerHTML = "Bloklanmagan";
+                                    innerValue.className = "status_default badge bg-success p-2";
+                                }
+                            }
+                        });
+                    document
+                        .getElementsByClassName("status_default")
+                        .forEach((innerValue, innerIndex) => {
+                            if (index == innerIndex) {
+                                if (item.status_default == "forever") {
+                                    innerValue.innerHTML = "Butunlay bloklangan";
+                                    innerValue.className = "status_default badge bg-warning p-2";
+                                }
+                            }
+                        });
+                    document
+                        .getElementsByClassName("status_default")
+                        .forEach((innerValue, innerIndex) => {
+                            if (index == innerIndex) {
+                                if (item.status_default == "pending") {
+                                    innerValue.innerHTML = "Vaqtinchalik blokda";
+                                    innerValue.className = "status_default badge bg-danger p-2";
+                                }
+                            }
+                        });
+                });
+            }
+
+        })
+    })
+    // O'quvchilarni izlash
+    const filteringStudent = () => {
+
+        const school = document.getElementById("FILTER_STUDENT_by_school").value;
+        const group = document.getElementById("FILTER_STUDENT_by_group").value;
+
+        if (school == "" || group == "") warning("Ma'lumotlarni to'liq kiriting")
+        else {
+            axios.get('/api/user/get_by_school_group', {
+                params: {
+                    school: school,
+                    group: group,
+                    role: "student",
+                    actions: "active",
+                }
+            }).then(async (res) => {
+                const DATA = res.data.data;
+                if (DATA == "") {
+                    const put_table = $(".put_tables");
+                    await put_table.html("");
+                    put_table.append('')
+                } else {
+                    const put_table = $(".put_tables");
+                    await put_table.html("");
+                    DATA.forEach((item, index) => {
+                        put_table.append(`
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.passport}</td>
+                                <td>
+                                    <span style="cursor: pointer;" class="badge bg-primary font-size-12 p-2" onclick="seeGroup('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#SEE_FILIALS" aria-controls="SEE_FILIALS"> 
+                                        <i class="fas fa-eye"> </i>
+                                        Ko'rish   
+                                    </span>
+                                </td>
+                                <td class="font-size-18"><span class="status_default"> </span></td>
+                                <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fas fa-cog"></i>
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a style="font-weight: 700;" onclick="information('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#INFORMATION" aria-controls="INFORMATION" class="dropdown-item text-success" href="#">Ma'lumotnoma</a>
+                                        <a style="font-weight: 700;" onclick="get_one('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS" class="dropdown-item" href="#">Tahrirlash</a>
+                                        <a style="font-weight: 700;" onclick="discount_add('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#CHEGIRMA" aria-controls="CHEGIRMA" class="dropdown-item" href="#">Chegirma qo'shish</a>
+                                        <a style="font-weight: 700;" onclick="get_status('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_STATUS_CANVAS" aria-controls="UPDATE_STATUS_CANVAS" class="dropdown-item text-primary" href="#">Bloklash </a>
+                                        <a style="font-weight: 700;" onclick="get_group_of_school('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#ADD_GROUP" aria-controls="ADD_GROUP" class="dropdown-item text-warning" href="#"> Guruhni yangilash</a>
+                                        <a style="font-weight: 700;" onclick="needPayment('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#NEED_PAYMENT" aria-controls="NEED_PAYMENT" class="dropdown-item text-warning" href="#">Aniq to'lov sanalari</a>
+                                        <a style="font-weight: 700;" onclick="delete_one('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
+                                    </div> 
+                                </td>
+                            </tr>
+                        `);
+                        document
+                            .getElementsByClassName("status_default")
+                            .forEach((innerValue, innerIndex) => {
+                                if (index == innerIndex) {
+                                    if (item.status_default == "none") {
+                                        innerValue.innerHTML = "Bloklanmagan";
+                                        innerValue.className = "status_default badge bg-success p-2";
+                                    }
+                                }
+                            });
+                        document
+                            .getElementsByClassName("status_default")
+                            .forEach((innerValue, innerIndex) => {
+                                if (index == innerIndex) {
+                                    if (item.status_default == "forever") {
+                                        innerValue.innerHTML = "Butunlay bloklangan";
+                                        innerValue.className = "status_default badge bg-warning p-2";
+                                    }
+                                }
+                            });
+                        document
+                            .getElementsByClassName("status_default")
+                            .forEach((innerValue, innerIndex) => {
+                                if (index == innerIndex) {
+                                    if (item.status_default == "pending") {
+                                        innerValue.innerHTML = "Vaqtinchalik blokda";
+                                        innerValue.className = "status_default badge bg-danger p-2";
+                                    }
+                                }
+                            });
+                    });
+                }
+
+
+
+            })
+        }
+
+    }
+    // Excel orqali malumotlarni yuklash;
+    const createExcel = () => {
+        const formData = new FormData()
+        const REGION_excel = document.getElementById("REGION_excel").value;
+        const DISTRICT_excel = document.getElementById("DISTRICT_excel").value;
+        const SCHOOL_excel = document.getElementById("SCHOOL_excel").value;
+        const GROUP_excel = document.getElementById("GROUP_excel")
+        const FILE_start = document.getElementById("FILE_start").value;
+        const FILE_end = document.getElementById("FILE_end").value;
+        const FILE_excel = document.getElementById("FILE_excel").files[0];
+        const GROUPS = []
+        for (let item of GROUP_excel) {
+            if (item.selected) {
+                GROUPS.push(item.value)
+            }
+        }
+        if (REGION_excel == "" || DISTRICT_excel == "" || SCHOOL_excel == "" || GROUPS == "" || FILE_excel == "" || FILE_start == "" || FILE_end == "") {
+            warning("Hamma ma'lumotlarni to'gri kiriting")
+        } else {
+            formData.append("region", REGION_excel)
+            formData.append("district", DISTRICT_excel)
+            formData.append("school", SCHOOL_excel)
+            formData.append("group", GROUPS)
+            formData.append("start", FILE_start)
+            formData.append("end", FILE_end)
+            formData.append("excel", FILE_excel)
+            axios.post("/api/user/by_excel", formData).then(async (res) => {
+                const data = res.data
+                if (data.message == "not_file") {
+                    danger("Siz yuklagan fayl excel fayl emas")
+                }
+                if (data.message == "Not start zero") {
+                    danger("Boshlang'ich raqamni 0 dan boshlamang")
+                }
+                if (data.message == "Starter is more than Last number") {
+                    danger("Boshlang'ich raqamni yakuniysidan ko'proq. Qaytadan tekshiring")
+                }
+                if (data.message == "Cannot read properties of undefined (reading 'v')") {
+                    danger(`Yuklagan faylda ${FILE_end}-qator mavjud emas. Sonni aniq kiriting`)
+                }
+                if (data.message == "Excel's row and column need to fill up") {
+                    danger("Excel fayni ichidagi barcha yacheykalarga ma'lumotlar to'liq kiritishingiz kerak")
+                }
+                if (data.message == "Duplicated") {
+                    danger("Bir xil passport egalari aniqlandi. Iltimos yana bir bor qayta urinib ko'ring ")
+                }
+                if (data.message == "Success") {
+                    success("Ma'lumotlar muvaffaqiyatli yaratildi")
+                }
+            })
+        }
+    }
+
+
+
+
+
+    // -----------------------------------------    O'quvchi haqida qisqavha malumot olish   ----------------------------------------------------
+    const information = (id) => {
+        axios.get(`/api/user/${id}`).then(async (res) => {
+            const DATA = res.data.data;
+            const get_canvas = $(".get_information_student");
+            await get_canvas.html("");
+            get_canvas.append(`
+                    <label class="mb-1 mt-2 ">Viloyat nomi</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.region.name}" >
+    
+                    <label class="mb-1 mt-2 ">Tuman nomi</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.district.name}" >
+
+                    <label class="mb-1 mt-2 ">F.I.O</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.name}">
+
+                    <label class="mb-1 mt-2 ">O'quvchi telefon raqami</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.phone}" >
+
+                    <label class="mb-1 mt-2 ">O'quvchi qo'shimcha telefon raqami</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.additionalDocuments.another_phone}" >
+                   
+                    <label class="mb-1 mt-2 ">O'quvchi kodi</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.uuid}" >
+                    
+                    <label class="mb-1 mt-2 ">Jinsi</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.gender}" >
+                    
+                    <label class="mb-1 mt-2 ">O'quvchi passport raqami</label>
+                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.passport}">
+                
+                  
+                `);
+
+
+
+
+
+            $(document).ready(function () {
+                $("#user_passport_edit").inputmask("AA9999999");  // static mask
+            });
+            $(document).ready(function () {
+                $("#phone_edit").inputmask("999-99-999-99-99");  // static mask
+            });
+        });
+    }
+
+</script>

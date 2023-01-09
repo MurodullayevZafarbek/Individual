@@ -1,0 +1,845 @@
+<style>
+    #congratularion_role_1,
+    #congratularion_user_1,
+    #congratularion_role,
+    #congratularion_user {
+        display: none;
+    }
+</style>
+
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h3 class="mb-sm-0">SMS tizimi</h3>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="/admin/dashboard/general">Asosiy sahifa</a></li>
+                            <li class="breadcrumb-item active">SMS</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row col-md-12 col-sm-12 d-flex justify-content-between align-items-center">
+            <button class="btn btn-primary col-md-2 col-sm- mt-2" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#CREATE_CANVAS" aria-controls="CREATE_CANVAS">
+                <i class="far fa-plus-square"></i> Shablon yaratish
+            </button>
+            <button type="button" class="btn btn-success col-md-2 col-sm- mt-2" data-bs-toggle="offcanvas"
+                data-bs-target="#SENT_SMS" aria-controls="SENT_SMS">
+                <i class="fas fa-sms"></i> Jo'natmalarni olish
+            </button>
+            <button type="button" class="btn btn-danger col-md-2 col-sm-12 mt-2" data-bs-toggle="offcanvas"
+                data-bs-target="#SMS_FORM" aria-controls="SMS_FORM">
+                <i class="fas fa-sms"></i> Tabriknoma
+            </button>
+            <button type="button" class="btn btn-danger col-md-2  col-sm-12 mt-2" data-bs-toggle="offcanvas"
+                data-bs-target="#SMS_SPECIAL" aria-controls="SMS_SPECIAL">
+                <i class="fas fa-sms"></i> Maxsus habar
+            </button>
+            <div class="col-md-3 col-sm-12 mt-2">
+                <select class="select2 form-control" onchange="filterSMS(this.value)" id="filterBySchool"></select>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive wrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="max-width: 50%;">SMS habarnoma</th>
+                            <th style="max-width: 20%;">SMS turi</th>
+                            <th style="max-width: 15%;">Sana</th>
+                            <th style="max-width: 15%;">Sozlama</th>
+                        </tr>
+                    </thead>
+                    <tbody class="put_tables">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SMS ni yaratish -->
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="CREATE_CANVAS"
+    aria-labelledby="CREATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">SMS shablon yaratish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row ">
+            <div class="col-md-12">
+                <label class="form-label">O'quv markazni tanlang</label>
+                <select class="select2 form-control" id="school_create">
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label class="form-label">SMS turini tanlang</label>
+                <select class="select2 form-control" id="status_create">
+                    <option value="">Tanlash</option>
+                    <option value="1">Bayramlar uchun</option>
+                    <option value="2">Tug'ilgan kun uchun</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label class="mb-1">SMSni kiriting</label>
+                <textarea class="form-control" id="message_create" cols="30" rows="10"></textarea>
+                <span class="col-md-10 offset-1 badge bg-danger p-1 font-size-14 mt-1 text-center"> SMS yaratishdan
+                    oldin yo'riqnoma bilan tanishing 🙏🙏🙏</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-8">
+                <button type="button" onclick="createSMS()" class="btn btn-warning  col-sm-4 mt-3">SMS yaratish</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#YORIQNOMA"
+                    class="btn btn-dark  col-sm-4  mt-3">Yo'riqnoma</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Yoriqnoma-->
+<div id="YORIQNOMA" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Matnlarni taqdim etish bo'yicha ko'rsatma</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <a style="border: 1px solid #474747; border-radius: 10px;" href="/assets/sms_rule_1.png"
+                    download="download" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <button style="padding: 4px 11px; font-size: 20px;" type="button" class="btn btn-primary">
+                            <i class="fas fa-user-alt"></i>
+                        </button>
+                        <h6 class="col-md-11 col-sm-12">
+                            Agarda siz sms habaringiz orasiga <span style="font-weight: 900;">@name</span> belgisini
+                            qo'shib
+                            yozsangiz, o'quv markaz bo'yicha aynan belgilagan shaxslar uchun sms jo'natilinadi.
+                        </h6>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SMS ni tahrirlash -->
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="UPDATE_CANVAS"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">SMSni tahrirlash</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body get_canvas_update">
+    </div>
+</div>
+<!-- Tabriknomalar jo'natish-->
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="SMS_FORM"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Tabriknomalar jo'natish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row ">
+            <div class="col-md-12">
+                <label class="form-label">O'quv markazni tanlang</label>
+                <select class="select2 form-control" onchange="filter_sms_school(this.value)" id="sms_send_SCHOOL">
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3" id="congratularion_role">
+            <div class="col-md-12">
+                <label class="form-label">Kimlar uchun jonatmoqchisiz</label>
+                <select class="select2 form-control" onchange="filter_sms_user(this.value)" id="sms_send_ROLE">
+                    <option value="">Tanlash</option>
+                    <option value="admin">Adminstrator uchun</option>
+                    <option value="mentor">O'qituvchilar uchun</option>
+                    <option value="seller">Sotuvchilar uchun</option>
+                    <option value="student">O'quvchilar uchun</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3" id="congratularion_user">
+            <div class="col-md-12">
+                <label class="form-label">Foydalanuvchini tanlang</label>
+                <select class="select2 form-control select2-multiple " multiple="multiple" id="sms_send_USER">
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label class="form-label">SMS turini tanlang</label>
+                <select class="select2 form-control" id="sms_send_SMS">
+                </select>
+            </div>
+        </div>
+        <span class="col-md-10 offset-1 badge bg-danger p-1 font-size-14 mt-2 text-center"> SMS yaratishdan oldin
+            yo'riqnoma bilan tanishing 🙏🙏🙏</span>
+        <div class="row col-12">
+            <button type="button" onclick="sendSMS()" class="btn btn-warning offset-1 col-md-4  col-sm-12 mt-3">SMS
+                jo'natish</button>
+            <button type="button" data-bs-toggle="modal" class="btn btn-dark offset-1 col-md-4  col-sm-12 mt-3"
+                data-bs-target="#YORIQNOMA">Yo'riqnoma</button>
+        </div>
+    </div>
+</div>
+<!-- Maxsus xabar jo'natish-->
+<div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="SMS_SPECIAL"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Maxsus habar yuborish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row ">
+            <div class="col-md-12">
+                <label class="form-label">O'quv markazni tanlang</label>
+                <select class="select2 form-control" onchange="special_sms_school(this.value)" id="special_sms_SCHOOL">
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3" id="congratularion_role_1">
+            <div class="col-md-12">
+                <label class="form-label">Kimlar uchun jonatmoqchisiz</label>
+                <select class="select2 form-control" onchange="special_sms_user(this.value)" id="special_sms_ROLE">
+                    <option value="">Tanlash</option>
+                    <option value="admin">Adminstrator uchun</option>
+                    <option value="mentor">O'qituvchilar uchun</option>
+                    <option value="seller">Sotuvchilar uchun</option>
+                    <option value="student">O'quvchilar uchun</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3" id="congratularion_user_1">
+            <div class="col-md-12">
+                <label class="form-label">Foydalanuvchini tanlang</label>
+                <select class="select2 form-control select2-multiple " multiple="multiple" id="special_sms_USER">
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12">
+                <label class="form-label">SMSni kiriting</label>
+                <textarea class="form-control" id="special_sms_MESSAGE" cols="30" rows="10"></textarea>
+            </div>
+        </div>
+        <span class="col-md-10 offset-1 badge bg-danger p-1 font-size-14 mt-2 text-center"> SMS yaratishdan oldin
+            yo'riqnoma bilan tanishing 🙏🙏🙏</span>
+        <div class="row col-12">
+            <button type="button" onclick="sendSpecialSMS()"
+                class="btn btn-warning offset-1 col-md-4  col-sm-12 mt-3">SMS jo'natish</button>
+            <button type="button" data-bs-toggle="modal" class="btn btn-dark        offset-1 col-md-4  col-sm-12 mt-3"
+                data-bs-target="#YORIQNOMA">Yo'riqnoma</button>
+        </div>
+
+    </div>
+</div>
+<!-- Habarlarni filtrlash -->
+<div class="offcanvas offcanvas-end" style="width: 100%;" tabindex="-1" id="SENT_SMS"
+    aria-labelledby="UPDATE_CANVAS_LABEL">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Jo'natilgan SMS xabarlarni olish</h5>
+        <button type="button" style="background-color: rgb(228, 79, 79);" class="btn-close text-reset p-2"
+            data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="row d-flex justify-content-start align-items-center">
+            <div class="col-md-3 col-sm-12">
+                <select class="col-sm-12 col-md-12 select2 form-control" id="filterSchools"></select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <select class="col-sm-12 col-md-12 select2 form-control" id="filterRoles">
+                    <option value="">Kimlar uchun</option>
+                    <option value="admin">Adminstratorlar uchun</option>
+                    <option value="mentor">O'qituvchilar uchun</option>
+                    <option value="seller">Sotuvchilar uchun</option>
+                    <option value="student">O'quvchilar uchun</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <select class="col-sm-12 col-md-12 select2 form-control" id="filterStatus">
+                    <option value="">SMS turini tanlang</option>
+                    <option value="congratulation">Tabriknoma habarlar</option>
+                    <option value="special">Maxsus xabarlar</option>
+                </select>
+            </div>
+            <div class="col-md-3 col-sm-12">
+                <button class="col-sm-12 col-md-12 btn btn-dark" type="button" onclick="filterSentSms()">Izlash</button>
+            </div>
+        </div>
+        <div class="card mt-2">
+            <div class="card-body">
+                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive wrap text-center"
+                    style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th style="max-width: 20%;">SMS kim uchun</th>
+                            <th style="max-width: 20%;">Telefon raqam</th>
+                            <th style="max-width: 40%;">SMS habarnoma</th>
+                            <th style="max-width: 20%;">SMS jo'natgan shaxs</th>
+                        </tr>
+                    </thead>
+                    <tbody class="filtersSMS">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/assets/axios.min.js"></script>
+<script src="/assets/jquery.min.js"></script>
+<script src="/assets/notification.js"></script>
+<script>
+    /* 
+        @description: Tokendagi user boyicha filiallarni olish 
+        @api: /api/user/decode
+        @method: GET
+    */
+    const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Mavjud emas</option> `);
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            appends.append(`<option value="" selected>Tanlash</option> `);
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const setSelectionMultiples = async (DATA, APPENDING, MESSAGE) => {
+        if (DATA == "") {
+            const appends = $(APPENDING);
+            await appends.html("");
+            danger(MESSAGE);
+        } else {
+            const appends = $(APPENDING);
+            await appends.html("");
+            DATA.forEach((item) => {
+                appends.append(
+                    `<option value="${item._id}">${item.name}</option>`
+                );
+            });
+        }
+    }
+    const Token = window.localStorage.getItem('user')
+    let ownerID
+    let ownerNAME
+    axios.get('/api/user/decode', { headers: { authorization: Token } }).then((res) => {
+        const id = res.data.id;
+
+        ownerID = res.data.id
+        ownerNAME = res.data.name
+
+        axios.get(`/api/school/manager/${id}`, {
+            params: {
+                actions: "active"
+            }
+        }).then(async (res) => {
+            const school = res.data.data;
+            setSelectionSingle(school, "#filterBySchool", "O'quv markaz mavjud emas")
+            setSelectionSingle(school, "#school_create", "O'quv markaz mavjud emas")
+            setSelectionSingle(school, "#sms_send_SCHOOL", "O'quv markaz mavjud emas")
+            setSelectionSingle(school, "#special_sms_SCHOOL", "O'quv markaz mavjud emas")
+            setSelectionSingle(school, "#filterSchools", "O'quv markaz mavjud emas")
+        })
+    })
+    /*  @description: Default xolatda restart berish  */
+    const restart = () => {
+        const school_top = document.getElementById("filterBySchool")
+        const school_on_create = document.getElementById("school_create")
+        if (school_top.value != "") {
+            for (let item of school_top) {
+                if (item.selected) {
+                    filterSMS(item.value)
+                }
+            }
+        }
+        else {
+            for (let item of school_on_create) {
+                if (item.selected) {
+                    filterSMS(item.value)
+                }
+            }
+        }
+    }
+    /* 
+        @description: SMS yaratish
+        @api: /api/sms/create
+        @method: GET
+    */
+    const createSMS = () => {
+        const school = document.getElementById('school_create').value;
+        const status = document.getElementById('status_create').value;
+        const message = document.getElementById('message_create').value;
+
+        if (status == "" || message == "" || school == "") {
+            danger("Ma'lumotni to'liq kiriting")
+        }
+        else {
+            axios.post("/api/sms/create", {
+                school: school,
+                status: status,
+                message: message
+            }).then((res) => {
+                const data = res.data.data;
+                restart()
+            })
+        }
+
+    }
+    /* 
+        @description: O'quv markazi bo'yicha hamma smslarni olish
+        @api: /api/sms/1
+        @method: GET
+    */
+    const filterSMS = (id) => {
+        axios.get(`/api/sms/1`, { params: { actions: "active", school: id } }).then(async (res) => {
+            const DATA = res.data.data;
+            const put_table = $(".put_tables");
+            await put_table.html("");
+            DATA.forEach((item, index) => {
+                put_table.append(`
+                    <tr>
+                        <td>${item.message}</td>
+                        <td class="status"></td>
+                        <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                        <td>
+                            <a  onclick="get_one('${item._id}')" style="padding: 5px 9px; font-size: 16px;" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS"class="btn btn-warning" href="#">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a onclick="make_archive('${item._id}')" class="btn btn-danger" style="padding: 5px 10px; font-size: 16px;" href="#">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                `);
+                const status = document.getElementsByClassName("status");
+                status.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+
+                        if (item.status == "1") {
+                            inputs.innerHTML = `<span class="badge bg-dark font-size-12 p-2">Bayramlar uchun</span>`
+                        }
+                        if (item.status == "2") {
+                            inputs.innerHTML = `<span class="badge bg-dark font-size-12 p-2">Tug'ilgan kunlar uchun</span>`
+                        }
+
+                    }
+                })
+            });
+        });
+    }
+    /* 
+       @description: SMSni tahrirlash
+       @api: /api/sms/:id
+       @method: PUT
+   */
+    const get_one = (id) => {
+        axios.get(`/api/sms/${id}`).then(async (res) => {
+            const sms = res.data.data;
+            const get_canvas = $(".get_canvas_update");
+            await get_canvas.html("");
+            get_canvas.append(`
+                <label class="mb-1">SMS habarnoma</label>
+                <textarea class="form-control" id="message_edit" cols="30" rows="10">${sms.message}</textarea>
+                <button type="button" onclick="update_one('${sms._id}')" class="btn btn-success waves-effect waves-light mt-2">Tahrirlash</button>
+            `);
+        });
+    };
+    const update_one = (id) => {
+        const message_edit = document.getElementById("message_edit").value;
+        if (message_edit == "") {
+            warning("Malumotni to'liq kiriting");
+        } else {
+            axios({
+                url: `/api/sms/${id}`,
+                method: "PUT",
+                data: {
+                    message: message_edit,
+                },
+            }).then((res) => {
+                success("Muvaffaqiyatli tahrirlandi");
+                restart()
+            });
+        }
+    };
+    /* 
+       @description: SMS arxivga solish
+       @api: /api/room/:id
+       @method: PUT
+    */
+    const make_archive = (id) => {
+        axios.put(`/api/sms/${id}`, { actions: "archive" }).then((res) => {
+            success("Muvaffaqiyatli o'chirildi");
+            restart()
+        });
+    };
+    /* 
+       @description: Tabriknoma jo'natish uchun SMS yuborish
+       @api: /api/sms/send
+       @method: POST
+   */
+    const filter_sms_school = (id) => {
+        if (id == "") {
+            document.getElementById("congratularion_role").style.display = "none"
+            document.getElementById("congratularion_user").style.display = "none"
+        } else {
+            document.getElementById("congratularion_role").style.display = "block"
+            axios.get(`/api/sms/1`, { params: { actions: "active", school: id } }).then(async (res) => {
+                const data = res.data.data;
+                if (data == "") {
+                    const appends = $("#sms_send_SMS");
+                    await appends.html("");
+                    appends.append(`<option value="" selected>Mavjud emas</option> `);
+                    danger("Ushbu o'quv markazi uchum SMS shablonlar mavjud emas");
+                } else {
+                    const appends = $("#sms_send_SMS");
+                    await appends.html("");
+                    appends.append(`<option value="" selected>Tanlash</option> `);
+                    data.forEach((item) => { appends.append(`<option value="${item._id}">${item.message}</option>`); });
+                }
+            })
+        }
+    }
+    const filter_sms_user = async (role) => {
+        if (role == "") document.getElementById("congratularion_user").style.display = "none"
+        else {
+            document.getElementById("congratularion_user").style.display = "block"
+            const schoolID = document.getElementById("sms_send_SCHOOL").value;
+            axios.get('/api/user/filter_user', {
+                params: {
+                    school: schoolID,
+                    role: role,
+                    actions: "active"
+                }
+            }).then(async (response) => {
+                const data = response.data.data; // [{}, {}, {}]
+
+                if (role == "admin") {
+                    if (data == "") {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        danger("Adminstratorlar mavjud emas");
+                    } else {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+                if (role == "mentor") {
+                    if (data == "") {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        danger("O'qituvchilar mavjud emas");
+                    } else {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+                if (role == "seller") {
+                    if (data == "") {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        danger("Sotuvchilar mavjud emas");
+                    } else {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+                if (role == "student") {
+                    if (data == "") {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        danger("O'quvchilar mavjud emas");
+                    } else {
+                        const appends = $("#sms_send_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+
+            })
+        }
+    }
+    const sendSMS = () => {
+        const school = document.getElementById('sms_send_SCHOOL').value;
+        const role = document.getElementById('sms_send_ROLE').value;
+        const users = document.getElementById('sms_send_USER');
+        const sms = document.getElementById('sms_send_SMS');
+
+        // Tanlanga userni olish
+        const USERS = []
+        for (let user of users) {
+            if (user.selected) {
+                const INNER_HTML = user.innerHTML.split(":")
+                const INNER_VALUE = user.value;
+                const username = INNER_HTML[0]
+                const phone = parseInt(INNER_HTML[1].split("-").join(""))
+                USERS.push({
+                    userID: INNER_VALUE,
+                    username: username,
+                    phone: phone,
+
+                })
+            }
+        }
+        // SMS ni tanlash
+        let mySms
+        for (let i of sms) {
+            if (i.selected) {
+                const value = i.innerHTML;
+                mySms = value
+            }
+        }
+        if (school == "" || role == "" || USERS == "" || sms.value == "") {
+            danger("Ma'lumotlarni to'liq kiriting")
+        }
+        else {
+            const findWord = (word, sentence) => { return sentence.includes(word) }
+            if (findWord("@name", mySms) == false) {
+                warning("Iltimos sms habarning ichida @name belgisini ishlating. Aks holda habar jo'natilmaydi")
+            }
+            if (findWord("@name", mySms) == true) {
+                axios.post('/api/sms/send', {
+                    school: school,
+                    member: USERS,
+                    senderID: ownerID,
+                    senderNAME: ownerNAME,
+                    sms: mySms,
+                    role: role,
+                    status: "congratulation"
+                }).then((res) => {
+                    const data = res.data;
+                    if (data.message == "Ma'lumotni to'liq kiriting") danger("Ma'lumotlarni kiriting")
+                    if (data.message == "SMS tizimi ulanmagan") danger("Siz tanlagan o'quv markazga SMS tizimi yoqilmagan")
+                    if (data.message == "Success") success("Barcha SMS jo'natildi")
+                })
+            }
+
+
+
+
+
+        }
+    }
+    /* 
+       @description: Maxsus habarlar uchun SMS yuborish
+       @api: /api/sms/send
+       @method: POST
+    */
+    const special_sms_school = (id) => {
+        if (id == "") {
+            document.getElementById("congratularion_role_1").style.display = "none"
+            document.getElementById("congratularion_user_1").style.display = "none"
+        } else {
+            document.getElementById("congratularion_role_1").style.display = "block"
+        }
+    }
+    const special_sms_user = async (role) => {
+        if (role == "") document.getElementById("congratularion_user_1").style.display = "none"
+        else {
+            document.getElementById("congratularion_user_1").style.display = "block"
+            const schoolID = document.getElementById("special_sms_SCHOOL").value;
+            axios.get('/api/user/filter_user', {
+                params: {
+                    school: schoolID,
+                    role: role,
+                    actions: "active"
+                }
+            }).then(async (response) => {
+                const data = response.data.data; // [{}, {}, {}]
+
+                if (role == "admin") {
+                    if (data == "") {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        danger("Adminstratorlar mavjud emas");
+                    } else {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+                if (role == "mentor") {
+                    if (data == "") {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        danger("O'qituvchilar mavjud emas");
+                    } else {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+                if (role == "seller") {
+                    if (data == "") {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        danger("Sotuvchilar mavjud emas");
+                    } else {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+                if (role == "student") {
+                    if (data == "") {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        danger("O'quvchilar mavjud emas");
+                    } else {
+                        const appends = $("#special_sms_USER");
+                        await appends.html("");
+                        data.forEach((item) => {
+                            appends.append(
+                                `<option value="${item._id}">${item.name}:${item.phone}</option>`
+                            );
+                        });
+                    }
+                }
+
+            })
+        }
+    }
+    const sendSpecialSMS = () => {
+        const school = document.getElementById('special_sms_SCHOOL').value;
+        const role = document.getElementById('special_sms_ROLE').value;
+        const users = document.getElementById('special_sms_USER');
+        const sms = document.getElementById('special_sms_MESSAGE');
+        // Tanlanga userni olish
+        const USERS = []
+        for (let user of users) {
+            if (user.selected) {
+                const INNER_HTML = user.innerHTML.split(":")
+                const INNER_VALUE = user.value;
+                const username = INNER_HTML[0]
+                const phone = parseInt(INNER_HTML[1].split("-").join(""))
+                USERS.push({
+                    userID: INNER_VALUE,
+                    username: username,
+                    phone: phone,
+                })
+            }
+        }
+        if (school == "" || role == "" || USERS == "" || sms.value == "") {
+            danger("Ma'lumotlarni to'liq kiriting")
+        }
+        else {
+            const findWord = (word, sentence) => { return sentence.includes(word) }
+            if (findWord("@name", sms.value) == false) {
+                warning("Iltimos sms habarning ichida @name belgisini ishlating. Aks holda habar jo'natilmaydi")
+            }
+            if (findWord("@name", sms.value) == true) {
+                axios.post('/api/sms/send', {
+                    school: school,
+                    member: USERS,
+                    senderID: ownerID,
+                    senderNAME: ownerNAME,
+                    sms: sms.value,
+                    role: role,
+                    status: "special"
+                }).then((res) => {
+                    const data = res.data;
+                    if (data.message == "Ma'lumotni to'liq kiriting") danger("Ma'lumotlarni kiriting")
+                    if (data.message == "SMS tizimi ulanmagan") danger("Siz tanlagan o'quv markazga SMS tizimi yoqilmagan")
+                    if (data.message == "Success") success("Barcha SMS jo'natildi")
+                })
+            }
+        }
+    }
+    /* 
+       @description: Jonatilgan vazifalarni filtrlash
+       @api: /api/sms/filter
+       @method: GET
+    */
+    const filterSentSms = () => {
+        const filterSchools = document.getElementById("filterSchools").value;
+        const filterRoles = document.getElementById("filterRoles").value;
+        const filterStatus = document.getElementById("filterStatus").value;
+        if (filterSchools == "" || filterRoles == "" || filterStatus == "") {
+            danger("Jo'natilgan SMSlarni olish uchun barcha ma'lumotlarni kiriting")
+        }
+        else {
+            axios.get('/api/sms/filterSMS', {
+                params: {
+                    school: filterSchools,
+                    userrole: filterRoles,
+                    status: filterStatus,
+                    actions: "active"
+                }
+            }).then(async (res) => {
+                const data = res.data.data;
+                if (data == "") {
+                    warning("SMS habarlar topilmadi!")
+                    const filtersSMS = $(".filtersSMS");
+                    await filtersSMS.html("");
+                }
+                else {
+                    const filtersSMS = $(".filtersSMS");
+                    await filtersSMS.html("");
+                    data.forEach((item, index) => {
+                        filtersSMS.append(`
+                            <tr>
+                                <td>${item.username}</td>
+                                <td>${item.phone}</td>
+                                <td>${item.message}</td>
+                                <td>${item.sendername}</td>
+                            </tr>
+                        `);
+                    })
+                }
+            })
+        }
+    }
+
+
+
+</script>
