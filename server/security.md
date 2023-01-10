@@ -8,6 +8,8 @@ password: F!Myk*o3@F_F
 
 Reg.ru uchun
 Server email: shahriyorgithub0707@mail.ru
+murodullayevzafarbek1@gmail.com
+5i!Lb3ss.u@hA4c
 Server password: 124536798assaassa
 
 
@@ -19,7 +21,8 @@ DNS names: ns5.hosting.reg.ru / ns6.hosting.reg.ru
 cd ../home/it-house-server/
 git pull https://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:x-oauth-basic@github.com/gargamelNodejs/it-house-server.git
 
-
+git clone https://@github.com/MurodullayevZafarbek/IT_HOUSE.git
+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
 
 
 

@@ -60,6 +60,7 @@
                     collapse; border-spacing: 0; width: 100%;">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Mijoz </th>
                             <th>Online / Offline</th>
                             <th>Lid holati </th>
@@ -334,7 +335,7 @@
 </div>
 <div class="offcanvas offcanvas-end" style="width: 40%" tabindex="-1" id="FILTER_SPECIAL">
     <div class="offcanvas-header">
-        <h5 class="font-size-22 mt-3 p-2 badge bg-dark">Kurs bo'yicha filtrlash</h5>
+        <h5 class="font-size-22 mt-3 p-2 badge bg-dark"></h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -360,6 +361,7 @@
             <label class="form-label mt-2">Lid turini tanlang</label>
             <select class="form-control select2 col-md-12 col-sm-12" id="lid_special_filter">
                 <option value="">Tanlang</option>
+                <option value="0">✔ Hammasi</option>
                 <option value="1">✔ Yangi lidlar</option>
                 <option value="2">✔ Suhbatdan o'tganlar</option>
                 <option value="3">✔ Sinov darsidagilar</option>
@@ -550,6 +552,7 @@
                 appends.append(
                     `
                         <tr>
+                            <td>${index + 1}</td>
                             <td>${item.username}</td>
                             <td><span class="badge bg-primary font-size-14 p-2">${item.lessonType}</span></td>
                             <td class="lidType"></td>

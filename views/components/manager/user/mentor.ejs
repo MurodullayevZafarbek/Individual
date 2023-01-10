@@ -41,6 +41,7 @@
                     style="border-collapse: collapse; border-spacing: 0; width: 100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>O'qituvchi</th>
                             <th>Passport</th>
                             <th>Ma'lumot</th>
@@ -540,6 +541,7 @@
                     DATA.forEach((item, index) => {
                         put_table.append(`
                             <tr>
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>
