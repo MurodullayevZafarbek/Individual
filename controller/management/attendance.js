@@ -32,11 +32,11 @@ exports.createData = asyncHandler(async (req, res, next) => {
             })
         } else {
             if (!reason && absent == "1") {
-                const staff_attendance_1 = new Attendance({ school: school,  group: group, members: members, name: name, day: day, month: month, year: year, absent: absent, })
+                const staff_attendance_1 = new Attendance({ school: school, group: group, members: members, name: name, day: day, month: month, year: year, absent: absent, })
                 saving(staff_attendance_1)
             }
-            if (reason && absent == "0") {
-                const staff_attendance_2 = new Attendance({ school: school,  group: group, members: members, name: name, day: day, month: month, year: year, absent: absent, reason: reason, })
+            if (reason && (absent == "0")) {
+                const staff_attendance_2 = new Attendance({ school: school, group: group, members: members, name: name, day: day, month: month, year: year, absent: absent, reason: reason, })
                 saving(staff_attendance_2)
             }
         }
@@ -62,7 +62,7 @@ exports.createData = asyncHandler(async (req, res, next) => {
                 const staff_attendance_1 = new Attendance({ school: school, members: members, name: name, day: day, month: month, year: year, absent: absent, })
                 saving(staff_attendance_1)
             }
-            if (reason && absent == "0") {
+            if (reason && absent == "0" || absent == "2" || absent == "3") {
                 const staff_attendance_2 = new Attendance({ school: school, members: members, name: name, day: day, month: month, year: year, absent: absent, reason: reason, })
                 saving(staff_attendance_2)
             }

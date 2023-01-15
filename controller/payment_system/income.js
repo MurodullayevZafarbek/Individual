@@ -63,8 +63,8 @@ exports.createData = asyncHandler(async (req, res, next) => {
                         [back] / [front] - DISCOUNT yoq => NEED_PAYMENT bor => INCOME to'liq to'lanmagan
                     */
                     const checkPayments = PAYMENT_DATA.some((item) => {
-                        const StartMonth = String(item.startMonth).split(".")[1] // oyni ajratib olish
-                        const StartYear = String(item.startMonth).split(".")[2] // yilni ajratib olish
+                        const StartMonth = String(item.startMonth).split("/")[1] // oyni ajratib olish
+                        const StartYear = String(item.startMonth).split("/")[2] // yilni ajratib olish
                         let tillNine = ""
                         let fromTen = ""
                         if (month <= 9) tillNine = `0${month}`
@@ -79,8 +79,8 @@ exports.createData = asyncHandler(async (req, res, next) => {
                     if (checkPayments == false) res.json({ message: "Not existed" })
                     else {
                         const arr2 = PAYMENT_DATA.map((item) => {
-                            const StartMonth = String(item.startMonth).split(".")[1] // oyni ajratib olish
-                            const StartYear = String(item.startMonth).split(".")[2] // yilni ajratib olish
+                            const StartMonth = String(item.startMonth).split("/")[1] // oyni ajratib olish
+                            const StartYear = String(item.startMonth).split("/")[2] // yilni ajratib olish
                             let tillNine = ""
                             let fromTen = ""
                             if (month <= 9) tillNine = `0${month}`
@@ -196,8 +196,6 @@ exports.updateOne = asyncHandler(async (req, res, next) => {
                 const year = income.year
                 const speciality = income.speciality
 
-
-
                 // To'lovni saqlash uchun
                 const updateNeedPayment = async (need_payment_PAYED, INCOME) => {
 
@@ -217,8 +215,8 @@ exports.updateOne = asyncHandler(async (req, res, next) => {
                         [] - DISCOUNT yoq => NEED_PAYMENT bor => INCOME to'liq to'lanmagan
                     */
                     const checkPayments = PAYMENT_DATA.some((item) => {
-                        const StartMonth = String(item.startMonth).split(".")[1] // oyni ajratib olish
-                        const StartYear = String(item.startMonth).split(".")[2] // yilni ajratib olish
+                        const StartMonth = String(item.startMonth).split("/")[1] // oyni ajratib olish
+                        const StartYear = String(item.startMonth).split("/")[2] // yilni ajratib olish
                         let tillNine = ""
                         let fromTen = ""
                         if (month <= 9) tillNine = `0${month}`
@@ -233,8 +231,8 @@ exports.updateOne = asyncHandler(async (req, res, next) => {
                     if (checkPayments == false) res.json({ message: "Not existed" })
                     else {
                         const arr2 = PAYMENT_DATA.map((item) => {
-                            const StartMonth = String(item.startMonth).split(".")[1] // oyni ajratib olish
-                            const StartYear = String(item.startMonth).split(".")[2] // yilni ajratib olish
+                            const StartMonth = String(item.startMonth).split("/")[1] // oyni ajratib olish
+                            const StartYear = String(item.startMonth).split("/")[2] // yilni ajratib olish
                             let tillNine = ""
                             let fromTen = ""
                             if (month <= 9) tillNine = `0${month}`
@@ -274,10 +272,6 @@ exports.updateOne = asyncHandler(async (req, res, next) => {
                     }
                 }
 
-
-
-
-
                 // Agar qarzdorlik to'liq to'lanmasa
                 if (parseInt(income.reminderSumm) > parseInt(summa)) {
                     const updateIncomes = await Income.findByIdAndUpdate(id);
@@ -285,15 +279,6 @@ exports.updateOne = asyncHandler(async (req, res, next) => {
                     updateIncomes.amount = parseInt(updateIncomes.amount) + parseInt(summa)
                     updateIncomes.status = "debtor"
                     updateNeedPayment("debtor", updateIncomes)
-
-
-                    // await updateIncomes.save()
-                    //     .then(() => {
-                    //         res.json({ success: true, message: "Success", data: updateIncomes })
-                    //     })
-                    //     .catch((err) => {
-                    //         res.json(err)
-                    //     })
                 }
                 // Agar qarzdorlik to'liq to'lanadigan bo'lsa
                 if (parseInt(income.reminderSumm) == parseInt(summa)) {
@@ -443,8 +428,75 @@ exports.debts = asyncHandler(async (req, res, next) => {
     }
 })
 exports.deleteOne = asyncHandler(async (req, res, next) => {
-    const { user } = req.query
-    // const need_payment = await NeedPayment.findById({ userID: String(user) })
+    const { user, month, year, status } = req.query
+    const need_payment = await NeedPayment.find({ userID: user }).lean()
 
-    console.log(user)
+    if (need_payment == "" || need_payment == undefined || need_payment == null || !need_payment) {
+        res.json({
+            success: false,
+        })
+    } 
+    else {
+
+        let defaultMONTH = ""
+        if (month == "1") defaultMONTH = "01"
+        if (month == "2") defaultMONTH = "02"
+        if (month == "3") defaultMONTH = "03"
+        if (month == "4") defaultMONTH = "04"
+        if (month == "5") defaultMONTH = "05"
+        if (month == "6") defaultMONTH = "06"
+        if (month == "7") defaultMONTH = "07"
+        if (month == "8") defaultMONTH = "08"
+        if (month == "9") defaultMONTH = "09"
+        if (month == "10") defaultMONTH = "10"
+        if (month == "11") defaultMONTH = "11"
+        if (month == "12") defaultMONTH = "12"
+
+        const PAYMENT = need_payment[0].payment
+        const NEED_PAYMENT = PAYMENT.map((item, index) => {
+            const month = String(item.startMonth).split("/")[1] // oyni ajratib olish
+            const years = String(item.startMonth).split("/")[2] // yilni ajratib olish
+            if (month == defaultMONTH) {
+                if (years == year) {
+                    if (status == "debtor") {
+                        return {
+                            _id: item._id,
+                            startMonth: item.startMonth,
+                            endMonth: item.endMonth,
+                            types: 'debtor'
+                        }
+                    }
+                    if (status == "no_debtor") {
+                        return {
+                            _id: item._id,
+                            startMonth: item.startMonth,
+                            endMonth: item.endMonth,
+                            types: 'debtor'
+                        }
+                    }
+                }
+            }
+            return {
+                _id: item._id,
+                startMonth: item.startMonth,
+                endMonth: item.endMonth,
+                types: item.types
+            }
+        })
+
+        
+
+        const update_need_payment = await NeedPayment.findOneAndUpdate({ userID: user })
+        update_need_payment.payment = NEED_PAYMENT
+        update_need_payment.save()
+            .then(async () => {
+                await Income.findOneAndDelete({ user: user })
+                res.json({
+                    success: true,
+                })
+            })
+            .catch((error) => {
+                res.json({ data: error.message })
+            })
+    }
 });

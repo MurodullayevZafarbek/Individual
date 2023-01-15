@@ -7,7 +7,7 @@
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item text-danger">Bu bo'limda qaysi sanadan qaysi sanagacha bo'lgan
-                                muddatda <br> o'quvchilar qarzdorigini ko'rish mumkin </li>
+                                muddatda <br> o'quvchilar qarzdorigini ko'rish va tolovni amalga oshirish mumkin </li>
                         </ol>
                     </div>
                 </div>
@@ -33,6 +33,7 @@
                             <th>Guruh</th>
                             <th>Sana</th>
                             <th>Status</th>
+                            <th>Sozlama</th>
                         </tr>
                     </thead>
                     <tbody class="put_tables">
@@ -218,14 +219,75 @@
                         <tr>
                             <td>${item.username}</td>
                             <td>${item.group}</td>
-                            <td>
-                                <span class="badge bg-dark text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                            <td class="months">
+                                
                             </td>
                             <td class="types_check">
 
                             </td>
+                            <td>
+
+                            </td>
                         </tr>
                     `)
+                const months = document.getElementsByClassName("months");
+                months.forEach((inputs, inputsIndex) => {
+                    if (inputsIndex == index) {
+                        const month = String(item.startMonth).split("/")[1]
+                        if (month == "01") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Yanvar</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "02") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Fevral</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "03") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Mart</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "04") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Aprel</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "05") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">May</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "06") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Iyun</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "07") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Iyul</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "08") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Avgust</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "09") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Sentyabr</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "10") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Oktyabr</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "11") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Noyabr</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+                        if (month == "12") inputs.innerHTML = `
+                                                                <span style="width: 110px;" class="badge bg-warning text-light font-size-14 p-2">Dekabr</span>
+                                                                <span class="badge bg-primary text-light font-size-14 p-2">${item.startMonth} - ${item.endMonth} </span>
+                                                            `
+
+                    }
+                })
+
+
+
                 const types_check = document.getElementsByClassName("types_check");
                 types_check.forEach((inputs, inputsIndex) => {
                     if (inputsIndex == index) {
@@ -294,7 +356,6 @@
                 }
             }).then(async (res) => {
                 const data = res.data.data;
-                console.log(data)
                 setTableClone(data)
             })
         }

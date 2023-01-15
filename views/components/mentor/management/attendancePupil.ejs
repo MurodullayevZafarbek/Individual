@@ -40,7 +40,7 @@
                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="offcanvas"
                         data-bs-target="#BY_GROUP" aria-controls="BY_GROUP"> Guruh yo'qlama <i
                             class=" ri-filter-fill"></i></button>
-                    
+
                 </div>
             </div>
         </div>
@@ -317,7 +317,7 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        
+
         <div class="col-sm-6 col-md-12">
             <label class="form-label mt-2">Guruh</label>
             <select class="select2 form-control" onchange="byGROUP__group(this.value)" id="byGROUP__group"></select>
@@ -918,7 +918,7 @@
         const byGROUP__student = document.getElementById("byGROUP__student").value;
         const byGROUP__month = document.getElementById("byGROUP__month").value;
         const byGROUP__year = document.getElementById("byGROUP__year").value;
-        if ( byGROUP__group == "" || byGROUP__student == "" || byGROUP__month == "" || byGROUP__year == "") {
+        if (byGROUP__group == "" || byGROUP__student == "" || byGROUP__month == "" || byGROUP__year == "") {
             warning("Malumotlarni to'liq kiriting")
         }
         else {

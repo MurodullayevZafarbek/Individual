@@ -157,10 +157,8 @@
             </div>
 
         </div>
-
         <label class="form-label mb-1 mt-2">Parol</label>
         <input style="width: 100%" class="form-control" type="password" id="PASSWORD" />
-
 
         <label class="form-label mt-2">Jinsi</label>
         <select style="width: 100%" class="select2 form-control" id="GENDER">
@@ -345,7 +343,7 @@
     </div>
 </div>
 <!-- O'quvchi to'lov qiladigan sanani belgilash -->
-<div class="offcanvas offcanvas-end" style="width: 90%" tabindex="-1" id="NEED_PAYMENT">
+<div class="offcanvas offcanvas-end" style="width: 95%" tabindex="-1" id="NEED_PAYMENT">
     <div class="offcanvas-header">
         <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Guruh bo'yicha to'lov muddatlari</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -364,16 +362,8 @@
                             </div>
 
                             <div class="col-md-4">
-                                <!-- <label class="mt-3">To'lov boshlanadigan sana</label>
-                                <input class="form-control" type="date" id="needPayment_startDay"> -->
-
                                 <label class="form-label mt-3">To'lov boshlanadigan sana</label>
-                                <div class="input-group" id="datepicker1">
-                                    <input id="needPayment_startDay" type="text" class="form-control"
-                                        placeholder="dd M, yyyy" data-date-format="dd M, yyyy"
-                                        data-date-container='#datepicker1' data-provide="datepicker">
-                                    <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
-                                </div>
+                                <input id="needPayment_startDay" type="date" class="form-control">
                             </div>
 
 
@@ -400,6 +390,8 @@
                             </div>
 
                             <div class="col-md-12  mt-2 getButtons">
+
+
                             </div>
                         </div>
                     </div>
@@ -493,8 +485,7 @@
         </button>
     </div>
 </div>
-
-<!-- Oq'uvchi haqida malumnot olish -->
+<!-- O'q'uvchi haqida malumnot olish -->
 <div class="offcanvas offcanvas-start" style="width: 50%" tabindex="-1" id="INFORMATION">
     <div class="offcanvas-header">
         <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quvchi haqida ma'lumot</h5>
@@ -637,11 +628,12 @@
                                         <a style="font-weight: 700;" onclick="get_status('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_STATUS_CANVAS" aria-controls="UPDATE_STATUS_CANVAS" class="dropdown-item text-primary" href="#">Bloklash </a>
                                         <a style="font-weight: 700;" onclick="get_group_of_school('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#ADD_GROUP" aria-controls="ADD_GROUP" class="dropdown-item text-warning" href="#"> Guruhni yangilash</a>
                                         <a style="font-weight: 700;" onclick="needPayment('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#NEED_PAYMENT" aria-controls="NEED_PAYMENT" class="dropdown-item text-warning" href="#">Aniq to'lov sanalari</a>
-                                        <a style="font-weight: 700;" onclick="delete_one('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
-                                    </div> 
-                                </td>
-                            </tr>
-                        `);
+                                        </div> 
+                                        </td>
+                                        </tr>
+                                        `);
+                        // Ochirishda paymentlar bilan o`chirish kerak
+                        // <a style="font-weight: 700;" onclick="delete_one('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
                         document
                             .getElementsByClassName("status_default")
                             .forEach((innerValue, innerIndex) => {
@@ -982,10 +974,10 @@
         const status = document.getElementById("change_status").value;
         const startDate = document.getElementById("startDate").value;
         const endDate = document.getElementById("endDate").value;
-
         if (status == "") {
             warning("Malumotni to'liq kiriting");
-        } else {
+        }
+        else {
             if (statusAction == "none") {
                 axios({
                     url: `/api/user/content/${id}`,
@@ -1039,16 +1031,13 @@
 
     const delete_one = (id) => {
         axios.delete(`/api/user/${id}`).then((res) => {
+            axios.delete(`/api/need_payment?userID=${id}`)
             success("Muvaffaqiyatli o'chirildi");
             const filterBySchool = document.getElementById("filterBySchool").value
             FILTER_USERS(filterBySchool)
         });
     };
-    /*
-        @description: Qaysi filialga tegishli ekanligini bilish
-        @api: /api/user/:id
-        @mentod: GET
-    */
+    // -----------------------------------------   Qaysi filialga tegishli ekanligini bilish  -----------------------------------------
     const seeGroup = (id) => {
         axios.get(`/api/user/${id}`).then(async (res) => {
             const DATA = res.data.data;
@@ -1067,11 +1056,7 @@
             });
         });
     }
-    /*
-        @description: O'quvchini yangi guruhga biriktirish
-        @api: /api/user/content/:id
-        @mentod: PUT
-    */
+    //  -----------------------------------------  O'quvchini yangi guruhga biriktirish  -----------------------------------------
     let studentID = ""
     const get_group_of_school = (id) => {
         studentID = id
@@ -1159,8 +1144,6 @@
                 }).then((res) => {
                     get_group_of_school(id)
                     FILTER_SCHOOL_GROUP(selectedSchool)
-
-                    // document.getElementById('SCHOOL_add_groups').disabled =
                     success("Muvaffaqiyatli tahrirlandi");
                 });
 
@@ -1281,7 +1264,6 @@
         });
     };
     const editDiscount = async (id, discounts) => {
-
         const editDiscounting = $(".editDiscounting")
         await editDiscounting.html("")
         editDiscounting.append(`
@@ -1318,22 +1300,85 @@
     let needPaymentuserID = ""
     const setNeedPaymentHtml = (id) => {
         axios.get(`/api/need_payment/user/${id}`).then(async (res) => {
-            const data = res.data.data;
+            const data = res.data.data
             const appends = $(".getNeedPayment");
             await appends.html("");
+
+
+            const setDatesNO_DEBTOR = (month, div, start, end) => {
+                div.innerHTML += `
+                    <span style=" text-align: center; width: 100px; border: 2px solid #1cbb8c; color: #1cbb8c;" id="${start}" class="badge  mt-1 font-size-14 p-2">${month}</span> 
+                    <span style=" text-align: center; width: 110px; border: 2px solid #1cbb8c; color: #1cbb8c;" class="badge  mt-1 font-size-14 p-2">${start}</span> 
+                    <span style=" text-align: center; width: 110px; border: 2px solid #1cbb8c; color: #1cbb8c;" class="badge mt-1 font-size-14 p-2">${end} </span>
+                    <span style=" text-align: center; width: 140px; border: 2px solid #1cbb8c;" class="badge bg-success mt-1 font-size-14 p-2">Qarzdorlik yo'q</span>
+                    <br/>
+                `
+            }
+            const setDatesDEBTOR = (month, div, start, end) => {
+                div.innerHTML += `
+                    <span style=" text-align: center; width: 100px; border: 2px solid #ff3d60; color: #ff3d60;" id="${start}" class="badge  mt-1 font-size-14 p-2">${month}</span> 
+                    <span style=" text-align: center; width: 110px; border: 2px solid #ff3d60; color: #ff3d60;" class="badge  mt-1 font-size-14 p-2">${start}</span> 
+                    <span style=" text-align: center; width: 110px; border: 2px solid #ff3d60; color: #ff3d60;" class="badge mt-1 font-size-14 p-2">${end} </span>
+                    <span style=" text-align: center; width: 140px; border: 2px solid #ff3d60;" class="badge bg-danger mt-1 font-size-14 p-2">Qarzdorlik bor</span>
+                    <br/>
+                `
+            }
+            const NO_DEBTOR = (div, start, end) => {
+                const month = String(start).split("/")[1]
+                if (month == "01") setDatesNO_DEBTOR("Yanvar", div, start, end)
+                if (month == "02") setDatesNO_DEBTOR("Fevral", div, start, end)
+                if (month == "03") setDatesNO_DEBTOR("Mart", div, start, end)
+                if (month == "04") setDatesNO_DEBTOR("Aprel", div, start, end)
+                if (month == "05") setDatesNO_DEBTOR("May", div, start, end)
+                if (month == "06") setDatesNO_DEBTOR("Iyun", div, start, end)
+                if (month == "07") setDatesNO_DEBTOR("Iyul", div, start, end)
+                if (month == "08") setDatesNO_DEBTOR("Avgust", div, start, end)
+                if (month == "09") setDatesNO_DEBTOR("Sentyabr", div, start, end)
+                if (month == "10") setDatesNO_DEBTOR("Oktyabr", div, start, end)
+                if (month == "11") setDatesNO_DEBTOR("Noyabr", div, start, end)
+                if (month == "12") setDatesNO_DEBTOR("Dekabr", div, start, end)
+            }
+            const DEBTOR = (div, start, end) => {
+                const month = String(start).split("/")[1]
+                if (month == "01") setDatesDEBTOR("Yanvar", div, start, end)
+                if (month == "02") setDatesDEBTOR("Fevral", div, start, end)
+                if (month == "03") setDatesDEBTOR("Mart", div, start, end)
+                if (month == "04") setDatesDEBTOR("Aprel", div, start, end)
+                if (month == "05") setDatesDEBTOR("May", div, start, end)
+                if (month == "06") setDatesDEBTOR("Iyun", div, start, end)
+                if (month == "07") setDatesDEBTOR("Iyul", div, start, end)
+                if (month == "08") setDatesDEBTOR("Avgust", div, start, end)
+                if (month == "09") setDatesDEBTOR("Sentyabr", div, start, end)
+                if (month == "10") setDatesDEBTOR("Oktyabr", div, start, end)
+                if (month == "11") setDatesDEBTOR("Noyabr", div, start, end)
+                if (month == "12") setDatesDEBTOR("Dekabr", div, start, end)
+            }
+
+
             data.forEach((item, index) => {
                 appends.append(
                     `
                         <tr>
-                            <td style="vertical-align: middle;">${item.groupID.name}</td>
-                            <td style="vertical-align: middle;">${item.startDay} </td>
-                            <td style="vertical-align: middle;">${item.all_month} oy</td>
+                            <td style="vertical-align: middle;">
+                                <span style=" text-align: center; width: 110px; border: 2px solid black; color: black;" class="badge  mt-1 font-size-14 p-2">
+                                    ${item.groupID.name}
+                                </span> 
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <span style=" text-align: center; width: 110px; border: 2px solid black; color: black;" class="badge  mt-1 font-size-14 p-2">
+                                    ${item.startDay}    
+                                </span> 
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <span style=" text-align: center; width: 150px; border: 2px solid black; color: black;" class="badge  mt-1 font-size-14 p-2">
+                                    ${item.all_month} oylik kurs 
+                                </span> 
+                            </td>
                             <td style="vertical-align: middle;" class="paymentDATA"></td>
                             <td style="vertical-align: middle;">
                                 <div class="btn-group">
-                                    <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-outline-warning mr-2 " onclick="reloadNeedPayment('${item.userID._id}')" >
-                                        <i class="ri-refresh-line"></i>
-                                    </button>
+                                   
+                                   
                                     <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-outline-danger " onclick="deleteNeedPayment('${item._id}')" >
                                         <i class="ri-delete-bin-line"></i>
                                     </button>
@@ -1343,99 +1388,116 @@
                         </tr>
                     `
                 );
+
                 const paymentDATA = document.getElementsByClassName("paymentDATA");
                 paymentDATA.forEach((inputs, inputsIndex) => {
                     if (inputsIndex == index) {
                         if (typeof item.payment == "undefined" || !item.payment || item.payment == "0") {
-                            inputs.innerHTML = `<span class=" badge bg-danger font-size-14 p-2">Mavjud emas</span>`
+                            danget("Ushbu o'quvchi uchun to'lov salanalri berilmagan. Iltimos qaytadan kiriting")
                         }
                         else {
-                            const payments = item.payment
-
-                            for (let index = 0; index < payments.length; index++) {
-                                const element = payments[index];
+                            item.payment.forEach((need_pay) => {
                                 const div = document.createElement("div")
+                                if (need_pay.types == "debtor") {
+                                    DEBTOR(div, need_pay.startMonth, need_pay.endMonth);
+                                    inputs.append(div)
+                                }
+                                if (need_pay.types == "payed") {
+                                    NO_DEBTOR(div, need_pay.startMonth, need_pay.endMonth);
+                                    inputs.append(div)
+                                }
 
-                                if (element.types == "payed") {
-                                    div.innerHTML += `
-                                    <span style="border: 2px solid #1cbb8c; color: #1cbb8c;" class="badge  mt-1 font-size-14 p-2">${element.startMonth}</span> 
-                                    <span style="border: 2px solid #1cbb8c; color: #1cbb8c;" class="badge mt-1 font-size-14 p-2">${element.endMonth} </span>
-                                    <span style="border: 2px solid #1cbb8c;" class="badge bg-success mt-1 font-size-14 p-2">Qarzdorlik yo'q</span>
-                                    `
-                                }
-                                if (element.types == "debtor") {
-                                    div.innerHTML += `
-                                    <span style="border: 2px solid #ff3d60; color: #ff3d60;" class="badge  mt-1 font-size-14 p-2">${element.startMonth}</span> 
-                                    <span style="border: 2px solid #ff3d60; color: #ff3d60;" class="badge mt-1 font-size-14 p-2">${element.endMonth} </span>
-                                    <span style="border: 2px solid #ff3d60;" class="badge bg-danger mt-1 font-size-14 p-2">Qarzdorlik  bor</span>
-                                    `
-                                }
-                                inputs.append(div)
-                            }
+                            })
+
+
+
                         }
                     }
                 })
             });
+
         })
     }
-    const needPayment = async (userID) => {
+
+    const needPayment = async (userID,) => {
         needPaymentuserID = userID
         setNeedPaymentHtml(userID)
         axios.get(`/api/user/${userID}`).then(async (res) => {
             const data = res.data.data.group
             const appends = $("#needPayment_group");
             await appends.html("");
-            appends.append(`<option value="" selected>Tanlash</option> `);
+            appends.append(`<option value="" selected> Tanlash</> `);
             data.forEach((item) => {
                 appends.append(
-                    `<option value="${item._id}">${item.name}</option>`
+                    `<option value="${item._id}"> ${item.name}</> `
                 );
             });
+            const getButtons = $(".getButtons");
+            await getButtons.html("");
+            getButtons.append(`<button type="button" onclick="saveNeedPayment('${userID}', '${res.data.data.name}')"  class="btn btn-outline-success col-12" > Saqlash</>`);
         })
-        const getButtons = $(".getButtons");
-        await getButtons.html("");
-        getButtons.append(`
-            <button type="button" onclick="saveNeedPayment('${userID}')"  class="btn btn-outline-success col-12">Saqlash</button>
-        `);
     }
-    const saveNeedPayment = (userID) => {
+
+    const saveNeedPayment = (userID, username) => {
         const group = document.getElementById("needPayment_group").value;
         const startDate = document.getElementById("needPayment_startDay").value;
         const month = document.getElementById("needPayment_month").value
+
 
         if (group == "" || startDate == "" || month == "") {
             danger("Ma'lumotni to'liq kirting")
         }
         else {
-            const currentMonth = new Date(startDate).toLocaleDateString()
-            const payments = []
+            function qwerty(item) {
+                let date = new Date(item)
+                let year = date.getFullYear()
+                let month = date.getMonth() + 1
+                let day = date.getDay() + 1
 
+                if (day < 10) {
+                    day = "0" + day
+                }
+                if (month < 10) {
+                    month = "0" + month
+                }
+                return (`${day}.${month}.${year} `);
+            }
+            const current_DATE = qwerty(startDate)
+
+
+            const payments = []
             function rekursion(month) {
                 if (month > 0) {
                     let START = -1
                     let END = 0
+
                     START += month
                     END += month
-                    const startMonth = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + START)).toLocaleDateString()
-                    const endMonth = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + END)).toLocaleDateString()
+
+                    const Start = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + START)).toLocaleDateString("en-GB")
+                    const End = new Date(new Date(startDate).setMonth(new Date(startDate).getMonth() + END)).toLocaleDateString("en-GB")
+
                     payments.push({
-                        startMonth: startMonth,
-                        endMonth: endMonth,
+                        startMonth: Start,
+                        endMonth: End,
                         types: "debtor",
                     })
+
                     rekursion(month - 1)
                 }
             }
             rekursion(parseInt(month))
-            axios.post("/api/need_payment/create", {
+            const config = {
                 userID: userID,
+                username: username,
                 groupID: group,
-                startDay: currentMonth,
+                startDay: current_DATE,
                 all_month: month,
                 payment: payments
-
-            }).then((res) => {
+            }
+            axios.post("/api/need_payment/create", config).then((res) => {
                 const message = res.data.message;
+                console.log(res.data)
                 if (message == "Success") {
                     success("To'lov muddatlari aniq belgilandi")
                     setNeedPaymentHtml(needPaymentuserID)
@@ -1445,16 +1507,20 @@
 
         }
     }
+
     const deleteNeedPayment = (id) => {
         axios.delete(`/api/need_payment/${id}`).then((res) => {
             success("Muvaffaqiyatli o'chirildi");
             setNeedPaymentHtml(needPaymentuserID)
         });
     }
-    const reloadNeedPayment = (userID) => {
-        setNeedPaymentHtml(userID)
-    }
-    // Malumotlarni izlash
+
+
+
+
+
+
+    // -----------------------------------------   Malumotni izlash   ----------------------------------------------------
     const keyPressStudent = document.getElementById("keyPressStudent")
     keyPressStudent.addEventListener("keypress", () => {
         const value = keyPressStudent.value;
@@ -1470,7 +1536,7 @@
                 await put_table.html("");
                 DATA.forEach((item, index) => {
                     put_table.append(`
-                            <tr>
+                            < tr >
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>
@@ -1496,8 +1562,8 @@
                                         <a style="font-weight: 700;" onclick="delete_one('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
                                     </div> 
                                 </td>
-                            </tr>
-                        `);
+                            </tr >
+                    `);
                     document
                         .getElementsByClassName("status_default")
                         .forEach((innerValue, innerIndex) => {
@@ -1533,7 +1599,7 @@
 
         })
     })
-    // O'quvchilarni izlash
+    // -----------------------------------------   O'quvchini  izlash   ----------------------------------------------------
     const filteringStudent = () => {
 
         const school = document.getElementById("FILTER_STUDENT_by_school").value;
@@ -1586,7 +1652,7 @@
                                     </div> 
                                 </td>
                             </tr>
-                        `);
+        `);
                         document
                             .getElementsByClassName("status_default")
                             .forEach((innerValue, innerIndex) => {
@@ -1626,7 +1692,7 @@
         }
 
     }
-    // Excel orqali malumotlarni yuklash;
+    // -----------------------------------------   Excel orqali malumotlarni yuklash;   ----------------------------------------------------
     const createExcel = () => {
         const formData = new FormData()
         const REGION_excel = document.getElementById("REGION_excel").value;
@@ -1664,7 +1730,7 @@
                     danger("Boshlang'ich raqamni yakuniysidan ko'proq. Qaytadan tekshiring")
                 }
                 if (data.message == "Cannot read properties of undefined (reading 'v')") {
-                    danger(`Yuklagan faylda ${FILE_end}-qator mavjud emas. Sonni aniq kiriting`)
+                    danger(`Yuklagan faylda ${FILE_end} -qator mavjud emas.Sonni aniq kiriting`)
                 }
                 if (data.message == "Excel's row and column need to fill up") {
                     danger("Excel fayni ichidagi barcha yacheykalarga ma'lumotlar to'liq kiritishingiz kerak")
@@ -1678,11 +1744,6 @@
             })
         }
     }
-
-
-
-
-
     // -----------------------------------------    O'quvchi haqida qisqavha malumot olish   ----------------------------------------------------
     const information = (id) => {
         axios.get(`/api/user/${id}`).then(async (res) => {
@@ -1690,37 +1751,23 @@
             const get_canvas = $(".get_information_student");
             await get_canvas.html("");
             get_canvas.append(`
-                    <label class="mb-1 mt-2 ">Viloyat nomi</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.region.name}" >
-    
-                    <label class="mb-1 mt-2 ">Tuman nomi</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.district.name}" >
-
-                    <label class="mb-1 mt-2 ">F.I.O</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.name}">
-
-                    <label class="mb-1 mt-2 ">O'quvchi telefon raqami</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.phone}" >
-
-                    <label class="mb-1 mt-2 ">O'quvchi qo'shimcha telefon raqami</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.additionalDocuments.another_phone}" >
-                   
-                    <label class="mb-1 mt-2 ">O'quvchi kodi</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.uuid}" >
-                    
-                    <label class="mb-1 mt-2 ">Jinsi</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.gender}" >
-                    
-                    <label class="mb-1 mt-2 ">O'quvchi passport raqami</label>
-                    <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.passport}">
-                
-                  
-                `);
-
-
-
-
-
+                <label class="mb-1 mt-2"> Viloyat nomi</ >
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.region.name}" >
+                <label class="mb-1 mt-2 ">Tuman nomi</label>
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.district.name}" >
+                <label class="mb-1 mt-2 ">F.I.O</label>
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.name}">
+                <label class="mb-1 mt-2 ">O'quvchi telefon raqami</label>
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.phone}" >
+                <label class="mb-1 mt-2 ">O'quvchi qo'shimcha telefon raqami</label>
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.additionalDocuments.another_phone}" >
+                <label class="mb-1 mt-2 ">O'quvchi kodi</label>
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.uuid}" >
+                <label class="mb-1 mt-2 ">Jinsi</label>
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.gender}" >
+                <label class="mb-1 mt-2 ">O'quvchi passport raqami</label>
+                <input disabled style="width: 100%;" type="text" class="form-control" value="${DATA.passport}">
+            `);
             $(document).ready(function () {
                 $("#user_passport_edit").inputmask("AA9999999");  // static mask
             });

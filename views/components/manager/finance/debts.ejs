@@ -6,7 +6,7 @@
                     <h3 class="mb-sm-0">Qarzdorlik bo'limi</h3>
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item text-danger">Bu bo'limda faqat qarzdor o'quvchilar ro'yhati
+                            <li class="breadcrumb-item text-danger">Bu bo'limda faqat to'lovni to'liq amalga oshirmagan <br> o'quvchilar ro'yhati mavjud
                                 mavjud </li>
                         </ol>
                     </div>
@@ -248,7 +248,7 @@
 <!-- Tahrirlash -->
 <div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_INCOME">
     <div class="offcanvas-header">
-        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Qayta to'lov qilish</h5>
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">To'lovni amalga oshirish</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body updateIncome">
@@ -533,8 +533,16 @@
                     }
                 }).then(async (res) => {
                     const data = res.data.data;
-                    setHTML(data)
-                    success("Muvaffaqiyatli ma'lumot olindi")
+
+                    if(data == "") {
+                        warning("Ma'lumot topilmadi")
+                    }
+                    else {
+                        setHTML(data)
+                        success("Muvaffaqiyatli ma'lumot olindi")
+                    }
+                   
+                    
                 })
             }
         }

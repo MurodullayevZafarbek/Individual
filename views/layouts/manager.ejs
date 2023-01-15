@@ -40,9 +40,14 @@
     <link href="/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
 
     <style>
-        body {
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            font-weight: 600;
+
+        @font-face {
+            font-family: "Poppins";
+            src: url(/assets/fonts/Poppins-Medium.ttf);
+        }
+        *, body {
+            font-family: "Poppins";
+            font-weight: 300;
         }
 
         ::-webkit-scrollbar {
@@ -292,10 +297,9 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a style="font-size: 14px;" href="/manager/finance/income">Kassa</a></li>
-                                <li><a style="font-size: 14px;" href="/manager/finance/debts"> Qarzdorlik</a> </li>
+                                <li><a style="font-size: 14px;" href="/manager/finance/debts"> To'liq to'lanmagan to'lovlar</a> </li>
+                                <li><a style="font-size: 14px;" href="/manager/finance/general_debts">Qarzdorlar</a> </li>
                                 <li><a style="font-size: 14px;" href="/manager/finance/salary">Oylik-maosh</a> </li>
-                                <li><a style="font-size: 14px;" href="/manager/finance/general_debts">Qarzdor
-                                        o'quvchilar</a> </li>
                             </ul>
                         </li>
 

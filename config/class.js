@@ -108,14 +108,25 @@ module.exports = class MyClass {
         })
     }
     async delete_data_without_file() {
-        await this.model_schema.findByIdAndDelete({ _id: this.req.params.id })
-            .exec(async (error, data) => {
-                if (error) {
-                    return this.res.json(error_get_data())
-                } else {
-                    return this.res.json(success_delete_data())
-                }
-            })
+        if (!this.req.params.id) {
+            await this.model_schema.findByIdAndDelete({ _id: this.req.params.id })
+                .exec(async (error, data) => {
+                    if (error) {
+                        return this.res.json(error_get_data())
+                    } else {
+                        return this.res.json(success_delete_data())
+                    }
+                })
+        } else if (this.req.params.userID) {
+            await this.model_schema.findOneAndDelete({ userID: this.req.params.userID })
+                .exec(async (error, data) => {
+                    if (error) {
+                        return this.res.json(error_get_data())
+                    } else {
+                        return this.res.json(success_delete_data())
+                    }
+                })
+        }
     }
     async get_one(...populate) {
         await this.model_schema

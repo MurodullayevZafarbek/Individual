@@ -558,10 +558,8 @@
             })
                 .then((res) => {
                     const data = res.data;
-                    console.log(data)
-
                     if (data.message == "Current 2 dates aren't defined") {
-                        danger("Avval o'quvchilar bo'limidan ushbu o'quvchi uchun to'lov qilinadigan aniq 2 ta sanani kiriting")
+                        warning("To'lovni qilishdan oldin avval o'quvchilar bo'limidan ushbu o'quvchi uchun to'lov qilishi kerak bo'gan aniq sanalarni kiriting")
                     }
                     if (data.message == "Before payed") {
                         if (data.month == "1") warning(`${data.year} yil yanvar oyi uchun to'lov amalga oshirilgan`)
@@ -587,10 +585,7 @@
                         success("To'lov muvaffaqiyatli amalga oshirildi")
                     }
                 })
-                .catch((error) => {
-                    console.log("ERROR", error)
-                    console.log("ERROR_MESSAGE", error.message)
-                })
+
         }
     }
     /*
@@ -600,7 +595,6 @@
     */
     const setHTML = async (data) => {
         const element = $('.put_tables');
-        console.log(data)
         await element.html("")
         data.forEach((item, index) => {
             element.append(`
@@ -619,7 +613,7 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a onclick="updateIncome('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_INCOME" aria-controls="UPDATE_INCOME" class="dropdown-item" href="#"><i class="fas fa-exchange-alt"></i> Qayta to'lov qilish </a>
-                                <a onclick="deleteIncome('${item._id}', '${item.user._id}')" class="dropdown-item text-danger" href="#"><i class=" fas fa-times"></i> To'lovni qaytarish  </a>
+                                <a onclick="deleteIncome('${item._id}', '${item.user._id}', '${item.month}', '${item.year}', '${item.status}')" class="dropdown-item text-danger" href="#"><i class=" fas fa-times"></i> To'lovni qaytarish  </a>
                             </div>
                         </div>
                     </td>
@@ -690,6 +684,7 @@
             })
         })
     }
+    let deleteCheck
     const restart = (check) => {
         if (check == "school") {
             GENERAL_FILTERING("school")
@@ -701,8 +696,10 @@
             CATEGORY_SPECIALITY_FILTERED("category_speciality")
         }
     }
+
     const GENERAL_FILTERING = async (check) => {
         if (check == "school") {
+            deleteCheck = "school"
             const school = returnID("SCHOOL_general").value
             const month = returnID("MONTH_general")
             const year = returnID("YEAR_general").value
@@ -725,6 +722,8 @@
                     }
                 }).then(async (res) => {
                     const data = res.data.data;
+                    console.log(data);
+
                     if (data == "") {
                         const element = $('.put_tables');
                         await element.html("")
@@ -741,6 +740,7 @@
     }
     const GROUP_FILTERING = async (check) => {
         if (check == "group") {
+            deleteCheck = "group"
             const containArray = (element) => {
                 const arrayDemo = []
                 for (const item of element) {
@@ -784,6 +784,7 @@
     }
     const CATEGORY_SPECIALITY_FILTERED = async (check) => {
         if (check == "category_speciality") {
+            deleteCheck = "category_speciality"
             const containArray = (element) => {
                 const arrayDemo = []
                 for (const item of element) {
@@ -879,9 +880,7 @@
                 summa: inputs
             }).then((res) => {
                 const message = res.data.message;
-                if (message == "Please fill forms") {
-                    danger("Ma'lumotlarni to'liq kiriting")
-                }
+
                 if (message == "Payed totally") {
                     danger("Ushbu oy uchun bu guruhga oylik to'lov to'liq amalga")
                 }
@@ -890,7 +889,9 @@
                 }
                 if (message == "Success") {
                     success("To'lov muvaffaqiyatli amalga oshirildi")
-                    restart(checkFilter)
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 1200)
                 }
             })
         }
@@ -901,18 +902,27 @@
         @api: /api/income/:id
         @method: DELETE
     */
-    const deleteIncome = (incomeID, userID) => {
+    const deleteIncome = (incomeID, userID, month, year, status) => {
         axios.delete(`/api/income/${incomeID}`, {
             params: {
-                user: userID
+                user: userID,
+                month: month,
+                year: year,
+                status: status
             }
         }).then((res) => {
+            const status = res.data.success
 
-            console.log(res.data.data)
-            // success("To'lov o'chirildi")
-            // setTimeout(() => {
-            //     window.location.reload()
-            // }, 1200)
+            if (status == true) {
+                success("Mavjud to'lov qaytarib berildi")
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1200)
+            }
+            else {
+                warning("To'lovni qaytarishdan oldin avval o'quvchilar bo'limidan ushbu o'quvchi uchun to'lov qilishi kerak bo'gan aniq sanalarni kiriting")
+            }
+
 
         })
     }

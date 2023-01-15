@@ -52,19 +52,28 @@ const DefaultSchema = mongoose.Schema({
         required: true,
         enum: [
             "0",// kelmagan 
-            "1" // kelgan
+            "1", // kelgan
+            "2", // Kech qolgan
+            "3", // Erta kelgan
         ]
     },
     reason: [{
         type: String,
         enum: [
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
+            "0", // Sababsiz ishga kelmaslik
+            "1", // Xojayinning buyrug'i bilan boshqa joyga borganligi uchun kelmaslik
+            "2", // Ishlash tartibidan norozi bo'lganlik uchun
+            "3", // Yo'lda vaqtinchalik ushlanib qolish
+            "4", // Kasallik tufayli kelmaganlik 
+            "5", // Shaxsiy ish yuzasidan kelmadi
+            "6", // Ob-havoning noqulayligi tufayli
+            "t5", // 5 daqiqa
+            "t10", // 10 daqiqa
+            "t15", // 15 daqiqa
+            "t20", // 20 daqiqa
+            "t25", // 25 daqiqa
+            "t30", // 30 daqiqa
+            "t60", // 60 daqiqa
         ]
     }]
 }, {
