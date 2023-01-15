@@ -1,5 +1,5 @@
 const secret = {
-    port: 3000,
+    port: 5000,
     redis_port: 6379,
     JWT_KEY: "784sdsdsdhyohsu7324gcx64c847324gcx64cw5evr74399998",
     SESSION_KEY: "784sdsdsdhyohsu7324gcxKJ3242I3DO8944C264H9240243",
