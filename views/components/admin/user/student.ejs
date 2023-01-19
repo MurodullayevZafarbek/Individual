@@ -74,6 +74,7 @@
                     style="border-collapse: collapse; border-spacing: 0; width: 100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>O'quvchi</th>
                             <th>Passport</th>
                             <th>Guruhlar</th>
@@ -606,6 +607,7 @@
                     DATA.forEach((item, index) => {
                         put_table.append(`
                             <tr>
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>
@@ -618,7 +620,7 @@
                                 <td>${new Date(item.createdAt).toLocaleDateString()}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button disabled style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="fas fa-cog"></i>
                                     </button>
                                     <div class="dropdown-menu">
@@ -1537,6 +1539,7 @@
                 DATA.forEach((item, index) => {
                     put_table.append(`
                             < tr >
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>
@@ -1626,6 +1629,7 @@
                     DATA.forEach((item, index) => {
                         put_table.append(`
                             <tr>
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>

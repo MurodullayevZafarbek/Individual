@@ -8,7 +8,8 @@
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item text-danger">Bu bo'limda faqat to'lovni to'liq amalga oshirmagan
                                 <br> o'quvchilar ro'yhati mavjud
-                                mavjud </li>
+                                mavjud
+                            </li>
                         </ol>
                     </div>
                 </div>
@@ -39,6 +40,7 @@
                     style="border-collapse: collapse; border-spacing: 0; width:  100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>O'quvchi</th>
                             <th>Guruh</th>
                             <th>Qaysi oy uchun</th>
@@ -424,6 +426,7 @@
         data.forEach((item, index) => {
             element.append(`
                 <tr>
+                    <td>${index + 1}</td>
                     <td>${item.user.name}</td>
                     <td>${item.group.name}</td>
                     <td class="getMonths"></td>

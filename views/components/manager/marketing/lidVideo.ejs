@@ -33,7 +33,7 @@
 
         <div class="card mt-3">
             <div class="card-body">
-                <table id="datatable-buttons" class="table table-striped table-bordered dt-responsive
+                <table class="table table-striped table-bordered dt-responsive
                     wrap text-center" style="border-collapse: collapse; border-spacing: 0; width:  100%">
                     <thead>
                         <tr>
@@ -141,15 +141,89 @@
         </div>
     </div>
 </div>
-
-<!-- Rolikni tahrirlash -->
-<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="UPDATE_ROLIK">
+<div class="offcanvas offcanvas-end" style="width: 60%" tabindex="-1" id="UPDATE_ROLIK"
+    aria-labelledby="CREATE_CANVAS_LABEL">
     <div class="offcanvas-header">
-        <h5 class="font-size-22 mt-3">Malumot yaratish</h5>
+        <h5 id="CREATE_CANVAS_LABEL" class="font-size-22 mt-3">Malumot yaratish</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body update_rolik">
+    <div class="offcanvas-body">
+        <div class="row ">
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label class="form-label">O'quv markazi nomi</label>
+                <select class="form-control select2 mt-0" onchange="FILTER_SCHOOL(this.value)" id="SCHOOL"></select>
+            </div>
+            <div class="col-md-6 mt-2">
+                <label class="form-label ">Ochiq dars nomi</label>
+                <input type="text" class="form-control  mt-0" id="TTILES" />
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label">Ochiq dars o'qituvchisi kim ? </label>
+                <input type="text" class="form-control  mt-0" id="MENTOR" />
+            </div>
+            <div class="col-md-6 mt-2">
+                <label class="form-label">Ochiq dars boshlanadigan sana</label>
+                <input type="datetime-local" class="form-control" id="OPEN_COUSE_START_DATE"
+                    placeholder="Ochiq dars sanasi" />
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label">Kategoriya nomi</label>
+                <select class="form-control select2 mt-0" onchange="FILTER_CATEGORY(this.value)" id="CATEGORY"></select>
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label ">Yo'nalish nomi</label>
+                <select class="form-control select2 mt-0" id="SPECIALITY"></select>
+            </div>
+            <div class="col-md-6 col-sm-12 mt-2">
+                <label class="form-label ">Ochiq dars turi qanday ? </label>
+                <select class="form-control select2 mt-0" id="LESSON_TYPE">
+                    <option value="">Tanlash</option>
+                    <option value="online">Online holatda</option>
+                    <option value="offline">Offline holatda</option>
+                </select>
+            </div>
+            <div class="col-md-12 mt-2">
+                <label class="form-label ">Manzilni kiriting</label>
+                <input type="text" class="form-control  mt-0" id="ADDRESS" />
+            </div>
+            <div class="col-md-12 mt-2">
+                <label class="form-label ">Lid uchun link manzili</label>
+                <input type="text" class="form-control  mt-0" id="LINKS"
+                    placeholder="tik tok, instagram, telegram ..." />
+            </div>
+            <div class="col-md-12 col-sm-12 mt-2">
+                <label class="form-label ">Ochiq dars videosi</label>
+                <input type="text" class="form-control  mt-0" id="VIDEO_LINK" />
+            </div>
+        </div>
 
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <button type="button" class="col-12 btn btn-primary waves-effect waves-light mt-2"
+                    data-bs-toggle="modal" data-bs-target="#DESCRIPTION">
+                    Kurs haqida to'liqroq ma'lumot kiriting
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="col-12 btn btn-primary waves-effect waves-light mt-2"
+                    data-bs-toggle="modal" data-bs-target="#REQUIREMENT">
+                    Ushbu kursda o'qish uchun nimalarni bilish zarur
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button type="button" class="col-12 btn btn-primary waves-effect waves-light mt-2"
+                    data-bs-toggle="modal" data-bs-target="#WHOM">
+                    Kurs aynan kimlar uchun mo'ljallangan
+                </button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <button type="button" onclick="create()" class="col-12 btn btn-success waves-effect waves-light mt-3">
+                    Yaratish
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <!-- Kurs haqida ma'lumot qo'shish -->
@@ -161,6 +235,7 @@
                 <h5 class="modal-title" id="myExtraLargeModalLabel">Kurs haqida ma'lumot qo'shish</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
             <div class="modal-body description">
 
             </div>
@@ -535,6 +610,77 @@
         SET_ELEMENT(id, ".description", "about", "description_update")
         SET_ELEMENT(id, ".requirement", "requirement", "requirement_update")
         SET_ELEMENT(id, ".whom", "forWhom", "whom_update")
+    }
+    const createA = () => {
+        const A = [];
+        const B = [];
+        const C = []
+        function putArray(Element) {
+            const Array = []
+            const ELEMENT = document.querySelectorAll(`.${Element}`)
+            ELEMENT.forEach((elem) => {
+                if (elem.value !== "") {
+                    return Array.push(elem.value)
+                }
+            })
+            return Array
+        }
+
+        const bar = document.getElementById('progress_bar')
+        const bar_label = document.getElementById('progress_bar_label')
+
+        const SCHOOL = document.getElementById('SCHOOL').value
+        const CATEGORY = document.getElementById('CATEGORY').value
+        const SPECIALITY = document.getElementById('SPECIALITY').value
+        const MENTOR = document.getElementById('MENTOR').value
+        const VIDEO_LINK = document.getElementById('VIDEO_LINK').value
+        const TITLE = document.getElementById('TTILES').value
+        const OPEN_COUSE_START_DATE = document.getElementById('OPEN_COUSE_START_DATE').value
+        const LESSON_TYPE = document.getElementById('LESSON_TYPE').value
+        const LINKS = document.getElementById('LINKS').value
+        const ADDRESS = document.getElementById('ADDRESS').value
+
+        const startDate = new Date(OPEN_COUSE_START_DATE)
+        const endDate = new Date(new Date(startDate).getTime() + 1000 * 60 * 4) // 4 minutlik farq
+
+
+
+        if (
+            LINKS == "" ||
+            LESSON_TYPE == "" ||
+            OPEN_COUSE_START_DATE == "" ||
+            SCHOOL == "" ||
+            CATEGORY == "" ||
+            SPECIALITY == "" ||
+            MENTOR == "" ||
+            ADDRESS == "" ||
+            VIDEO_LINK == "" ||
+            TITLE == ""
+        ) {
+            warning("Ma'lumotlarni kiriting")
+        }
+        else {
+            const datas = {
+                school: SCHOOL,
+                category: CATEGORY,
+                speciality: SPECIALITY,
+                mentor: MENTOR,
+                rolik: VIDEO_LINK,
+                title: TITLE,
+                about: putArray("Description"),
+                requirement: putArray("Requirement"),
+                forWhom: putArray("Whom"),
+                startDate: startDate.toISOString(),
+                endDate: endDate.toISOString(),
+                lessonType: LESSON_TYPE,
+                link: LINKS,
+                address: ADDRESS,
+            }
+            axios.post("/api/rolik/create", datas)
+                .then((res) => {
+                    restart()
+                })
+        }
     }
     const UPDATE = (id) => {
         const A = [];

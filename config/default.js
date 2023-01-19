@@ -6,12 +6,6 @@ const secret = {
     DEFAULT_TIME: 1000 * 60 * 60 * 24 * 6,
     DATABASE_URL: "mongodb://localhost:27017/it_house",
     // DATABASE_URL: "mongodb://127.0.0.1:27017/test",
-    DATABASE_OPTIONS: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useFindAndModify: false,
-        useCreateIndex: true
-    },
     SESSION_COLLECTION_NAME: 'Default_session',
     smsEmail: "ithouseedu@gmail.com",
     smsToken: "5t9rfCXmPzYG0BjEYVx33kjOiiDm1hBo7tlH8LnV"

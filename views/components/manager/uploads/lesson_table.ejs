@@ -30,7 +30,7 @@
         font-size: 11px;
     }
 </style>
-
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 <div class="row col md-12 d-flex justify-content-between align-items-center">
     <div class="row">
         <div class="col-12">
@@ -56,7 +56,9 @@
     </div>
     <div class="card mt-3" id="CALENDAR">
         <div class="card-body" style="overflow-x: auto">
-            <table class="table  table-bordered dt-responsive nowrap text-center"
+            <button class="btn btn-secondary mb-3" id="button" onclick="ExportToExcel('xlsx')">Excel yuklab
+                olish</button>
+            <table id="tbl_exporttable_to_xls" class="table  table-bordered dt-responsive nowrap text-center"
                 style="width:100%; font-size: 12px; border: 1px solid #e2e2e2;">
                 <thead class="catlendarHead">
                     <tr>
@@ -379,7 +381,7 @@
                         <td id="shanba_23_30"></td>
                     </tr>
                     <tr>
-                        <td > <span> 00:00 </span></td>
+                        <td> <span> 00:00 </span></td>
                         <td id="dushanba_00_00"></td>
                         <td id="seshanba_00_00"></td>
                         <td id="chorshanba_00_00"></td>
@@ -820,4 +822,16 @@
     }
     ShowCalendar(schoolID, roomID)
 
+
+
+</script>
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script>
+    function ExportToExcel(type, fn, dl) {
+        var elt = document.getElementById('tbl_exporttable_to_xls');
+        var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+        return dl ?
+            XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+            XLSX.writeFile(wb, fn || ('MySheetName.' + (type || 'xlsx')));
+    }
 </script>

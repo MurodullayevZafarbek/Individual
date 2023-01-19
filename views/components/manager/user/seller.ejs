@@ -41,6 +41,7 @@
                     style="border-collapse: collapse; border-spacing: 0; width: 100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>Sotuvchi</th>
                             <th>Passport</th>
                             <th>O'quv markaz</th>
@@ -350,8 +351,8 @@
 <script src="/assets/notification.js"></script>
 
 <script>
-   
-   let ct = 1;
+
+    let ct = 1;
     function new_link() {
         ct++;
         let div1 = document.createElement('div');
@@ -372,11 +373,11 @@
         $("#user_phone").inputmask("999-99-999-99-99");
         $("#user_another_phone").inputmask("999-99-999-99-99");
     });
-   /* 
-        @description:  Managerga tegishli filiallarni olish
-        @api: /api/user/decode
-        @method: GET
-    */
+    /* 
+         @description:  Managerga tegishli filiallarni olish
+         @api: /api/user/decode
+         @method: GET
+     */
     const setSelectionSingle = async (DATA, APPENDING, MESSAGE) => {
         if (DATA == "") {
             const appends = $(APPENDING);
@@ -469,6 +470,7 @@
                     DATA.forEach((item, index) => {
                         put_table.append(`
                             <tr>
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>
@@ -586,7 +588,7 @@
             user_phone == "" ||
             user_password == "" ||
             gender == "" ||
-            user_passport == "" || 
+            user_passport == "" ||
 
             array_description == "" ||
             user_another_phone == "" ||
@@ -821,7 +823,7 @@
             });
         });
     }
-   
+
 
 
 
@@ -913,5 +915,5 @@
     }
 
 
-    
+
 </script>

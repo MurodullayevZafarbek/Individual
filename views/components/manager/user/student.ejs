@@ -37,13 +37,13 @@
 
 
         <div class="row col md-12 d-flex justify-content-between align-items-center">
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-2 col-sm-12">
                 <button class="btn btn-success col-md-12" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#CREATE_CANVAS" aria-controls="CREATE_CANVAS">
                     Yaratish
                 </button>
             </div>
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-2 col-sm-12">
                 <button class="btn btn-warning col-md-12" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#FILE_CREATE" aria-controls="FILE_CREATE">
                     Excel fayl
@@ -55,8 +55,14 @@
                     Guruh bo'yicha qidirish
                 </button>
             </div>
+            <div class="col-md-2 col-sm-12">
+                <button class="btn btn-outline-danger col-md-12" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#FILTER_BY_TEACHER_STUDENT" aria-controls="FILTER_BY_TEACHER_STUDENT">
+                    O'qituvchi bo'yicha
+                </button>
+            </div>
 
-            <div class="col-md-3 col-sm-12">
+            <div class="col-md-2 col-sm-12">
                 <select class="select2 form-control" onchange="FILTER_USERS(this.value)" id="filterBySchool"></select>
             </div>
 
@@ -74,6 +80,7 @@
                     style="border-collapse: collapse; border-spacing: 0; width: 100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>O'quvchi</th>
                             <th>Passport</th>
                             <th>Guruhlar</th>
@@ -452,6 +459,39 @@
 
     </div>
 </div>
+<!-- O'quvchilarni izlash (O'quv markazi va O`qituvchi boyicha) -->
+<div class="offcanvas offcanvas-end" style="width: 50%" tabindex="-1" id="FILTER_BY_TEACHER_STUDENT"
+    aria-labelledby="FILTER_BY_TEACHER_STUDENT">
+    <div class="offcanvas-header">
+        <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">O'quvchini qidirish</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body ">
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label mt-2">O'quv markazi</label>
+                <select class="select2 form-control" onchange="Filtering_School(this.value)"
+                    id="FILTER_STUDENT_by_school_teacher"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="form-label mt-2">O`qituvchi ismi</label>
+                <select class="select2 form-control" id="FILTER_STUDENT_by_teacher"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" onclick="filteringStudent()"
+                    class="btn btn-success waves-effect waves-light mt-2">
+                    Izlash
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+</div>
 <div class="offcanvas offcanvas-end" style="width: 60%" tabindex="-1" id="FILE_CREATE" aria-labelledby="FILE_CREATE">
     <div class="offcanvas-header">
         <h5 class="font-size-22 mt-3 p-2 pl-5 pr-5 badge bg-dark">Exceldan yuklash</h5>
@@ -578,6 +618,7 @@
             setSelectionSingle(school, "#filterBySchool", "O'quv markazlari mavjud emas")
             setSelectionSingle(school, "#SCHOOL_add_groups", "O'quv markazlari mavjud emas")
             setSelectionSingle(school, "#FILTER_STUDENT_by_school", "O'quv markazlari mavjud emas")
+            setSelectionSingle(school, "#FILTER_STUDENT_by_school_teacher", "O'quv markazlari mavjud emas")
             setSelectionSingle(school, "#SCHOOL_excel", "O'quv markazlari mavjud emas")
         })
     })
@@ -606,6 +647,7 @@
                     DATA.forEach((item, index) => {
                         put_table.append(`
                             <tr>
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>
@@ -618,7 +660,7 @@
                                 <td>${new Date(item.createdAt).toLocaleDateString()}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <button disabled style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="fas fa-cog"></i>
                                     </button>
                                     <div class="dropdown-menu">
@@ -1531,6 +1573,7 @@
                 DATA.forEach((item, index) => {
                     put_table.append(`
                             < tr >
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>
@@ -1619,6 +1662,7 @@
                     DATA.forEach((item, index) => {
                         put_table.append(`
                         <tr>
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td>${item.passport}</td>
                                 <td>

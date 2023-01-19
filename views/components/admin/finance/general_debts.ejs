@@ -29,6 +29,7 @@
                     style="border-collapse: collapse; border-spacing: 0; width:  100%">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>O'quvchi</th>
                             <th>Guruh</th>
                             <th>Sana</th>
@@ -182,7 +183,7 @@
     const user_token = window.localStorage.getItem('user')
     axios.get('/api/user/decode', { headers: { authorization: user_token } }).then((res) => {
         const id = res.data.id; // user id
-         axios.get(`/api/user/${id}`).then(async (res) => {
+        axios.get(`/api/user/${id}`).then(async (res) => {
             const school = res.data.data.school
             setSelectionSingle(school, "#default_school", "O'quv markazlari mavjud emas")
             setSelectionSingle(school, "#group_filter_school", "O'quv markazlari mavjud emas")
@@ -217,6 +218,7 @@
             data.forEach((item, index) => {
                 put_tables.append(`
                         <tr>
+                            <td>${index + 1}</td>
                             <td>${item.username}</td>
                             <td>${item.group}</td>
                             <td class="months">

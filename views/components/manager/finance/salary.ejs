@@ -67,6 +67,7 @@
                     style="border-collapse: collapse; border-spacing: 0; width:  100%">
                     <thead>
                         <tr>
+                            <th style="width: 5%;">#</th>
                             <th style="width: 60%;">Xodim</th>
                             <th style="width: 20%;">Oylik maosh holati</th>
                             <th style="width: 20%;">Sana</th>
@@ -308,6 +309,7 @@
                     users.forEach((item, index) => {
                         element.append(`
                             <tr>
+                                <td>${index + 1}</td>
                                 <td>${item.name}</td>
                                 <td class="salaryStatus"></td>
                                 <td>${new Date(item.createdAt).toLocaleDateString()}</td>
@@ -891,7 +893,7 @@
                         if (data.message == "Hech kim to'lovni amalga oshirmagan") {
                             danger("Hech kim ushbu guruh uchun to'lovni amalga oshirmagan")
                         }
-                         if (data.message == "Tanlagan guruh bo'yicha oldin oylik-maosh chiqarilgan") {
+                        if (data.message == "Tanlagan guruh bo'yicha oldin oylik-maosh chiqarilgan") {
                             danger("Tanlagan guruh bo'yicha oldin oylik-maosh chiqarilgan")
                         }
                         if (data.message == "Guruh uchun qarzdorlik mavjud") {
