@@ -34,6 +34,7 @@ router.post('/by_excel', excelFile.single("excel"), controller.by_excel);
 router.get('/decode', controller.decodeToken);
 router.get('/get_by_role', controller.get_by_role);
 router.get('/get_by_school_group', controller.filter_user_school_and_group);
+router.get('/get_by_school_teacher', controller.filter_user_school_and_teacher);
 router.get('/logout', controller.logout);
 router.get('/filter_user', controller.filter_user);
 router.get('/filter_by_group', controller.filter_by_group);

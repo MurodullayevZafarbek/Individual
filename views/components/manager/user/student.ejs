@@ -470,7 +470,7 @@
         <div class="row">
             <div class="col-md-12">
                 <label class="form-label mt-2">O'quv markazi</label>
-                <select class="select2 form-control" onchange="Filtering_School(this.value)"
+                <select class="select2 form-control" onchange="Filtering_School_Teachers(this.value)"
                     id="FILTER_STUDENT_by_school_teacher"></select>
             </div>
         </div>
@@ -482,7 +482,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <button type="button" onclick="filteringStudent()"
+                <button type="button" onclick="filteringStudentByTeacher()"
                     class="btn btn-success waves-effect waves-light mt-2">
                     Izlash
                 </button>
@@ -766,6 +766,12 @@
         axios.get(`/api/group/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
             const data = res.data.data;
             setSelectionMultiples(data, "#FILTER_STUDENT_by_group", "Guruhlar mavjud emas")
+        })
+    }
+    const Filtering_School_Teachers = (id) => {
+        axios.get(`/api/user/filter_user`, { params: { school: id, role: "mentor", actions: "active" } }).then(async (res) => {
+            const data = res.data.data;
+            setSelectionMultiples(data, "#FILTER_STUDENT_by_teacher", "Guruhlar mavjud emas")
         })
     }
     /*
@@ -1529,7 +1535,6 @@
             }
             axios.post("/api/need_payment/create", config).then((res) => {
                 const message = res.data.message;
-                console.log(res.data)
                 if (message == "Success") {
                     success("To'lov muddatlari aniq belgilandi")
                     setTimeout(() => {
@@ -1729,6 +1734,107 @@
         }
 
     }
+    // -----------------------------------------   O'quvchini  izlash   ----------------------------------------------------
+    const filteringStudentByTeacher = () => {
+
+        const school = document.getElementById("FILTER_STUDENT_by_school_teacher").value;
+        const userId = document.getElementById("FILTER_STUDENT_by_teacher").value;
+        axios.get(`/api/user/${userId}`).then(async (res) => {
+            let groups = []
+            res.data.data.group.map((item, index) => {
+                groups.push(item._id)
+            })
+            if (school == "" || groups == "") warning("Ma'lumotlarni to'liq kiriting")
+            else {
+                axios.get('/api/user/filter_user', {
+                    params: {
+                        school: school,
+                        group: groups,
+                        role: "student",
+                        actions: "active",
+                    }
+                }).then(async (res) => {
+                    const DATA = res.data.data;
+                    if (!DATA) {
+                        const put_table = $(".put_tables");
+                        await put_table.html("");
+                        put_table.append('')
+                    } else {
+                        const put_table = $(".put_tables");
+                        await put_table.html("");
+                        DATA.forEach((item, index) => {
+                            put_table.append(`
+                    <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.name}</td>
+                            <td>${item.passport}</td>
+                            <td>
+                                <span style="cursor: pointer;" class="badge bg-primary font-size-12 p-2" onclick="seeGroup('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#SEE_FILIALS" aria-controls="SEE_FILIALS"> 
+                                    <i class="fas fa-eye"> </i>
+                                    Ko'rish   
+                                </span>
+                            </td>
+                            <td class="font-size-18"><span class="status_default"> </span></td>
+                            <td>${new Date(item.createdAt).toLocaleDateString()}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button style="padding: 5px 9px; font-size: 16px;" type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-cog"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a style="font-weight: 700;" onclick="information('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#INFORMATION" aria-controls="INFORMATION" class="dropdown-item text-success" href="#">Ma'lumotnoma</a>
+                                    <a style="font-weight: 700;" onclick="get_one('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_CANVAS" aria-controls="UPDATE_CANVAS" class="dropdown-item" href="#">Tahrirlash</a>
+                                    <a style="font-weight: 700;" onclick="discount_add('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#CHEGIRMA" aria-controls="CHEGIRMA" class="dropdown-item" href="#">Chegirma qo'shish</a>
+                                    <a style="font-weight: 700;" onclick="get_status('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#UPDATE_STATUS_CANVAS" aria-controls="UPDATE_STATUS_CANVAS" class="dropdown-item text-primary" href="#">Bloklash </a>
+                                    <a style="font-weight: 700;" onclick="get_group_of_school('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#ADD_GROUP" aria-controls="ADD_GROUP" class="dropdown-item text-warning" href="#"> Guruhni yangilash</a>
+                                    <a style="font-weight: 700;" onclick="needPayment('${item._id}')" data-bs-toggle="offcanvas" data-bs-target="#NEED_PAYMENT" aria-controls="NEED_PAYMENT" class="dropdown-item text-warning" href="#">Aniq to'lov sanalari</a>
+                                    <a style="font-weight: 700;" onclick="delete_one('${item._id}')"  class="dropdown-item text-danger" href="#">O'chirish</a>
+                                </div> 
+                            </td>
+                        </tr>
+                `);
+                            document
+                                .getElementsByClassName("status_default")
+                                .forEach((innerValue, innerIndex) => {
+                                    if (index == innerIndex) {
+                                        if (item.status_default == "none") {
+                                            innerValue.innerHTML = "Bloklanmagan";
+                                            innerValue.className = "status_default badge bg-success p-2";
+                                        }
+                                    }
+                                });
+                            document
+                                .getElementsByClassName("status_default")
+                                .forEach((innerValue, innerIndex) => {
+                                    if (index == innerIndex) {
+                                        if (item.status_default == "forever") {
+                                            innerValue.innerHTML = "Butunlay bloklangan";
+                                            innerValue.className = "status_default badge bg-warning p-2";
+                                        }
+                                    }
+                                });
+                            document
+                                .getElementsByClassName("status_default")
+                                .forEach((innerValue, innerIndex) => {
+                                    if (index == innerIndex) {
+                                        if (item.status_default == "pending") {
+                                            innerValue.innerHTML = "Vaqtinchalik blokda";
+                                            innerValue.className = "status_default badge bg-danger p-2";
+                                        }
+                                    }
+                                });
+                        });
+                    }
+
+
+
+                })
+            }
+        })
+
+
+    }
+
     // -----------------------------------------   Excel orqali malumotlarni yuklash;   ----------------------------------------------------
     const createExcel = () => {
         const formData = new FormData()

@@ -354,6 +354,50 @@ exports.filter_user_school_and_group = asyncHandler(async (req, res, next) => {
         }
     })
 })
+// O'quv markaz va o'qituvchi bo'yicha izlash
+exports.filter_user_school_and_teacher = asyncHandler(async (req, res, next) => {
+    pipeline = [
+        {
+            $match: {
+                $and: [
+                    {
+                        school: {
+                            $in: [ObjectId(req.query.school)]
+                        }
+                    },
+                    {
+                        group: {
+                            $in: [ObjectId(req.query.group)]
+                        }
+                    },
+                    {
+                        role: {
+                            $in: [req.query.role]
+                        }
+                    },
+                    {
+                        actions: {
+                            $eq: req.query.actions
+                        }
+                    }
+                ]
+            }
+        },
+    ]
+    await User.aggregate(pipeline).exec((error, data) => {
+        if (error) {
+            res.json({
+                success: false,
+                error: error
+            })
+        } else {
+            res.json({
+                success: true,
+                data: data
+            })
+        }
+    })
+})
 // Yagona  guruhga tegishli foydalanubchilarni olish
 exports.filter_by_group = asyncHandler(async (req, res, next) => {
     pipeline = [
