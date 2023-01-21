@@ -25,6 +25,13 @@ router.get('/management/task', isAuth, roles("seller"), async (req, res, next) =
         { layout: "./layouts/seller.ejs", title: "Sotuvchi" }
     )
 })
+// ========================================== O`qituvchi yo'qlama ==========================================
+router.get('/management/teacher', isAuth, roles("seller"), async (req, res, next) => {
+    res.render(
+        "./components/seller/managemant/attendanceStaff.ejs",
+        { layout: "./layouts/seller.ejs", title: "Sotuvchi" }
+    )
+})
 // ========================================== Sozlama ==========================================
 router.get('/profile', isAuth, roles("seller"), async (req, res, next) => {
     res.render(

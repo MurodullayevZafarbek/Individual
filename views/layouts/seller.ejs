@@ -37,7 +37,9 @@
             font-family: "Poppins";
             src: url(/assets/fonts/Poppins-Medium.ttf);
         }
-        *, body {
+
+        *,
+        body {
             font-family: "Poppins";
             font-weight: 300;
         }
@@ -191,7 +193,8 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- <a class="dropdown-item" href="/seller/profile"><i class="ri-user-line align-middle me-1"></i> Mening profilim</a> -->
-                            <a class="dropdown-item text-danger" onclick="logout()" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Chiqish</a>
+                            <a class="dropdown-item text-danger" onclick="logout()" href="#"><i
+                                    class="ri-shut-down-line align-middle me-1 text-danger"></i> Chiqish</a>
                         </div>
                     </div>
 
@@ -220,6 +223,12 @@
                             </a>
                         </li>
                         <li>
+                            <a href="/seller/management/teacher">
+                                <i style="font-size: 20px;" class="fas fa-user-graduate"></i>
+                                <span style="font-size: 14px;">O`qituvchi yo`qlama</span>
+                            </a>
+                        </li>
+                        <li>
                             <a href="/seller/marketing/lid">
                                 <i style="font-size: 20px;" class="ri-focus-3-line"></i>
                                 <span style="font-size: 14px;">Lidlar bo'limi</span>
@@ -239,7 +248,7 @@
     </div>
 
 
-    
+
 
     <div class="offcanvas offcanvas-end" style="width: 50%;" tabindex="-1" id="SEE_NOTIFICATION"
         aria-labelledby="SEE_NOTIFICATION">
