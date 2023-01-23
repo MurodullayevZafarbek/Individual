@@ -5,7 +5,7 @@ const User = require("../model/user");
 
 // Protect routes
 
-exports.checkToken = asyncHandler(async(req, res, next) => {
+exports.checkToken = asyncHandler(async (req, res, next) => {
     let token;
     if (
         req.headers.authorization &&
@@ -21,8 +21,7 @@ exports.checkToken = asyncHandler(async(req, res, next) => {
     }
     try {
         //  verify token
-        const decoded = JWT.verify(token, process.env.JWT_KEY);
-        // console.log(decoded);
+        const decoded = JWT.verify(token, "salom");
         req.user = await User.findById(decoded.id);
         next();
     } catch (err) {

@@ -6,7 +6,16 @@ const controller = require('../controller/group');
 router.post('/create', controller.createData);
 router.get('/all', controller.getAll);
 router.get('/filter/room', controller.filted_2);
-router.get('/filter/:id', controller.filted_1);
+
+function qwe(req, res, next) {
+    if (req.query.qwe == "da") {
+        checkToken(req, res, next)
+    } else {
+        next()
+    }
+}
+router.get('/filter/:id', qwe, controller.filted_1);
+
 router.get('/:id', controller.getOne);
 router.put('/:id', controller.updateOne);
 router.delete('/:id', controller.deleteOne);

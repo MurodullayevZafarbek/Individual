@@ -4,6 +4,7 @@ const { checkRole, checkToken } = require('../../middleware/auth')
 const controller = require('../../controller/management/attendance');
 
 router.post('/create', controller.createData);
+router.post('/create_many', controller.createManyData);
 router.get('/all', controller.getAll);
 router.get('/filter', controller.filter_all);
 router.get('/filter_by_user', controller.filter_by_user);

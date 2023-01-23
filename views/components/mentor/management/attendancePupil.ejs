@@ -114,10 +114,9 @@
             <label class="form-label mt-2">Guruhni tanlang</label>
             <select class="form-control select2" onchange="filterByGroup(this.value)" id="GROUP"></select>
         </div>
-
         <div class="col-sm-6 col-md-12">
-            <label class="form-label mt-2">O'quvchini tanlang</label>
-            <select class="select2 form-control" id="USERS"></select>
+            <label class="form-label mt-2">Srudent tanlang</label>
+            <select class="form-control select2" multiple="multiple" id="USERS"></select>
         </div>
 
 
@@ -198,11 +197,7 @@
         <div class="col-sm-6 col-md-12">
             <div class="form-group custom-select">
                 <label class="form-label mt-2">Yo'qlama holati</label>
-                <select class="select2 form-control " id="ABSENT" onchange="ReasonSelect(this.value)">
-                    <option value="">Tanlang</option>
-                    <option value="1">Kelgan</option>
-                    <option value="0">Kelmagan</option>
-                </select>
+
 
             </div>
         </div>
@@ -228,7 +223,7 @@
 
 
         <div class="col-sm-6 col-md-12">
-            <button type="button" onclick="create()"
+            <button type="button" onclick="createAuto()"
                 class="btn btn-primary waves-effect waves-light mt-2 col-md-12 col-sm-12"> Saqlash
             </button>
         </div>
@@ -320,11 +315,7 @@
 
         <div class="col-sm-6 col-md-12">
             <label class="form-label mt-2">Guruh</label>
-            <select class="select2 form-control" onchange="byGROUP__group(this.value)" id="byGROUP__group"></select>
-        </div>
-        <div class="col-sm-6 col-md-12">
-            <label class="form-label mt-2">Talaba</label>
-            <select class="select2 form-control" id="byGROUP__student"></select>
+            <select class="select2 form-control" id="byGROUP__group"></select>
         </div>
         <div class="row">
             <div class="col-sm-6 col-md-6 mt-2">
@@ -393,7 +384,10 @@
         } else {
             const appends = $(APPENDING);
             await appends.html("");
-            appends.append(`<option value="" selected>Tanlash</option> `);
+            if (APPENDING == "#USERS") {
+            } else {
+                appends.append(`<option value="" selected>Tanlash</option> `);
+            }
             DATA.forEach((item) => {
                 appends.append(
                     `<option value="${item._id}">${item.name}</option>`
@@ -432,7 +426,8 @@
 
     /*  @description: O'quv markazi boyicha guruhlarni olish  */
     const filterBySchool = async (id) => {
-        axios.get(`/api/group/filter/${id}`, { params: { actions: "active" } }).then(async (res) => {
+        let userId = window.localStorage.getItem('user')
+        axios.get(`/api/group/filter/${id}`, { params: { actions: "active", qwe: "da" }, headers: { authorization: `Bearer ${userId}` } }).then(async (res) => {
             const data = res.data.data
             setSelectionSingle(data, "#GROUP", "Ushbu o'quv markazga tegishli guruhlar mavjud emas. Iltimos yangi guruh qo'shing")
         });
@@ -485,86 +480,133 @@
 
     }
 
-    const create = () => {
-        const users = document.getElementById("USERS").value
+    // const create = () => {
+    //     const users = document.getElementById("USERS").value
+    //     const school = document.getElementById("SCHOOL").value
+    //     const group = document.getElementById("GROUP").value
+    //     const day = document.getElementById("DAY").value
+    //     const month = document.getElementById("MONTH").value
+    //     const year = document.getElementById("YEAR").value
+    //     const absent = document.getElementById("ABSENT").value
+
+    //     if (absent == "") {
+    //         warning("Malumotlarni to'liq kiriting")
+    //     }
+    //     else {
+    //         if (absent == "1") {
+    //             if (users == "" || school == "" || day == "" || month == "" || year == "" || group == "") {
+    //                 warning("Malumotlarni to'liq kiriting")
+    //             }
+    //             else {
+    //                 axios.get(`/api/user/${users}`).then((res) => {
+    //                     const NAME = res.data.data.name
+    //                     axios.post('/api/attendance/create', {
+    //                         checkRole: "student",
+    //                         school: school,
+    //                         group: group,
+    //                         members: users,
+    //                         name: NAME,
+    //                         day: day,
+    //                         month: month,
+    //                         year: year,
+    //                         absent: "1",
+    //                     }).then(async (res) => {
+    //                         const data = res.data;
+    //                         if (data.message == "Yo'qlama allaqachon qilingan") {
+    //                             danger("Siz kiritgan malumotlar allaqachon mavjud. Qaytadan tekshirishingizni so'rayman ")
+    //                         } else {
+    //                             success("Yo'qlama yaratildi")
+    //                         }
+    //                     })
+    //                 })
+    //             }
+    //         }
+
+    //         if (absent == "0") {
+    //             if (absent == "0") {
+    //                 const reason = document.getElementById("REASON")
+    //                 const reasonArray = [];
+    //                 for (const item of reason) {
+    //                     if (item.selected) {
+    //                         reasonArray.push(item.value)
+    //                     }
+    //                 }
+    //                 if (reasonArray == "") {
+    //                     warning("Malumotlarni to'liq kiriting")
+    //                 }
+    //                 else {
+    //                     axios.get(`/api/user/${users}`).then((res) => {
+    //                         const NAME = res.data.data.name
+    //                         axios.post('/api/attendance/create', {
+    //                             checkRole: "student",
+    //                             school: school,
+    //                             members: users,
+    //                             group: group,
+    //                             name: NAME,
+    //                             day: day,
+    //                             month: month,
+    //                             year: year,
+    //                             absent: "0",
+    //                             reason: reasonArray,
+    //                         }).then(async (res) => {
+    //                             const data = res.data;
+    //                             if (data.message == "Yo'qlama allaqachon qilingan") {
+    //                                 danger("Siz kiritgan malumotlar allaqachon mavjud. Qaytadan tekshirishingizni so'rayman ")
+    //                             } else {
+    //                                 success("Yo'qlama yaratildi")
+    //                             }
+    //                         })
+    //                     })
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    const createAuto = async () => {
+        const users = sertArrays(document.getElementById("USERS"))
         const school = document.getElementById("SCHOOL").value
         const group = document.getElementById("GROUP").value
         const day = document.getElementById("DAY").value
         const month = document.getElementById("MONTH").value
         const year = document.getElementById("YEAR").value
-        const absent = document.getElementById("ABSENT").value
+        function sertArrays(element_inputs) {
+            const arrays = []
+            for (let item of element_inputs) {
+                if (item.selected) {
+                    const value = item.value;
+                    arrays.push(value)
+                }
+            }
+            return arrays
+        }
+        let usersAll = await axios.get(`/api/user/filter_by_group`, { params: { group: group, role: "student", actions: "active" } })
 
-        if (absent == "") {
+        let usersAllId = usersAll.data.data.map(item => ({ _id: item._id, name: item.name }))
+
+        let usersNoId = usersAllId.filter(n => !users.includes(n._id))
+        let usersYesId = usersAllId.filter(n => users.includes(n._id))
+        if (school == "" || day == "" || month == "" || year == "" || group == "") {
             warning("Malumotlarni to'liq kiriting")
         }
         else {
-            if (absent == "1") {
-                if (users == "" || school == "" || day == "" || month == "" || year == "" || group == "") {
-                    warning("Malumotlarni to'liq kiriting")
+            axios.post('/api/attendance/create_many', {
+                checkRole: "student",
+                school: school,
+                group: group,
+                membersYes: usersYesId,
+                membersNo: usersNoId,
+                day: day,
+                month: month,
+                year: year,
+                absent: "1",
+            }).then(async (res) => {
+                const data = res.data;
+                if (data.message == "Yo'qlama allaqachon qilingan") {
+                    danger("Siz kiritgan malumotlar allaqachon mavjud. Qaytadan tekshirishingizni so'rayman ")
+                } else {
+                    success("Yo'qlama yaratildi")
                 }
-                else {
-                    axios.get(`/api/user/${users}`).then((res) => {
-                        const NAME = res.data.data.name
-                        axios.post('/api/attendance/create', {
-                            checkRole: "student",
-                            school: school,
-                            group: group,
-                            members: users,
-                            name: NAME,
-                            day: day,
-                            month: month,
-                            year: year,
-                            absent: "1",
-                        }).then(async (res) => {
-                            const data = res.data;
-                            if (data.message == "Yo'qlama allaqachon qilingan") {
-                                danger("Siz kiritgan malumotlar allaqachon mavjud. Qaytadan tekshirishingizni so'rayman ")
-                            } else {
-                                success("Yo'qlama yaratildi")
-                            }
-                        })
-                    })
-                }
-            }
-
-            if (absent == "0") {
-                if (absent == "0") {
-                    const reason = document.getElementById("REASON")
-                    const reasonArray = [];
-                    for (const item of reason) {
-                        if (item.selected) {
-                            reasonArray.push(item.value)
-                        }
-                    }
-                    if (reasonArray == "") {
-                        warning("Malumotlarni to'liq kiriting")
-                    }
-                    else {
-                        axios.get(`/api/user/${users}`).then((res) => {
-                            const NAME = res.data.data.name
-                            axios.post('/api/attendance/create', {
-                                checkRole: "student",
-                                school: school,
-                                members: users,
-                                group: group,
-                                name: NAME,
-                                day: day,
-                                month: month,
-                                year: year,
-                                absent: "0",
-                                reason: reasonArray,
-                            }).then(async (res) => {
-                                const data = res.data;
-                                if (data.message == "Yo'qlama allaqachon qilingan") {
-                                    danger("Siz kiritgan malumotlar allaqachon mavjud. Qaytadan tekshirishingizni so'rayman ")
-                                } else {
-                                    success("Yo'qlama yaratildi")
-                                }
-                            })
-                        })
-                    }
-                }
-            }
+            })
         }
     }
 
@@ -915,260 +957,45 @@
     }
     const filter_attendance_group = () => {
         const byGROUP__group = document.getElementById("byGROUP__group").value;
-        const byGROUP__student = document.getElementById("byGROUP__student").value;
         const byGROUP__month = document.getElementById("byGROUP__month").value;
         const byGROUP__year = document.getElementById("byGROUP__year").value;
-        if (byGROUP__group == "" || byGROUP__student == "" || byGROUP__month == "" || byGROUP__year == "") {
+        if (byGROUP__group == "" || byGROUP__month == "" || byGROUP__year == "") {
             warning("Malumotlarni to'liq kiriting")
         }
         else {
-            axios.get('/api/attendance/filter_by_user', {
+            axios.get('/api/attendance/filter', {
                 params: {
-                    members: byGROUP__student,
+                    group: byGROUP__group,
                     month: byGROUP__month,
                     year: byGROUP__year,
                 }
             })
                 .then(async (res) => {
-                    const data = res.data.data[0]
                     const user_all = $(".user_all")
                     await user_all.html("")
-                    user_all.append(`
+                    res.data.data.map((item, key) => {
+                        let data = `
                             <tr id="cover_all">
-                                <td><a id="user_name" class="font-size-14 text-dark" style="font-weight: 700;" href="#">${data.name}</a></td>
-                                <td id="user_1" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_2" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_3" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_4" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_5" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_6" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_7" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_8" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_9" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_10">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_11">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_12">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_13">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_14">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_15">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_16">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_17">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_18">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_19">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_20">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_21">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_22">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_23">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_24">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_25">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_26">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_27">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_28">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_29">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_30">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                                <td id="user_31">  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
-                            </tr>
-                        `)
-
-                    const absent = data.user;
-                    function checked_yes(a) {
-                        return document.getElementById(`user_${a}`).innerHTML = `<div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #77c430;"> </div>`
-                    }
-                    function checked_no(a, id) {
-                        return document.getElementById(`user_${a}`).innerHTML = `<div onclick="seeReason('${id}')" data-bs-toggle="modal" data-bs-target="#SEE_REASON" style="cursor: pointer; border-radius: 50%; width: 25px; height: 25px; background-color: #e21811;"> </div>`
-                    }
-                    function repeatingData(index) {
-                        if (typeof absent[index] !== "undefined") {
-                            if (absent[index].day == "1") {
-                                if (absent[index].absent == "1") checked_yes(1)
-                                if (absent[index].absent == "0") checked_no(1, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "2") {
-                                if (absent[index].absent == "1") checked_yes(2)
-                                if (absent[index].absent == "0") checked_no(2, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "3") {
-                                if (absent[index].absent == "1") checked_yes(3)
-                                if (absent[index].absent == "0") checked_no(3, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "4") {
-                                if (absent[index].absent == "1") checked_yes(4)
-                                if (absent[index].absent == "0") checked_no(4, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "5") {
-                                if (absent[index].absent == "1") checked_yes(5)
-                                if (absent[index].absent == "0") checked_no(5, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "6") {
-                                if (absent[index].absent == "1") checked_yes(6)
-                                if (absent[index].absent == "0") checked_no(6, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "7") {
-                                if (absent[index].absent == "1") checked_yes(7)
-                                if (absent[index].absent == "0") checked_no(7, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "8") {
-                                if (absent[index].absent == "1") checked_yes(8)
-                                if (absent[index].absent == "0") checked_no(8, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "9") {
-                                if (absent[index].absent == "1") checked_yes(9)
-                                if (absent[index].absent == "0") checked_no(9, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "10") {
-                                if (absent[index].absent == "1") checked_yes(10)
-                                if (absent[index].absent == "0") checked_no(10, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "11") {
-                                if (absent[index].absent == "1") checked_yes(11)
-                                if (absent[index].absent == "0") checked_no(11, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "12") {
-                                if (absent[index].absent == "1") checked_yes(12)
-                                if (absent[index].absent == "0") checked_no(12, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "13") {
-                                if (absent[index].absent == "1") checked_yes(13)
-                                if (absent[index].absent == "0") checked_no(13, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "14") {
-                                if (absent[index].absent == "1") checked_yes(14)
-                                if (absent[index].absent == "0") checked_no(14, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "15") {
-                                if (absent[index].absent == "1") checked_yes(15)
-                                if (absent[index].absent == "0") checked_no(15, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "16") {
-                                if (absent[index].absent == "1") checked_yes(16)
-                                if (absent[index].absent == "0") checked_no(16, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "17") {
-                                if (absent[index].absent == "1") checked_yes(17)
-                                if (absent[index].absent == "0") checked_no(17, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "18") {
-                                if (absent[index].absent == "1") checked_yes(18)
-                                if (absent[index].absent == "0") checked_no(18, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "19") {
-                                if (absent[index].absent == "1") checked_yes(19)
-                                if (absent[index].absent == "0") checked_no(19, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "20") {
-                                if (absent[index].absent == "1") checked_yes(20)
-                                if (absent[index].absent == "0") checked_no(20, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "21") {
-                                if (absent[index].absent == "1") checked_yes(21)
-                                if (absent[index].absent == "0") checked_no(21, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "22") {
-                                if (absent[index].absent == "1") checked_yes(22)
-                                if (absent[index].absent == "0") checked_no(22, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "23") {
-                                if (absent[index].absent == "1") checked_yes(23)
-                                if (absent[index].absent == "0") checked_no(23, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "24") {
-                                if (absent[index].absent == "1") checked_yes(24)
-                                if (absent[index].absent == "0") checked_no(24, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "25") {
-                                if (absent[index].absent == "1") checked_yes(25)
-                                if (absent[index].absent == "0") checked_no(25, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "26") {
-                                if (absent[index].absent == "1") checked_yes(26)
-                                if (absent[index].absent == "0") checked_no(26, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "27") {
-                                if (absent[index].absent == "1") checked_yes(27)
-                                if (absent[index].absent == "0") checked_no(27, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "28") {
-                                if (absent[index].absent == "1") checked_yes(28)
-                                if (absent[index].absent == "0") checked_no(28, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "29") {
-                                if (absent[index].absent == "1") checked_yes(29)
-                                if (absent[index].absent == "0") checked_no(29, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "30") {
-                                if (absent[index].absent == "1") checked_yes(30)
-                                if (absent[index].absent == "0") checked_no(30, absent[index]._id)
-
-                            }
-                            if (absent[index].day == "31") {
-                                if (absent[index].absent == "1") checked_yes(31)
-                                if (absent[index].absent == "0") checked_no(31, absent[index]._id)
-
-                            }
-
-
+                                <td><a id="user_name" class="font-size-14 text-dark" style="font-weight: 700;" href="#">${item.name}</a></td>`
+                        for (let i = 0; i <= 30; i++) {
+                            data += `
+                            <td id="user_${key}_${i + 1}" >  <div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #e9e9e9;"> </div></td>
+                            `
                         }
-                    }
-                    if (typeof absent[0] !== "undefined") repeatingData(0)
-                    if (typeof absent[1] !== "undefined") repeatingData(1)
-                    if (typeof absent[2] !== "undefined") repeatingData(2)
-                    if (typeof absent[3] !== "undefined") repeatingData(3)
-                    if (typeof absent[4] !== "undefined") repeatingData(4)
-                    if (typeof absent[5] !== "undefined") repeatingData(5)
-                    if (typeof absent[6] !== "undefined") repeatingData(6)
-                    if (typeof absent[7] !== "undefined") repeatingData(7)
-                    if (typeof absent[8] !== "undefined") repeatingData(8)
-                    if (typeof absent[9] !== "undefined") repeatingData(9)
-                    if (typeof absent[10] !== "undefined") repeatingData(10)
-                    if (typeof absent[11] !== "undefined") repeatingData(11)
-                    if (typeof absent[12] !== "undefined") repeatingData(12)
-                    if (typeof absent[13] !== "undefined") repeatingData(13)
-                    if (typeof absent[14] !== "undefined") repeatingData(14)
-                    if (typeof absent[15] !== "undefined") repeatingData(15)
-                    if (typeof absent[16] !== "undefined") repeatingData(16)
-                    if (typeof absent[17] !== "undefined") repeatingData(17)
-                    if (typeof absent[18] !== "undefined") repeatingData(18)
-                    if (typeof absent[19] !== "undefined") repeatingData(19)
-                    if (typeof absent[20] !== "undefined") repeatingData(20)
-                    if (typeof absent[21] !== "undefined") repeatingData(21)
-                    if (typeof absent[22] !== "undefined") repeatingData(22)
-                    if (typeof absent[23] !== "undefined") repeatingData(23)
-                    if (typeof absent[24] !== "undefined") repeatingData(24)
-                    if (typeof absent[25] !== "undefined") repeatingData(25)
-                    if (typeof absent[26] !== "undefined") repeatingData(26)
-                    if (typeof absent[27] !== "undefined") repeatingData(27)
-                    if (typeof absent[28] !== "undefined") repeatingData(28)
-                    if (typeof absent[29] !== "undefined") repeatingData(29)
-                    if (typeof absent[30] !== "undefined") repeatingData(30)
+                        data += `</tr>`
+                        user_all.append(data)
+                        function checked_yes(a) {
+                            return document.getElementById(`user_${key}_${a}`).innerHTML = `<div style=" border-radius: 50%; width: 25px; height: 25px; background-color: #77c430;"> </div>`
+                        }
+                        function checked_no(a, id) {
+                            return document.getElementById(`user_${key}_${a}`).innerHTML = `<div onclick="seeReason('${id}')" data-bs-toggle="modal" data-bs-target="#SEE_REASON" style="cursor: pointer; border-radius: 50%; width: 25px; height: 25px; background-color: #e21811;"> </div>`
+                        }
+                        item.user.map((elem, index) => {
+                            if (elem.absent == "1") checked_yes(elem.day)
+                            if (elem.absent == "0") checked_no(elem.day, elem._id)
+
+                        })
+                    })
                 })
         }
     }

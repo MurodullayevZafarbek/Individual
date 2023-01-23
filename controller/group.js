@@ -24,12 +24,22 @@ exports.deleteOne = asyncHandler(async (req, res, next) => {
     result.delete_data_without_file()
 });
 exports.filted_1 = asyncHandler(async (req, res, next) => {
+    let pepline = {}
+    if (req.query.qwe == "da") {
+        pepline = {
+            _id: { $in: req.user.group },
+            school: { $eq: req.params.id },
+            actions: { $eq: req.query.actions },
+        }
+    } else {
+        pepline = {
+            school: { $eq: req.params.id },
+            actions: { $eq: req.query.actions },
+        }
+    }
     const result = await Group.find({
         $and: [
-            {
-                school: { $eq: req.params.id },
-                actions: { $eq: req.query.actions },
-            }
+            pepline
         ]
     }).lean()
     res.json({

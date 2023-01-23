@@ -9,7 +9,7 @@
                                 <div>
 
 
-                                  
+
 
 
                                     <div class="text-center">
@@ -23,7 +23,8 @@
                                         </div>
 
                                         <h4 class="font-size-18 mt-4" style="font-weight: 700;">CRM/LMS tizimi</h4>
-                                        <p class="text-muted">O'quv markazlar tizimlashtirish va avtomatlashtirish uchun platforma</p>
+                                        <p class="text-muted">O'quv markazlar tizimlashtirish va avtomatlashtirish uchun
+                                            platforma</p>
                                     </div>
 
 
@@ -103,11 +104,11 @@
                     const token = res.data.token
                     const status = res.data.status;
                     const user = res.data.user;
-
                     if (status == false) {
                         danger("Passport yoki parolda xatolik mavjud")
                     }
                     else {
+                        console.log(user);
                         const replaceWindows = (user, href) => {
                             if (user.status_default == "none") {
                                 success("Jarayon muvaffaqiyatli amalga oshirildi")

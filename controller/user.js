@@ -193,7 +193,7 @@ exports.login = asyncHandler(async (req, res, next) => {
                         blocking_end_date: user.blocking_end_date,
                         uuid: user.uuid,
                     },
-                    JWT_KEY, { expiresIn: DEFAULT_TIME }
+                    "salom", { expiresIn: DEFAULT_TIME }
                 );
                 res.json({
                     status: true,
